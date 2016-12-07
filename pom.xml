@@ -48,6 +48,21 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.3.Final</version>
         </dependency>
+
+        <!-- Crypto -->
+        <!-- commons-codec : commons-codec : 1.10 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <!-- org.mindrot : jbcrypt : 0.3m -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
+
     </dependencies>
 
 

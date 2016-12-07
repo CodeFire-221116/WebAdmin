@@ -1,17 +1,22 @@
-package ua.com.codefire.cms.db.repo;
+package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Page;
 import ua.com.codefire.cms.db.entity.Product;
+import ua.com.codefire.cms.db.repo.abstraction.ICommonRepo;
+import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by User on 07.12.2016.
  */
-public class ProductRepo extends CommonRepo<Product> {
+public class ProductRepo implements IProductRepo {
+    EntityManagerHelper entityManagerHelper;
+
     public ProductRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
     }
@@ -88,6 +93,19 @@ public class ProductRepo extends CommonRepo<Product> {
         } catch (Exception ex) {
             entityManagerHelper.rollback();
             System.out.println("Unexpected exception, while searching and deleting product. StackTrace:\n" + ex);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllEntities() {
+        try {
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT product FROM Product product", Product.class);
+            return (List<Product>) query.getResultList();
+        } catch (ClassCastException ex) {
+            System.out.println("Class casting problems, while retrieving products from db. StackTrace:\n" + ex);
+        } catch (Exception ex) {
+            System.out.println("Unexpected exception, while retrieving products from db. StackTrace^\n" + ex);
         }
         return null;
     }

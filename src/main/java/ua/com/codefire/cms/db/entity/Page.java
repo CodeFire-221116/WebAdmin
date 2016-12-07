@@ -12,6 +12,7 @@ public class Page implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "page_id")
     private Long id;
     @Column(name = "page_title")
     private String title;

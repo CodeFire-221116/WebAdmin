@@ -1,16 +1,22 @@
-package ua.com.codefire.cms.db.repo;
+package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.Page;
+import ua.com.codefire.cms.db.repo.abstraction.ICommonRepo;
+import ua.com.codefire.cms.db.repo.abstraction.IPageRepo;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by User on 07.12.2016.
  */
-public class PageRepo extends CommonRepo<Page>{
+public class PageRepo implements IPageRepo {
+    private EntityManagerHelper entityManagerHelper;
+
     public PageRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
     }
@@ -90,5 +96,36 @@ public class PageRepo extends CommonRepo<Page>{
             System.out.println("Unexpected exception, while searching and deleting page. StackTrace:\n" + ex);
         }
         return null;
+    }
+
+    @Override
+    public List<Page> getAllEntities() {
+        try {
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT page FROM Page page", Page.class);
+            return (List<Page>) query.getResultList();
+        } catch (ClassCastException ex) {
+            System.out.println("Class casting problems, while retrieving pages from db. StackTrace:\n" + ex);
+        } catch (PersistenceException ex) {
+            System.out.println("Problems with db, while retrieving pages from db. StackTrace:\n" + ex);
+        } catch (Exception ex) {
+            System.out.println("Unexpected exception, while retrieving pages from db. StackTrace^\n" + ex);
+        }
+        return null;
+    }
+
+    @Override
+    public int getAmountOfPages() {
+        try {
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM Page page", Integer.class);
+            return (int) query.getSingleResult();
+        } catch (ClassCastException ex) {
+            System.out.println("Class casting problems, while retrieving amount of pages from db. StackTrace:\n" + ex);
+        } catch (PersistenceException ex) {
+            System.out.println("Problems with db, while retrieving amount of pages from db. StackTrace:\n" + ex);
+        } catch (Exception ex) {
+            System.out.println("Unexpected exception, while retrieving amount of pages from db. StackTrace^\n" + ex);
+        }
+        return 0;
+//        return null;
     }
 }
