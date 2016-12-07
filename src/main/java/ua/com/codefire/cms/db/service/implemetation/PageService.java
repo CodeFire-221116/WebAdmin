@@ -55,7 +55,7 @@ public class PageService implements IPageService {
     }
 
     @Override
-    public int getAmountOfPAges() {
+    public Long getAmountOfPAges() {
         return pageRepo.getAmountOfPages();
     }
 }

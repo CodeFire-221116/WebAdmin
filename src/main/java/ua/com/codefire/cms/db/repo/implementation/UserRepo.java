@@ -119,7 +119,7 @@ public class UserRepo implements IUserRepo {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM User user WHERE user.username " +
                     "LIKE :userName ", User.class);
             query.setParameter("userName", "%" + name + "%");
-            return (User) query.getResultList();
+            return (User) query.getSingleResult();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving user by name from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex){

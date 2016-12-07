@@ -6,5 +6,5 @@ import ua.com.codefire.cms.db.entity.Page;
  * Created by User on 07.12.2016.
  */
 public interface IPageRepo extends ICommonRepo<Page> {
-    int getAmountOfPages();
+    Long getAmountOfPages();
 }

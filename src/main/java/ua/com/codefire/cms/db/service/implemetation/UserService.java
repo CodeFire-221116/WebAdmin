@@ -1,5 +1,6 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
+import org.mindrot.jbcrypt.BCrypt;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.User;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
@@ -31,7 +32,7 @@ public class UserService implements IUserService {
 
     @Override
     public Long create(User objToCreate) {
-
+        objToCreate.setPassword(BCrypt.hashpw(objToCreate.getPassword(), BCrypt.gensalt()));
         return userRepo.create(objToCreate);
     }
 
@@ -42,6 +43,7 @@ public class UserService implements IUserService {
 
     @Override
     public Boolean update(User objToUpdate) {
+        objToUpdate.setPassword(BCrypt.hashpw(objToUpdate.getPassword(), BCrypt.gensalt()));
         return userRepo.update(objToUpdate);
     }
 
@@ -54,7 +56,13 @@ public class UserService implements IUserService {
     public List<User> getAllEntities() { return userRepo.getAllEntities(); }
 
     @Override
-    public User getUserByCredentials(String name) {
+    public User getUserByName(String name) {
         return userRepo.getUserByName(name);
+    }
+
+    @Override
+    public Boolean ifUserRegistered(String name, String password) {
+        User userByName = userRepo.getUserByName(name);
+        return userByName == null ? null : BCrypt.checkpw(password, userByName.getPassword());
     }
 }

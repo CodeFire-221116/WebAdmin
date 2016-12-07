@@ -2,7 +2,6 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.Page;
-import ua.com.codefire.cms.db.repo.abstraction.ICommonRepo;
 import ua.com.codefire.cms.db.repo.abstraction.IPageRepo;
 
 import javax.persistence.EntityExistsException;
@@ -114,10 +113,10 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public int getAmountOfPages() {
+    public Long getAmountOfPages() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM Page page", Integer.class);
-            return (int) query.getSingleResult();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM Page page", Long.class);
+            return (Long) query.getSingleResult();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving amount of pages from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex) {
@@ -125,7 +124,6 @@ public class PageRepo implements IPageRepo {
         } catch (Exception ex) {
             System.out.println("Unexpected exception, while retrieving amount of pages from db. StackTrace^\n" + ex);
         }
-        return 0;
-//        return null;
+        return null;
     }
 }

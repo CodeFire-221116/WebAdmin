@@ -1,6 +1,8 @@
 package ua.com.codefire.cms.servlet;
 
+import ua.com.codefire.cms.db.entity.Page;
 import ua.com.codefire.cms.db.entity.User;
+import ua.com.codefire.cms.db.service.implemetation.PageService;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 import ua.com.codefire.cms.model.AttributeNames;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by human on 12/1/16.
@@ -28,9 +31,8 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-            HttpSession session = req.getSession();
+        HttpSession session = req.getSession();
         // TODO: Validate user by database data.
-        User user = new UserService(req).read(1L);
         if (username != null && username.equals("pupkin") && password != null && password.equals("12345")) {
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
