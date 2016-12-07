@@ -1,28 +1,36 @@
 package ua.com.codefire.cms.db.service;
 
+import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.User;
+import ua.com.codefire.cms.db.repo.UserRepo;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by human on 12/6/16.
  */
-public class UserService implements ICommonService<User>{
+public class UserService extends CommonService<User> {
+    public UserService(HttpServletRequest req) {
+        setFactoryFromRequest(req);
+        commonRepo = new UserRepo(new EntityManagerHelper(factory));
+    }
     @Override
-    public Integer create(User objToCreate) {
-        return null;
+    public Long create(User objToCreate) {
+        return commonRepo.create(objToCreate);
     }
 
     @Override
-    public User read(int idToFind) {
-        return null;
+    public User read(Long idToFind) {
+        return commonRepo.read(idToFind);
     }
 
     @Override
     public Boolean update(User objToUpdate) {
-        return null;
+        return commonRepo.update(objToUpdate);
     }
 
     @Override
-    public Boolean delete(User objToCreate) {
-        return null;
+    public Boolean delete(Long objToDelete) {
+        return commonRepo.delete(objToDelete);
     }
 }

@@ -19,4 +19,28 @@ public class Product {
     private String model;
     @Column(name = "product_price")
     private Double price;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        return id.equals(product.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product type='" + type + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

@@ -1,27 +1,27 @@
 package ua.com.codefire.cms.db.repo;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.User;
+import ua.com.codefire.cms.db.entity.Product;
 
 /**
- * Created by human on 12/6/16.
+ * Created by User on 07.12.2016.
  */
-public class UserRepo extends CommonRepo<User> {
-    public UserRepo(EntityManagerHelper entityManagerHelper) {
+public class ProductRepo extends CommonRepo<Product> {
+    public ProductRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
     }
     @Override
-    public Long create(User objToCreate) {
+    public Long create(Product objToCreate) {
         return null;
     }
 
     @Override
-    public User read(Long idToFind) {
+    public Product read(Long idToFind) {
         return null;
     }
 
     @Override
-    public Boolean update(User objToUpdate) {
+    public Boolean update(Product objToUpdate) {
         return null;
     }
 
