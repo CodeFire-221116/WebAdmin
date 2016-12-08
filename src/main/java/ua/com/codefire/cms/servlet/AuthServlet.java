@@ -31,12 +31,12 @@ public class AuthServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+
         IUserService service = new UserService(req);
-        service.create(new User("kate", "kate"));
 
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
-        if (username != null && username.equals("pupkin") && password != null && password.equals("12345")) {
+        if (service.ifUserRegistered(username, password)) {
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
         } else {
