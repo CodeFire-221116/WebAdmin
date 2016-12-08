@@ -33,6 +33,7 @@ public class AuthServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         IUserService service = new UserService(req);
+        System.out.println(username + ": " + password);
 
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
@@ -43,6 +44,6 @@ public class AuthServlet extends HttpServlet {
             session.setAttribute("flash_message", "Username or password is incorrect.");
         }
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin/");
     }
 }

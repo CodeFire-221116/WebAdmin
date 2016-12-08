@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.servlet.products;
+package ua.com.codefire.cms.servlet.admin;
 
 import ua.com.codefire.cms.db.entity.Product;
 import ua.com.codefire.cms.db.service.implemetation.ProductService;
@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Created by Katya on 01.12.2016.
  */
-@WebServlet("/products")
+@WebServlet("/admin/products")
 public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if (action != null && "new".equals(action)) {
-            req.getRequestDispatcher("/WEB-INF/jsp/products/edit.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
         } else {
             Long id = null;
             if (req.getParameter("id") != null) {
@@ -30,21 +30,25 @@ public class ProductServlet extends HttpServlet {
 
             List<Product> products = new ProductService(req).getAllEntities();
 
-            req.setAttribute("productsList", products);
-            req.setAttribute("count", products.size());
+            if (!products.isEmpty()) {
+                req.setAttribute("productsList", products);
+                req.setAttribute("count", products.size());
 
-            for (Product product : products) {
-                if (id != null && id.equals(product.getId())) {
-                    req.setAttribute("IDtoedit", id);
-                    req.setAttribute("TYPEtoedit", product.getType());
-                    req.setAttribute("BRANDtoedit", product.getBrand());
-                    req.setAttribute("MODELtoedit", product.getModel());
-                    req.setAttribute("PRICEtoedit", product.getPrice());
+                for (Product product : products) {
+                    if (id != null && id.equals(product.getId())) {
+                        req.setAttribute("IDtoedit", id);
+                        req.setAttribute("TYPEtoedit", product.getType());
+                        req.setAttribute("BRANDtoedit", product.getBrand());
+                        req.setAttribute("MODELtoedit", product.getModel());
+                        req.setAttribute("PRICEtoedit", product.getPrice());
 
-                    req.getRequestDispatcher("/WEB-INF/jsp/products/edit.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
+                        return;
+                    }
                 }
             }
-            req.getRequestDispatcher("/WEB-INF/jsp/products/list.jsp").forward(req, resp);
+
+            req.getRequestDispatcher("/WEB-INF/jsp/admin/products/list.jsp").forward(req, resp);
         }
     }
 
@@ -80,6 +84,6 @@ public class ProductServlet extends HttpServlet {
                 }
             }
         }
-        resp.sendRedirect("/products");
+        resp.sendRedirect("/admin/products");
     }
 }

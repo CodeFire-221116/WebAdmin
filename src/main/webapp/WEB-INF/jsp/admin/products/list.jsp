@@ -18,7 +18,7 @@
         <h1>Products</h1>
     </header>
     <div class="row">
-        <%@include file="/WEB-INF/jsp/menu.jsp" %>
+        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         <h4>Products count</h4><span class="badge">${count}</span>
         <div style="display: inline-block" class="text-right">
             <a class="btn btn-success" href="/products?action=new">+</a>

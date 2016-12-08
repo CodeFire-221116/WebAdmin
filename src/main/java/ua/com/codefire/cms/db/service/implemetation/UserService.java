@@ -1,5 +1,6 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.User;
@@ -9,6 +10,7 @@ import ua.com.codefire.cms.db.service.abstraction.IUserService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
+import java.security.MessageDigest;
 import java.util.List;
 
 /**
@@ -60,9 +62,15 @@ public class UserService implements IUserService {
         return userRepo.getUserByName(name);
     }
 
+    // INSERT INTO `test`.`users` VALUES ('pupkin', MD5('12345'));
     @Override
     public Boolean ifUserRegistered(String name, String password) {
         User userByName = userRepo.getUserByName(name);
-        return userByName == null ? null : BCrypt.checkpw(password, userByName.getPassword());
+
+        if (userByName == null) {
+            return null;
+        }
+
+        return DigestUtils.md5Hex(password).equals(userByName.getPassword());
     }
 }

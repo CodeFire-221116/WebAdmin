@@ -19,7 +19,7 @@
         </header>
 
         <div class="row">
-            <%@include file="/WEB-INF/jsp/menu.jsp" %>
+            <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         </div>
 
         <div class="row">
