@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Hello</title>
+
+    <link rel="stylesheet" href="./res/css/main.css" />
 </head>
 <body>
     <h1>Authenticate please...</h1>
