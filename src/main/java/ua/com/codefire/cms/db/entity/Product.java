@@ -21,6 +21,24 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
+    public Product(Long id, String type, String brand, String model, Double price) {
+        this.id = id;
+        this.type = type;
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
+    public Product(String type, String brand, String model, Double price) {
+        this.type = type;
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
+    public Product() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -83,23 +101,5 @@ public class Product {
                 "product type='" + type + '\'' +
                 ", id=" + id +
                 '}';
-    }
-
-    public Product(Long id, String type, String brand, String model, Double price) {
-        this.id = id;
-        this.type = type;
-        this.brand = brand;
-        this.model = model;
-        this.price = price;
-    }
-
-    public Product(String type, String brand, String model, Double price) {
-        this.type = type;
-        this.brand = brand;
-        this.model = model;
-        this.price = price;
-    }
-
-    public Product() {
     }
 }
