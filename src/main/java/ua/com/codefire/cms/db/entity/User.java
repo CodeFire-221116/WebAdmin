@@ -12,12 +12,12 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String username;
     // MD5 HASH
-    @Column(name = "user_pass", length = 32)
+    @Column(name = "password", length = 32)
     private String password;
 
     public User() {

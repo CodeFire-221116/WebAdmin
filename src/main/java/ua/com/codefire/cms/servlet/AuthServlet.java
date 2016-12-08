@@ -2,6 +2,7 @@ package ua.com.codefire.cms.servlet;
 
 import ua.com.codefire.cms.db.entity.Page;
 import ua.com.codefire.cms.db.entity.User;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.db.service.implemetation.PageService;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 import ua.com.codefire.cms.model.AttributeNames;
@@ -30,6 +31,8 @@ public class AuthServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        IUserService service = new UserService(req);
+        service.create(new User("kate", "kate"));
 
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
