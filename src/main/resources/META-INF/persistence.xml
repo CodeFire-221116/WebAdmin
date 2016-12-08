@@ -4,14 +4,16 @@
     <persistence-unit name="MainPersistenceUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/test"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pagesdb?characterEncoding=UTF-8"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.username" value="student"/>
-            <property name="hibernate.connection.password" value="12345"/>
+            <property name="hibernate.connection.username" value="Kate"/>
+            <property name="hibernate.connection.password" value="archkis"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hbm2ddl.auto" value="update"/>
+            <property name="connection.useUnicode" value="true"/>
+            <property name="connection.characterEncoding" value="utf-8"/>
         </properties>
     </persistence-unit>
 </persistence>
