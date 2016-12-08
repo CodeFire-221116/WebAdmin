@@ -23,6 +23,11 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
+        if (req.getServletPath().startsWith("/res")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         Boolean isAuth = (Boolean) req.getSession().getAttribute(AttributeNames.SESSION_AUTHENTICATED);
 
         if (isAuth != null && isAuth) {
