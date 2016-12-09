@@ -1,7 +1,6 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.mindrot.jbcrypt.BCrypt;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.User;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
@@ -10,7 +9,6 @@ import ua.com.codefire.cms.db.service.abstraction.IUserService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
-import java.security.MessageDigest;
 import java.util.List;
 
 /**
@@ -34,7 +32,6 @@ public class UserService implements IUserService {
 
     @Override
     public Long create(User objToCreate) {
-        objToCreate.setPassword(BCrypt.hashpw(objToCreate.getPassword(), BCrypt.gensalt()));
         return userRepo.create(objToCreate);
     }
 
@@ -45,7 +42,6 @@ public class UserService implements IUserService {
 
     @Override
     public Boolean update(User objToUpdate) {
-        objToUpdate.setPassword(BCrypt.hashpw(objToUpdate.getPassword(), BCrypt.gensalt()));
         return userRepo.update(objToUpdate);
     }
 
@@ -64,13 +60,13 @@ public class UserService implements IUserService {
 
     // INSERT INTO `test`.`users` VALUES ('pupkin', MD5('12345'));
     @Override
-    public Boolean ifUserRegistered(String name, String password) {
+    public Boolean ifUserRegistered(String name, String notEncryptedPassword) {
         User userByName = userRepo.getUserByName(name);
 
         if (userByName == null) {
             return null;
         }
 
-        return DigestUtils.md5Hex(password).equals(userByName.getPassword());
+        return userByName.checkPassword(notEncryptedPassword);
     }
 }

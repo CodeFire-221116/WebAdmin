@@ -9,13 +9,14 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by human on 12/6/16.
  */
 public class UserRepo implements IUserRepo {
-    EntityManagerHelper entityManagerHelper;
+    private EntityManagerHelper entityManagerHelper;
 
     public UserRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
@@ -110,7 +111,7 @@ public class UserRepo implements IUserRepo {
         } catch (Exception ex) {
             System.out.println("Unexpected exception, while retrieving users from db. StackTrace^\n" + ex);
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
