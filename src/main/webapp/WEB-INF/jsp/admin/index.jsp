@@ -14,5 +14,7 @@
 </head>
 <body>
     <h1>Hello MAVEN</h1>
+
+    <%@include file="/WEB-INF/jsp/admin/menu.jsp"%>
 </body>
 </html>

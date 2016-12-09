@@ -23,12 +23,21 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
-        Boolean isAuth = (Boolean) req.getSession().getAttribute(AttributeNames.SESSION_AUTHENTICATED);
-
-        if (isAuth != null && isAuth) {
+        if (req.getServletPath().startsWith("/res")) {
             chain.doFilter(request, response);
+            return;
+        }
+
+        if (req.getServletPath().startsWith("/admin")) {
+            Boolean isAuth = (Boolean) req.getSession().getAttribute(AttributeNames.SESSION_AUTHENTICATED);
+
+            if (isAuth != null && isAuth) {
+                chain.doFilter(request, response);
+            } else {
+                req.getRequestDispatcher("/auth").forward(request, response);
+            }
         } else {
-            req.getRequestDispatcher("/auth").forward(request, response);
+            chain.doFilter(request, response);
         }
 
 //        req.getSession().removeAttribute("flash_message");
