@@ -2,6 +2,7 @@ package ua.com.codefire.cms.servlet;
 
 import ua.com.codefire.cms.db.entity.Page;
 import ua.com.codefire.cms.db.entity.User;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.db.service.implemetation.PageService;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 import ua.com.codefire.cms.model.AttributeNames;
@@ -31,15 +32,18 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
+        IUserService service = new UserService(req);
+        System.out.println(username + ": " + password);
+
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
-        if (username != null && username.equals("pupkin") && password != null && password.equals("12345")) {
+        if (service.ifUserRegistered(username, password)) {
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
         } else {
             session.setAttribute("flash_message", "Username or password is incorrect.");
         }
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin/");
     }
 }
