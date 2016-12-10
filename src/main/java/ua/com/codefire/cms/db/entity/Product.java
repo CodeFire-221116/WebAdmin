@@ -10,15 +10,15 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "page_id")
     private Long id;
-    @Column(name = "type")
+    @Column(name = "page_type")
     private String type;
-    @Column(name = "brand")
+    @Column(name = "page_brand")
     private String brand;
-    @Column(name = "model")
+    @Column(name = "page_model")
     private String model;
-    @Column(name = "price")
+    @Column(name = "page_price")
     private Double price;
 
     public Product(Long id, String type, String brand, String model, Double price) {

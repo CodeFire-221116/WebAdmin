@@ -1,9 +1,11 @@
 package ua.com.codefire.cms.servlet;
 
 import ua.com.codefire.cms.db.entity.Page;
+import ua.com.codefire.cms.db.entity.Product;
 import ua.com.codefire.cms.db.entity.User;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.db.service.implemetation.PageService;
+import ua.com.codefire.cms.db.service.implemetation.ProductService;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 import ua.com.codefire.cms.model.AttributeNames;
 
@@ -34,7 +36,6 @@ public class AuthServlet extends HttpServlet {
 
         IUserService service = new UserService(req);
         System.out.println(username + ": " + password);
-
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
         if (service.ifUserRegistered(username, password)) {

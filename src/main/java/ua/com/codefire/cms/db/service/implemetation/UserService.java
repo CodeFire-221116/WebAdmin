@@ -34,7 +34,7 @@ public class UserService implements IUserService {
 
     @Override
     public Long create(User objToCreate) {
-        objToCreate.setPassword(BCrypt.hashpw(objToCreate.getPassword(), BCrypt.gensalt()));
+        objToCreate.setPassword(DigestUtils.md5Hex(objToCreate.getPassword()));
         return userRepo.create(objToCreate);
     }
 
@@ -71,6 +71,8 @@ public class UserService implements IUserService {
             return null;
         }
 
-        return DigestUtils.md5Hex(password).equals(userByName.getPassword());
+        String hashPass = DigestUtils.md5Hex(password);
+        boolean res = hashPass.equals(userByName.getPassword());
+        return res;
     }
 }

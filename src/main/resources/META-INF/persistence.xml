@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
 
-    <persistence-unit name="MainPersistenceUnit">
+    <persistence-unit name="MainPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pages_web_project?characterEncoding=UTF-8"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://178.62.255.22:23306/codefiredb?characterEncoding=UTF-8"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.username" value="Andrey"/>
-            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.connection.username" value="CodefireStudent"/>
+            <property name="hibernate.connection.password" value="123456Pass"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

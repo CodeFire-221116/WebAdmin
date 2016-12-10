@@ -12,12 +12,12 @@ public class Page implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "page_id")
     private Long id;
-    @Column(name = "title")
+    @Column(name = "page_title")
     private String title;
     @Lob
-    @Column(name = "content")
+    @Column(name = "page_content")
     private String content;
 
     public Page() {
