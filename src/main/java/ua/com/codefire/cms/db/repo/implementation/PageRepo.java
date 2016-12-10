@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Page;
+import ua.com.codefire.cms.db.entity.PageEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IPageRepo;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +21,7 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public Long create(Page objToCreate) {
+    public Long create(PageEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
@@ -40,9 +40,9 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public Page read(Long idToFind) {
+    public PageEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(Page.class, idToFind);
+            return entityManagerHelper.find(PageEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
             System.out.println("No page found by such id. StackTrace:\n" + ex);
@@ -57,7 +57,7 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public Boolean update(Page objToUpdate) {
+    public Boolean update(PageEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -79,7 +79,7 @@ public class PageRepo implements IPageRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            Page pageToDelete = entityManagerHelper.find(Page.class, objToDeleteId);
+            PageEntity pageToDelete = entityManagerHelper.find(PageEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(pageToDelete);
             entityManagerHelper.commit();
@@ -98,10 +98,10 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public List<Page> getAllEntities() {
+    public List<PageEntity> getAllEntities() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT page FROM Page page", Page.class);
-            return (List<Page>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT page FROM PageEntity page", PageEntity.class);
+            return (List<PageEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving pages from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex) {
@@ -115,7 +115,7 @@ public class PageRepo implements IPageRepo {
     @Override
     public Long getAmountOfPages() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM Page page", Long.class);
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM PageEntity page", Long.class);
             return (Long) query.getSingleResult();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving amount of pages from db. StackTrace:\n" + ex);

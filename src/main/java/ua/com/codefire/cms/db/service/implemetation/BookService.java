@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Book;
+import ua.com.codefire.cms.db.entity.BookEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IBookRepo;
 import ua.com.codefire.cms.db.repo.implementation.BookRepo;
 import ua.com.codefire.cms.db.service.abstraction.IBookService;
@@ -30,17 +30,17 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Long create(Book objToCreate) {
+    public Long create(BookEntity objToCreate) {
         return bookRepo.create(objToCreate);
     }
 
     @Override
-    public Book read(Long idToFind) {
+    public BookEntity read(Long idToFind) {
         return bookRepo.read(idToFind);
     }
 
     @Override
-    public Boolean update(Book objToUpdate) {
+    public Boolean update(BookEntity objToUpdate) {
         return bookRepo.update(objToUpdate);
     }
 
@@ -50,7 +50,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<Book> getAllEntities() {
+    public List<BookEntity> getAllEntities() {
         return bookRepo.getAllEntities();
     }
 }

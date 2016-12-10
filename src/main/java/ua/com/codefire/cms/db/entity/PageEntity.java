@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "pages")
-public class Page implements Serializable {
+public class PageEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Page implements Serializable {
     @Column(name = "page_content")
     private String content;
 
-    public Page() {
+    public PageEntity() {
     }
 
     public Long getId() {
@@ -52,7 +52,7 @@ public class Page implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Page page = (Page) o;
+        PageEntity page = (PageEntity) o;
 
         return id.equals(page.id);
 

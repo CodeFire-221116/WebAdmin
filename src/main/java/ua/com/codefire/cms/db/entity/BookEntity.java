@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="books")
-public class Book {
+public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
@@ -34,10 +34,10 @@ public class Book {
     @Column(name = "book_text")
     private String bookText;
 
-    public Book() {
+    public BookEntity() {
     }
 
-    public Book(String name, String authors, Timestamp date, Integer pagesAmount, String bookText) {
+    public BookEntity(String name, String authors, Timestamp date, Integer pagesAmount, String bookText) {
         Name = name;
         Authors = authors;
         Date = date;
@@ -98,7 +98,7 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Book books = (Book) o;
+        BookEntity books = (BookEntity) o;
 
         if (Id != books.Id) return false;
         if (Name != null ? !Name.equals(books.Name) : books.Name != null) return false;

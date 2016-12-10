@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Article;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IArticleRepo;
 
 import javax.persistence.EntityExistsException;
@@ -22,7 +22,7 @@ public class ArticleRepo implements IArticleRepo {
     }
 
     @Override
-    public Long create(Article objToCreate) {
+    public Long create(ArticleEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
@@ -41,9 +41,9 @@ public class ArticleRepo implements IArticleRepo {
     }
 
     @Override
-    public Article read(Long idToFind) {
+    public ArticleEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(Article.class, idToFind);
+            return entityManagerHelper.find(ArticleEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
             System.out.println("No article found by such id. StackTrace:\n" + ex);
@@ -58,7 +58,7 @@ public class ArticleRepo implements IArticleRepo {
     }
 
     @Override
-    public Boolean update(Article objToUpdate) {
+    public Boolean update(ArticleEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -80,7 +80,7 @@ public class ArticleRepo implements IArticleRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            Article pageToDelete = entityManagerHelper.find(Article.class, objToDeleteId);
+            ArticleEntity pageToDelete = entityManagerHelper.find(ArticleEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(pageToDelete);
             entityManagerHelper.commit();
@@ -99,11 +99,11 @@ public class ArticleRepo implements IArticleRepo {
     }
 
     @Override
-    public List<Article> getAllEntities() {
-        List<Article> resultList = new ArrayList<>();
+    public List<ArticleEntity> getAllEntities() {
+        List<ArticleEntity> resultList = new ArrayList<>();
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT article FROM Article article", Article.class);
-            resultList = (List<Article>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT article FROM ArticleEntity article", ArticleEntity.class);
+            resultList = (List<ArticleEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving articles from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex) {

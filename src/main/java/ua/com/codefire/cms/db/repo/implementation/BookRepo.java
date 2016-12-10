@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Book;
+import ua.com.codefire.cms.db.entity.BookEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IBookRepo;
 
 import javax.persistence.EntityExistsException;
@@ -22,7 +22,7 @@ public class BookRepo implements IBookRepo {
     }
 
     @Override
-    public Long create(Book objToCreate) {
+    public Long create(BookEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
@@ -41,9 +41,9 @@ public class BookRepo implements IBookRepo {
     }
 
     @Override
-    public Book read(Long idToFind) {
+    public BookEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(Book.class, idToFind);
+            return entityManagerHelper.find(BookEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
             System.out.println("No book found by such id. StackTrace:\n" + ex);
@@ -58,7 +58,7 @@ public class BookRepo implements IBookRepo {
     }
 
     @Override
-    public Boolean update(Book objToUpdate) {
+    public Boolean update(BookEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -80,7 +80,7 @@ public class BookRepo implements IBookRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            Book pageToDelete = entityManagerHelper.find(Book.class, objToDeleteId);
+            BookEntity pageToDelete = entityManagerHelper.find(BookEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(pageToDelete);
             entityManagerHelper.commit();
@@ -99,11 +99,11 @@ public class BookRepo implements IBookRepo {
     }
 
     @Override
-    public List<Book> getAllEntities() {
-        List<Book> resultList = new ArrayList<>();
+    public List<BookEntity> getAllEntities() {
+        List<BookEntity> resultList = new ArrayList<>();
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT book FROM Book book", Book.class);
-            resultList = (List<Book>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT book FROM BookEntity book", BookEntity.class);
+            resultList = (List<BookEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving books from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex) {

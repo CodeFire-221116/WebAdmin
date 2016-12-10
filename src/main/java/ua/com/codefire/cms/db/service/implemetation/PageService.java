@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Page;
+import ua.com.codefire.cms.db.entity.PageEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IPageRepo;
 import ua.com.codefire.cms.db.repo.implementation.PageRepo;
 import ua.com.codefire.cms.db.service.abstraction.IPageService;
@@ -30,17 +30,17 @@ public class PageService implements IPageService {
     }
 
     @Override
-    public Long create(Page objToCreate) {
+    public Long create(PageEntity objToCreate) {
         return pageRepo.create(objToCreate);
     }
 
     @Override
-    public Page read(Long idToFind) {
+    public PageEntity read(Long idToFind) {
         return pageRepo.read(idToFind);
     }
 
     @Override
-    public Boolean update(Page objToUpdate) {
+    public Boolean update(PageEntity objToUpdate) {
         return pageRepo.update(objToUpdate);
     }
 
@@ -50,7 +50,7 @@ public class PageService implements IPageService {
     }
 
     @Override
-    public List<Page> getAllEntities() {
+    public List<PageEntity> getAllEntities() {
         return pageRepo.getAllEntities();
     }
 

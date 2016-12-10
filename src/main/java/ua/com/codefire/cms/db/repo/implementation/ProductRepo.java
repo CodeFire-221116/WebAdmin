@@ -1,8 +1,7 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Product;
-import ua.com.codefire.cms.db.repo.abstraction.ICommonRepo;
+import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +20,7 @@ public class ProductRepo implements IProductRepo {
         this.entityManagerHelper = entityManagerHelper;
     }
     @Override
-    public Long create(Product objToCreate) {
+    public Long create(ProductEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
@@ -40,9 +39,9 @@ public class ProductRepo implements IProductRepo {
     }
 
     @Override
-    public Product read(Long idToFind) {
+    public ProductEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(Product.class, idToFind);
+            return entityManagerHelper.find(ProductEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
             System.out.println("No product found by such id. StackTrace:\n" + ex);
@@ -57,7 +56,7 @@ public class ProductRepo implements IProductRepo {
     }
 
     @Override
-    public Boolean update(Product objToUpdate) {
+    public Boolean update(ProductEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -79,7 +78,7 @@ public class ProductRepo implements IProductRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            Product pageToDelete = entityManagerHelper.find(Product.class, objToDeleteId);
+            ProductEntity pageToDelete = entityManagerHelper.find(ProductEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(pageToDelete);
             entityManagerHelper.commit();
@@ -98,10 +97,10 @@ public class ProductRepo implements IProductRepo {
     }
 
     @Override
-    public List<Product> getAllEntities() {
+    public List<ProductEntity> getAllEntities() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT product FROM Product product", Product.class);
-            return (List<Product>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT product FROM ProductEntity product", ProductEntity.class);
+            return (List<ProductEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving products from db. StackTrace:\n" + ex);
         } catch (Exception ex) {

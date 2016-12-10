@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="articles")
-public class Article {
+public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
@@ -22,10 +22,10 @@ public class Article {
     @Column(name = "article_authors")
     private String Authors;
 
-    public Article() {
+    public ArticleEntity() {
     }
 
-    public Article(String title, String content, Timestamp date, String authors) {
+    public ArticleEntity(String title, String content, Timestamp date, String authors) {
         Title = title;
         Content = content;
         Date = date;
@@ -77,7 +77,7 @@ public class Article {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Article articles = (Article) o;
+        ArticleEntity articles = (ArticleEntity) o;
 
         if (Id != articles.Id) return false;
         if (Title != null ? !Title.equals(articles.Title) : articles.Title != null)

@@ -1,8 +1,7 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.User;
-import ua.com.codefire.cms.db.repo.abstraction.ICommonRepo;
+import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +20,7 @@ public class UserRepo implements IUserRepo {
         this.entityManagerHelper = entityManagerHelper;
     }
     @Override
-    public Long create(User objToCreate) {
+    public Long create(UserEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
@@ -40,9 +39,9 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
-    public User read(Long idToFind) {
+    public UserEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(User.class, idToFind);
+            return entityManagerHelper.find(UserEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
             System.out.println("No page found by such id. StackTrace:\n" + ex);
@@ -57,7 +56,7 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
-    public Boolean update(User objToUpdate) {
+    public Boolean update(UserEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -79,7 +78,7 @@ public class UserRepo implements IUserRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            User userToDelete = entityManagerHelper.find(User.class, objToDeleteId);
+            UserEntity userToDelete = entityManagerHelper.find(UserEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(userToDelete);
             entityManagerHelper.commit();
@@ -98,10 +97,10 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
-    public List<User> getAllEntities() {
+    public List<UserEntity> getAllEntities() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM User user", User.class);
-            return (List<User>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user", UserEntity.class);
+            return (List<UserEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving users from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex){
@@ -114,11 +113,11 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
-    public User getUserByName(String name) {
+    public UserEntity getUserByName(String name) {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM User user WHERE user.username = :userName", User.class);
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user WHERE user.username = :userName", UserEntity.class);
             query.setParameter("userName", name);
-            return (User) query.getSingleResult();
+            return (UserEntity) query.getSingleResult();
         } catch (ClassCastException ex) {
             System.out.println("Class casting problems, while retrieving user by name from db. StackTrace:\n" + ex);
         } catch (PersistenceException ex){

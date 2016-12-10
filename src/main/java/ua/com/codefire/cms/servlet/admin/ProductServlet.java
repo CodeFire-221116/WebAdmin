@@ -1,6 +1,6 @@
 package ua.com.codefire.cms.servlet.admin;
 
-import ua.com.codefire.cms.db.entity.Product;
+import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.service.implemetation.ProductService;
 
 import javax.servlet.ServletException;
@@ -28,13 +28,13 @@ public class ProductServlet extends HttpServlet {
                 id = Long.parseLong(req.getParameter("id"));
             }
 
-            List<Product> products = new ProductService(req).getAllEntities();
+            List<ProductEntity> products = new ProductService(req).getAllEntities();
 
             if (!products.isEmpty()) {
                 req.setAttribute("productsList", products);
                 req.setAttribute("count", products.size());
 
-                for (Product product : products) {
+                for (ProductEntity product : products) {
                     if (id != null && id.equals(product.getId())) {
                         req.setAttribute("IDtoedit", id);
                         req.setAttribute("TYPEtoedit", product.getType());
@@ -58,7 +58,7 @@ public class ProductServlet extends HttpServlet {
 
         if (action != null && "new".equals(action)) {
             ProductService newProduct = new ProductService(req);
-            newProduct.update(new Product(
+            newProduct.update(new ProductEntity(
                     req.getParameter("productType"),
                     req.getParameter("productBrand"),
                     req.getParameter("productModel"),
@@ -75,7 +75,7 @@ public class ProductServlet extends HttpServlet {
 
                 if (id != null) {
                     ProductService newProduct = new ProductService(req);
-                    newProduct.update(new Product(
+                    newProduct.update(new ProductEntity(
                             id,
                             req.getParameter("productType"),
                             req.getParameter("productBrand"),

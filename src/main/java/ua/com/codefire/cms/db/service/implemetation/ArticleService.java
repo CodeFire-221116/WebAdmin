@@ -1,7 +1,7 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.Article;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IArticleRepo;
 import ua.com.codefire.cms.db.repo.implementation.ArticleRepo;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
@@ -30,17 +30,17 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Long create(Article objToCreate) {
+    public Long create(ArticleEntity objToCreate) {
         return articleRepo.create(objToCreate);
     }
 
     @Override
-    public Article read(Long idToFind) {
+    public ArticleEntity read(Long idToFind) {
         return articleRepo.read(idToFind);
     }
 
     @Override
-    public Boolean update(Article objToUpdate) {
+    public Boolean update(ArticleEntity objToUpdate) {
         return articleRepo.update(objToUpdate);
     }
 
@@ -50,7 +50,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public List<Article> getAllEntities() {
+    public List<ArticleEntity> getAllEntities() {
         return articleRepo.getAllEntities();
     }
 }

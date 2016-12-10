@@ -3,8 +3,8 @@
 
     <persistence-unit name="MainPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>ua.com.codefire.cms.db.entity.Article</class>
-        <class>ua.com.codefire.cms.db.entity.Book</class>
+        <class>ua.com.codefire.cms.db.entity.ArticleEntity</class>
+        <class>ua.com.codefire.cms.db.entity.BookEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://178.62.255.22:23306/codefiredb?characterEncoding=UTF-8"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
