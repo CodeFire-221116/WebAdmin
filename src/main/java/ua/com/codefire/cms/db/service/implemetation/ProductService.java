@@ -4,8 +4,7 @@ import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.Product;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 import ua.com.codefire.cms.db.repo.implementation.ProductRepo;
-import ua.com.codefire.cms.db.repo.implementation.UserRepo;
-import ua.com.codefire.cms.db.service.abstraction.CommonService;
+import ua.com.codefire.cms.db.service.abstraction.ICommonService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * Created by User on 07.12.2016.
  */
-public class ProductService implements CommonService<Product> {
+public class ProductService implements ICommonService<Product> {
     private IProductRepo productRepo;
 
     public ProductService(HttpServletRequest req) {

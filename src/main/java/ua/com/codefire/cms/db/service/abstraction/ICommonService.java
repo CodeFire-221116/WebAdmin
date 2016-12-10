@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by User on 07.12.2016.
  */
-public interface CommonService<T> {
+public interface ICommonService<T> {
     Long create(T objToCreate);
     T read(Long idToFind);
     Boolean update(T objToUpdate);
