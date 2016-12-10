@@ -70,8 +70,6 @@ public class UserService implements IUserService {
             return null;
         }
 
-        String hashPass = DigestUtils.md5Hex(password);
-        boolean res = hashPass.equals(userByName.getPassword());
-        return res;
+        return DigestUtils.md5Hex(password).equals(userByName.getPassword());
     }
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>PostData</title>
-    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <form class="container" method="post">
@@ -37,6 +37,6 @@
         </div>
     </div>
 </form>
-<%@include file="/WEB-INF/jsp/javascript.jsp" %>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
