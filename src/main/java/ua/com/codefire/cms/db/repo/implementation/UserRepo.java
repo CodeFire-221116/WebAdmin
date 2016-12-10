@@ -8,13 +8,17 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by human on 12/6/16.
  */
 public class UserRepo implements IUserRepo {
-    EntityManagerHelper entityManagerHelper;
+    private static final Logger LOGGER = Logger.getLogger(UserRepo.class.getName());
+    private EntityManagerHelper entityManagerHelper;
 
     public UserRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
@@ -27,13 +31,14 @@ public class UserRepo implements IUserRepo {
             entityManagerHelper.commit();
             return  objToCreate.getId();
         } catch (EntityExistsException ex) {
-            System.out.println("Such user already exists. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Such user already exists.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while creating new user. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new user.", ex);
         } catch (Exception ex) {
-            //entityManager.getTransaction().rollback();
-            System.out.println("Unexpected exception, while creating new user. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new user.", ex);
         }
         return null;
     }
@@ -44,13 +49,13 @@ public class UserRepo implements IUserRepo {
             return entityManagerHelper.find(UserEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No page found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No page found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching for page. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching for page.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching for page. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for page.", ex);
         }
         return null;
     }
@@ -64,13 +69,13 @@ public class UserRepo implements IUserRepo {
             return true;
         }  catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No such user found. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No such user found.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while updating the user. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating the user.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while updating the user. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the user.", ex);
         }
         return false;
     }
@@ -85,31 +90,34 @@ public class UserRepo implements IUserRepo {
             return true;
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No user found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No user found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching and deleting user. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting user.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching and deleting user. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting user.", ex);
         }
         return null;
     }
 
     @Override
     public List<UserEntity> getAllEntities() {
+        List<UserEntity> users = new ArrayList<>();
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user", UserEntity.class);
-            return (List<UserEntity>) query.getResultList();
+            users = (List<UserEntity>) query.getResultList();
         } catch (ClassCastException ex) {
-            System.out.println("Class casting problems, while retrieving users from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving users from db.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while retrieving all users from db. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while retrieving all users from db.", ex);
         } catch (Exception ex) {
-            System.out.println("Unexpected exception, while retrieving users from db. StackTrace^\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving users from db.", ex);
         }
-        return null;
+        return users;
     }
 
     @Override
@@ -119,12 +127,14 @@ public class UserRepo implements IUserRepo {
             query.setParameter("userName", name);
             return (UserEntity) query.getSingleResult();
         } catch (ClassCastException ex) {
-            System.out.println("Class casting problems, while retrieving user by name from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving user by name from db.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while retrieving user by name. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while retrieving user by name.", ex);
         } catch (Exception ex) {
-            System.out.println("Unexpected exception, while retrieving user by name from db. StackTrace^\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving user by name from db.", ex);
         }
         return null;
     }

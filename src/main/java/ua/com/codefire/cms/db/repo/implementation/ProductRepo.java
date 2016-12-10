@@ -8,13 +8,17 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by User on 07.12.2016.
  */
 public class ProductRepo implements IProductRepo {
-    EntityManagerHelper entityManagerHelper;
+    private static final Logger LOGGER = Logger.getLogger(ProductRepo.class.getName());
+    private EntityManagerHelper entityManagerHelper;
 
     public ProductRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
@@ -27,13 +31,13 @@ public class ProductRepo implements IProductRepo {
             entityManagerHelper.commit();
             return  objToCreate.getId();
         } catch (EntityExistsException ex) {
-            System.out.println("Such product already exists. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Such product already exists.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while creating new product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new product.", ex);
         } catch (Exception ex) {
-            //entityManager.getTransaction().rollback();
-            System.out.println("Unexpected exception, while creating new product. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new product.", ex);
         }
         return null;
     }
@@ -44,13 +48,13 @@ public class ProductRepo implements IProductRepo {
             return entityManagerHelper.find(ProductEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No product found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No product found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching for product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching for product.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching for product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for product.", ex);
         }
         return null;
     }
@@ -64,13 +68,13 @@ public class ProductRepo implements IProductRepo {
             return true;
         }  catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No such product found. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No such product found.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while updating the product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating the product.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while updating the product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the product.", ex);
         }
         return false;
     }
@@ -85,27 +89,33 @@ public class ProductRepo implements IProductRepo {
             return true;
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No product found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No product found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching and deleting product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting product.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching and deleting product. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting product.", ex);
         }
         return null;
     }
 
     @Override
     public List<ProductEntity> getAllEntities() {
+        List<ProductEntity> products = new ArrayList<>();
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT product FROM ProductEntity product", ProductEntity.class);
-            return (List<ProductEntity>) query.getResultList();
+            products = (List<ProductEntity>) query.getResultList();
         } catch (ClassCastException ex) {
-            System.out.println("Class casting problems, while retrieving products from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving products from db.", ex);
+        } catch (PersistenceException ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving products from db.", ex);
         } catch (Exception ex) {
-            System.out.println("Unexpected exception, while retrieving products from db. StackTrace^\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving products from db.", ex);
         }
-        return null;
+        return products;
     }
 }

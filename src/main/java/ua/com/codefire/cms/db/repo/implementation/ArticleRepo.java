@@ -10,11 +10,14 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by User on 10.12.2016.
  */
 public class ArticleRepo implements IArticleRepo {
+    private static final Logger LOGGER = Logger.getLogger(ArticleRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
 
     public ArticleRepo(EntityManagerHelper entityManagerHelper) {
@@ -29,13 +32,14 @@ public class ArticleRepo implements IArticleRepo {
             entityManagerHelper.commit();
             return  objToCreate.getId();
         } catch (EntityExistsException ex) {
-            System.out.println("Such article already exists. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Such article already exists.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while creating new article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new article.", ex);
         } catch (Exception ex) {
-            //entityManager.getTransaction().rollback();
-            System.out.println("Unexpected exception, while creating new article. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new article.", ex);
         }
         return null;
     }
@@ -46,13 +50,13 @@ public class ArticleRepo implements IArticleRepo {
             return entityManagerHelper.find(ArticleEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No article found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No article found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching for article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching for article.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching for article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for article.", ex);
         }
         return null;
     }
@@ -66,13 +70,13 @@ public class ArticleRepo implements IArticleRepo {
             return true;
         }  catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No such article found. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No such article found.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while updating the article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating the article.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while updating the article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the article.", ex);
         }
         return false;
     }
@@ -87,30 +91,33 @@ public class ArticleRepo implements IArticleRepo {
             return true;
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No article found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No article found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching and deleting article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting article.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching and deleting article. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting article.", ex);
         }
         return null;
     }
 
     @Override
     public List<ArticleEntity> getAllEntities() {
-        List<ArticleEntity> resultList = new ArrayList<>();
+        List<ArticleEntity> articles = new ArrayList<>();
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT article FROM ArticleEntity article", ArticleEntity.class);
-            resultList = (List<ArticleEntity>) query.getResultList();
+            articles = (List<ArticleEntity>) query.getResultList();
         } catch (ClassCastException ex) {
-            System.out.println("Class casting problems, while retrieving articles from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving articles from db.", ex);
         } catch (PersistenceException ex) {
-            System.out.println("Problems with db, while retrieving articles from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving articles from db.", ex);
         } catch (Exception ex) {
-            System.out.println("Unexpected exception, while retrieving articles from db. StackTrace^\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving articles from db.", ex);
         }
-        return resultList;
+        return articles;
     }
 }

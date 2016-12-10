@@ -10,11 +10,14 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by User on 10.12.2016.
  */
 public class BookRepo implements IBookRepo {
+    private static final Logger LOGGER = Logger.getLogger(BookRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
 
     public BookRepo(EntityManagerHelper entityManagerHelper) {
@@ -29,13 +32,14 @@ public class BookRepo implements IBookRepo {
             entityManagerHelper.commit();
             return  objToCreate.getId();
         } catch (EntityExistsException ex) {
-            System.out.println("Such book already exists. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Such book already exists.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while creating new book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new book.", ex);
         } catch (Exception ex) {
-            //entityManager.getTransaction().rollback();
-            System.out.println("Unexpected exception, while creating new book. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new book.", ex);
         }
         return null;
     }
@@ -46,13 +50,13 @@ public class BookRepo implements IBookRepo {
             return entityManagerHelper.find(BookEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No book found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No book found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching for book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching for book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching for book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for book.", ex);
         }
         return null;
     }
@@ -66,13 +70,13 @@ public class BookRepo implements IBookRepo {
             return true;
         }  catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No such book found. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No such book found.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while updating the book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating the book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while updating the book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the book.", ex);
         }
         return false;
     }
@@ -87,30 +91,33 @@ public class BookRepo implements IBookRepo {
             return true;
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            System.out.println("No book found by such id. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "No book found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            System.out.println("Problems with database, while searching and deleting book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            System.out.println("Unexpected exception, while searching and deleting book. StackTrace:\n" + ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting book.", ex);
         }
         return null;
     }
 
     @Override
     public List<BookEntity> getAllEntities() {
-        List<BookEntity> resultList = new ArrayList<>();
+        List<BookEntity> books = new ArrayList<>();
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT book FROM BookEntity book", BookEntity.class);
-            resultList = (List<BookEntity>) query.getResultList();
+            books = (List<BookEntity>) query.getResultList();
         } catch (ClassCastException ex) {
-            System.out.println("Class casting problems, while retrieving books from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving books from db.", ex);
         } catch (PersistenceException ex) {
-            System.out.println("Problems with db, while retrieving books from db. StackTrace:\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving books from db.", ex);
         } catch (Exception ex) {
-            System.out.println("Unexpected exception, while retrieving books from db. StackTrace^\n" + ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving books from db.", ex);
         }
-        return resultList;
+        return books;
     }
 }
