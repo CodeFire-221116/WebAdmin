@@ -21,7 +21,7 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         <h4>Products count</h4><span class="badge">${count}</span>
         <div style="display: inline-block" class="text-right">
-            <a class="btn btn-success" href="/products?action=new">+</a>
+            <a class="btn btn-success" href="/admin/products?action=new">+</a>
         </div>
     </div>
     <table class="table">
@@ -43,11 +43,11 @@
                 <td>${ListItem.getModel()}</td>
                 <td>${ListItem.getPrice()}</td>
                 <td>
-                    <a href="/products?id=${ListItem.getId()}" class="btn" type="reset"
+                    <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
                        style="background-color: aquamarine">Edit product</a>
                 </td>
                 <td>
-                    <a href="/products?id=${ListItem.getId()}" class="btn" type="reset"
+                    <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
                        style="background-color: antiquewhite">Delete product</a>
                 </td>
             </tr>

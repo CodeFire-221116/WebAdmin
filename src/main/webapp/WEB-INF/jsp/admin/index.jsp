@@ -8,13 +8,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
     <title>Hello</title>
-
-    <link rel="stylesheet" href="./res/css/main.css" />
 </head>
 <body>
-    <h1>Hello MAVEN</h1>
+<div class="container">
+    <header class="page-header">
+        <h1>Dashboard</h1>
+    </header>
 
-    <%@include file="/WEB-INF/jsp/admin/menu.jsp"%>
+    <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+</div>
+
+<%@include file="/WEB-INF/jsp/javascript.jsp" %>
 </body>
 </html>

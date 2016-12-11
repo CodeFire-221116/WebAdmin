@@ -8,6 +8,7 @@ import ua.com.codefire.cms.db.repo.implementation.UserRepo;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class UserService implements IUserService {
     private IUserRepo userRepo;
 
     public UserService(HttpServletRequest req) {
-        Object factory = req.getServletContext().getAttribute("factory");
+        this(req.getServletContext());
+    }
+
+    public UserService(ServletContext servletContext) {
+        Object factory = servletContext.getAttribute("factory");
         if(factory != null) {
             try {
                 userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory)factory));
