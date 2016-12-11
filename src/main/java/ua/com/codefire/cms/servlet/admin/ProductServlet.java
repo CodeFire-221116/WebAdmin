@@ -1,6 +1,7 @@
 package ua.com.codefire.cms.servlet.admin;
 
 import ua.com.codefire.cms.db.entity.ProductEntity;
+import ua.com.codefire.cms.db.service.abstraction.IProductService;
 import ua.com.codefire.cms.db.service.implemetation.ProductService;
 
 import javax.servlet.ServletException;
@@ -16,74 +17,129 @@ import java.util.List;
  */
 @WebServlet("/admin/products")
 public class ProductServlet extends HttpServlet {
+    private StringBuilder errors;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String action = req.getParameter("action");
+        req.setAttribute("action", action);
+
         if (action != null && "new".equals(action)) {
             req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
         } else {
-            Long id = null;
             if (req.getParameter("id") != null) {
-                id = Long.parseLong(req.getParameter("id"));
+                setAttributesToEdit(req, Long.parseLong(req.getParameter("id")));
+                req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
+                return;
             }
-
             List<ProductEntity> products = new ProductService(req).getAllEntities();
-
             if (!products.isEmpty()) {
                 req.setAttribute("productsList", products);
                 req.setAttribute("count", products.size());
-
-                for (ProductEntity product : products) {
-                    if (id != null && id.equals(product.getId())) {
-                        req.setAttribute("IDtoedit", id);
-                        req.setAttribute("TYPEtoedit", product.getType());
-                        req.setAttribute("BRANDtoedit", product.getBrand());
-                        req.setAttribute("MODELtoedit", product.getModel());
-                        req.setAttribute("PRICEtoedit", product.getPrice());
-
-                        req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
-                        return;
-                    }
-                }
             }
-
             req.getRequestDispatcher("/WEB-INF/jsp/admin/products/list.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        ProductService productService = new ProductService(req);
+        errors = new StringBuilder();
         String action = req.getParameter("action");
 
         if (action != null && "new".equals(action)) {
-            ProductService newProduct = new ProductService(req);
-            newProduct.update(new ProductEntity(
-                    req.getParameter("productType"),
-                    req.getParameter("productBrand"),
-                    req.getParameter("productModel"),
-                    Double.parseDouble(req.getParameter("productPrice"))));
-        } else {
-            if (action != null && "delete".equals(action)) {
 
+            req.setAttribute("action", action);
+            setAttributesToCreate(req);
+            tryToCreateEntity(req, productService);
 
-            } else {
-                Long id = null;
-                if (req.getParameter("id") != null) {
-                    id = Long.parseLong(req.getParameter("id"));
-                }
+        } else if (req.getParameter("id") != null) {
 
-                if (id != null) {
-                    ProductService newProduct = new ProductService(req);
-                    newProduct.update(new ProductEntity(
-                            id,
-                            req.getParameter("productType"),
-                            req.getParameter("productBrand"),
-                            req.getParameter("productModel"),
-                            Double.parseDouble(req.getParameter("productPrice"))));
+            Long id = Long.parseLong(req.getParameter("id"));
+            setAttributesToEdit(req, id);
+            String buttonValue = req.getParameter("button");
+
+            if (buttonValue != null) {
+                if ("Apply".equals(buttonValue)) {
+                    tryToUpdateEntity(req, id, productService);
+                } else if ("Delete".equals(buttonValue)) {
+                    productService.delete(id);
                 }
             }
         }
+        if (!errors.toString().isEmpty()) {
+            req.setAttribute("errors", errors);
+            req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
+            return;
+        }
         resp.sendRedirect("/admin/products");
+    }
+
+    private void setAttributesToEdit(HttpServletRequest req, Long id) {
+        ProductEntity product = new ProductService(req).read(id);
+        req.setAttribute("IDtoedit", id);
+        req.setAttribute("TYPEtoedit", product.getType());
+        req.setAttribute("BRANDtoedit", product.getBrand());
+        req.setAttribute("MODELtoedit", product.getModel());
+        req.setAttribute("PRICEtoedit", product.getPrice());
+    }
+    private void setAttributesToCreate(HttpServletRequest req) {
+        req.setAttribute("TYPEtoedit", req.getParameter("productType"));
+        req.setAttribute("BRANDtoedit", req.getParameter("productBrand"));
+        req.setAttribute("MODELtoedit", req.getParameter("productModel"));
+        req.setAttribute("PRICEtoedit", req.getParameter("productPrice"));
+    }
+    private void tryToCreateEntity(HttpServletRequest req, ProductService productService) {
+        String type = req.getParameter("productType");
+        String brand = req.getParameter("productBrand");
+        String model = req.getParameter("productModel");
+        String price = req.getParameter("productPrice");
+
+        String[] result = price.split("\\.");
+        String resultPrice;
+        if(result.length < 2){
+            resultPrice = result[0].replaceAll("\\D", "");
+        } else {
+            resultPrice = result[0].replaceAll("\\D", "") + "." + result[1].replaceAll("\\D", "");
+        }
+        if (model != null && !model.trim().isEmpty()) {
+            try {
+                productService.create(new ProductEntity(type, brand, model, Double.parseDouble(resultPrice)));
+            } catch (NumberFormatException e) {
+                errors.append("Enter the price of the product");
+            } catch (Exception e) {
+                errors.append("Exception because of wrong value");
+            }
+        } else {
+            errors.append("Enter the model of the product");
+        }
+    }
+
+    private void tryToUpdateEntity(HttpServletRequest req, Long id, ProductService productService) {
+        String type = req.getParameter("productType");
+        String brand = req.getParameter("productBrand");
+        String model = req.getParameter("productModel");
+        String price = req.getParameter("productPrice");
+
+        String[] result = price.split("\\.");
+        String resultPrice;
+        if(result.length < 2){
+            resultPrice = result[0].replaceAll("\\D", "");
+        } else {
+            resultPrice = result[0].replaceAll("\\D", "") + "." + result[1].replaceAll("\\D", "");
+        }
+        if (model != null && !model.trim().isEmpty()) {
+            try {
+                productService.update(new ProductEntity(id, type, brand, model, Double.parseDouble(resultPrice)));
+            } catch (NumberFormatException e) {
+                errors.append("Enter the price of the product");
+            } catch (Exception e) {
+                errors.append("Exception because of wrong price value");
+            }
+        } else {
+            errors.append("Enter the model of the product");
+        }
     }
 }

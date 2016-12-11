@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: human
@@ -25,16 +26,34 @@
         <div class="row">
             <div class="col-md-9">
                 <input class="form-control" type="text" name="productType" value="${TYPEtoedit}"
-                       placeholder="Enter title here"/>
+                       placeholder="Enter type here"/>
+                <br>
                 <input class="form-control" type="text" name="productBrand" value="${BRANDtoedit}"
-                       placeholder="Enter content here"/>
+                       placeholder="Enter brand here"/>
+                <br>
                 <input class="form-control" type="text" name="productModel" value="${MODELtoedit}"
-                       placeholder="Enter content here"/>
+                       placeholder="Enter model here"/>
+                <br>
                 <input class="form-control" type="text" name="productPrice" value="${PRICEtoedit}"
-                       placeholder="Enter content here"/>
-                <input type="submit" class="btn btn-primary" value="OK">
+                       placeholder="Enter price here"/>
+                <br>
+                <c:if test="${action != null}">
+                    <input class="btn btn-primary" type="submit" name="add" value="Add">
+                </c:if>
+                <c:if test="${IDtoedit != null}">
+                    <input class="btn btn-primary" type="submit" name="button" value="Apply">
+                    <input class="btn btn-primary" type="submit" name="button" value="Delete">
+                </c:if>
             </div>
         </div>
+        <c:if test="${errors != null}">
+            <br>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="alert alert-danger">${errors}</div>
+                </div>
+            </div>
+        </c:if>
     </div>
 </form>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>

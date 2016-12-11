@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>PostData</title>
-    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <div class="container">
@@ -21,7 +21,7 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         <h4>Products count</h4><span class="badge">${count}</span>
         <div style="display: inline-block" class="text-right">
-            <a class="btn btn-success" href="/products?action=new">+</a>
+            <a class="btn btn-success" href="/admin/products?action=new">+</a>
         </div>
     </div>
     <table class="table">
@@ -43,18 +43,14 @@
                 <td>${ListItem.getModel()}</td>
                 <td>${ListItem.getPrice()}</td>
                 <td>
-                    <a href="/products?id=${ListItem.getId()}" class="btn" type="reset"
+                    <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
                        style="background-color: aquamarine">Edit product</a>
-                </td>
-                <td>
-                    <a href="/products?id=${ListItem.getId()}" class="btn" type="reset"
-                       style="background-color: antiquewhite">Delete product</a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-<%@include file="/WEB-INF/jsp/javascript.jsp" %>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
