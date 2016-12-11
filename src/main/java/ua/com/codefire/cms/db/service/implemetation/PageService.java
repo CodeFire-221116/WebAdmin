@@ -55,7 +55,7 @@ public class PageService implements IPageService {
     }
 
     @Override
-    public Long getAmountOfPAges() {
-        return pageRepo.getAmountOfPages();
+    public Long getAmountOfEntities() {
+        return pageRepo.getAmountOfEntities();
     }
 }

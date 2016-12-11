@@ -76,4 +76,9 @@ public class UserService implements IUserService {
 
         return userByName.checkPassword(password);
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return userRepo.getAmountOfEntities();
+    }
 }

@@ -53,4 +53,9 @@ public class BookService implements IBookService {
     public List<BookEntity> getAllEntities() {
         return bookRepo.getAllEntities();
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return bookRepo.getAmountOfEntities();
+    }
 }

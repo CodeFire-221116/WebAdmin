@@ -139,4 +139,22 @@ public class UserRepo implements IUserRepo {
         }
         return null;
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        try {
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(user.id) FROM UserEntity users", Long.class);
+            return (Long) query.getSingleResult();
+        } catch (ClassCastException ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving amount of user from db.", ex);
+        } catch (PersistenceException ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving amount of user from db.", ex);
+        } catch (Exception ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving amount of user from db.", ex);
+        }
+        return null;
+    }
 }

@@ -5,6 +5,7 @@ import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 import ua.com.codefire.cms.db.repo.implementation.ProductRepo;
 import ua.com.codefire.cms.db.service.abstraction.ICommonService;
+import ua.com.codefire.cms.db.service.abstraction.IProductService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by User on 07.12.2016.
  */
-public class ProductService implements ICommonService<ProductEntity> {
+public class ProductService implements IProductService {
     private IProductRepo productRepo;
 
     public ProductService(HttpServletRequest req) {
@@ -52,5 +53,10 @@ public class ProductService implements ICommonService<ProductEntity> {
     @Override
     public List<ProductEntity> getAllEntities() {
         return productRepo.getAllEntities();
+    }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return productRepo.getAmountOfEntities();
     }
 }
