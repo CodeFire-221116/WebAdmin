@@ -72,4 +72,9 @@ public class UserService implements IUserService {
 
         return DigestUtils.md5Hex(password).equals(userByName.getPassword());
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return userRepo.getAmountOfEntities();
+    }
 }

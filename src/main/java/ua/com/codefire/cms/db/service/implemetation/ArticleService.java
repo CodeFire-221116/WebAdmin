@@ -53,4 +53,9 @@ public class ArticleService implements IArticleService {
     public List<ArticleEntity> getAllEntities() {
         return articleRepo.getAllEntities();
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return articleRepo.getAmountOfEntities();
+    }
 }

@@ -122,7 +122,7 @@ public class PageRepo implements IPageRepo {
     }
 
     @Override
-    public Long getAmountOfPages() {
+    public Long getAmountOfEntities() {
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(page.id) FROM PageEntity page", Long.class);
             return (Long) query.getSingleResult();

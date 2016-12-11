@@ -12,6 +12,6 @@ public interface ICommonRepo<T> {
     T read(Long idToFind);
     Boolean update(T objToUpdate);
     Boolean delete(Long objToDeleteId);
-
+    Long getAmountOfEntities();
     List<T> getAllEntities();
 }

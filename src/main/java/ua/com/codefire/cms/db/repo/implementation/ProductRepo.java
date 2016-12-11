@@ -118,4 +118,22 @@ public class ProductRepo implements IProductRepo {
         }
         return products;
     }
+
+    @Override
+    public Long getAmountOfEntities() {
+        try {
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(product.id) FROM ProductEntity product", Long.class);
+            return (Long) query.getSingleResult();
+        } catch (ClassCastException ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving amount of products from db.", ex);
+        } catch (PersistenceException ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving amount of products from db.", ex);
+        } catch (Exception ex) {
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving amount of products from db.", ex);
+        }
+        return null;
+    }
 }
