@@ -1,5 +1,8 @@
 package ua.com.codefire.cms.servlet;
 
+import ua.com.codefire.cms.db.entity.UserEntity;
+import ua.com.codefire.cms.db.service.implemetation.UserService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +15,6 @@ import java.io.IOException;
  */
 @WebServlet("/index")
 public class IndexServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);

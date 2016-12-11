@@ -1,5 +1,6 @@
 package ua.com.codefire.cms.servlet.admin;
 
+import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 
 import javax.persistence.EntityManagerFactory;
