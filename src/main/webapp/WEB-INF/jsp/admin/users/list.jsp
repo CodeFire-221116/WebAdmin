@@ -19,7 +19,7 @@
     </header>
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-        <h4>Users count</h4><span class="badge">${count}</span>
+        <h4>Users count</h4><span class="badge">${usersCount}</span>
         <div style="display: inline-block" class="text-right">
             <a class="btn btn-success" href="/admin/users?action=new">+</a>
         </div>
@@ -33,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${userService.getAllEntities()}" var="ListItem">
+        <c:forEach items="${usersList}" var="ListItem">
             <tr>
                 <td>${ListItem.getId()}</td>
                 <td>${ListItem.getUsername()}</td>

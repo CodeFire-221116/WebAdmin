@@ -7,7 +7,6 @@ import ua.com.codefire.cms.db.repo.implementation.UserRepo;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -17,8 +16,8 @@ import java.util.List;
 public class UserService implements IUserService {
     private IUserRepo userRepo;
 
-    public UserService(ServletContext servletContext) {
-        Object factory = servletContext.getAttribute("factory");
+    public UserService(HttpServletRequest req) {
+        Object factory = req.getServletContext().getAttribute("factory");
         if(factory != null) {
             try {
                 userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory)factory));
@@ -28,10 +27,6 @@ public class UserService implements IUserService {
                 System.out.println("Unexpected exception, while generating user repository. StackTrace:\n" + ex);
             }
         }
-    }
-
-    public UserService(HttpServletRequest req) {
-        this(req.getServletContext());
     }
 
     @Override
@@ -65,10 +60,18 @@ public class UserService implements IUserService {
     // INSERT INTO `test`.`users` VALUES ('pupkin', MD5('12345'));
     @Override
     public Boolean ifUserRegistered(String name, String password) {
+        if (name == null) {
+            return null;
+        }
+
         UserEntity userByName = userRepo.getUserByName(name);
 
         if (userByName == null) {
             return null;
+        }
+
+        if (password == null) {
+            return false;
         }
 
         return userByName.checkPassword(password);

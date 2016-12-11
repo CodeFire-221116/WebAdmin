@@ -3,32 +3,19 @@ package ua.com.codefire.cms.servlet.admin;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
 
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Valery on 08.12.2016.
  */
 @WebServlet("/admin/users")
 public class UserServlet extends HttpServlet {
-    private UserService userService;
-
-    @Override
-    public void init() throws ServletException {
-        if (userService == null) {
-            userService = new UserService(getServletContext());
-            System.out.println("userService init: " + userService);
-//            userService = new UserService((ServletRequest) this);
-            getServletContext().setAttribute("userService", userService);
-        }
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -36,21 +23,24 @@ public class UserServlet extends HttpServlet {
         if (action != null && !action.isEmpty()) {
 
             String sId = req.getParameter("id");
-            long id;
+            long id = 0;
             if (sId != null && !sId.isEmpty()) {
                 id = Long.parseLong(sId);
             }
 
             if ("new".equals(action)) {
-                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                 return;
             } else if ("changepassword".equals(action)) {
-                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/changepassword.jsp").forward(req, resp);
                 return;
+            } else if ("delete".equals(action)) {
+                String confirmation = req.getParameter("confirmation");
+                if (confirmation != null && "CONFIRM".equals(confirmation)) {
+                    new UserService(req).delete(id);
+                }
             }
-        }
-        req.getRequestDispatcher("/WEB-INF/jsp/admin/users/list.jsp").forward(req, resp);
 
+        }
+        resp.sendRedirect("/admin/users");
     }
 
     @Override
@@ -60,10 +50,11 @@ public class UserServlet extends HttpServlet {
         if (action != null && !action.isEmpty()) {
 
             String sId = req.getParameter("id");
-            long id;
+            long id = 0;
             if (sId != null && !sId.isEmpty()) {
                 id = Long.parseLong(sId);
             }
+            UserEntity userEntity = new UserService(req).read(id);
 
             if ("new".equals(action)) {
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
@@ -71,8 +62,15 @@ public class UserServlet extends HttpServlet {
             } else if ("changepassword".equals(action)) {
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/users/changepassword.jsp").forward(req, resp);
                 return;
+            } else if ("delete".equals(action)) {
+                req.setAttribute("userName", userEntity.getUsername());
+                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/confirmdeletion.jsp").forward(req, resp);
+                return;
             }
         }
+        List<UserEntity> usersList = new UserService(req).getAllEntities();
+        req.setAttribute("usersList", usersList);
+        req.setAttribute("usersCount", usersList.size());
         req.getRequestDispatcher("/WEB-INF/jsp/admin/users/list.jsp").forward(req, resp);
 
     }

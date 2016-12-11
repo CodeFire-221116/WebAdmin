@@ -27,7 +27,7 @@ public class UserEntity implements Serializable {
 
     public UserEntity(String username, String notEncryptedPassword) {
         this.username = username;
-        this.password = DigestUtils.md2Hex(notEncryptedPassword);
+        this.password = DigestUtils.md5Hex(notEncryptedPassword);
     }
 
     public Long getId() {

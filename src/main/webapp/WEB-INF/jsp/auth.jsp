@@ -10,10 +10,10 @@
 <head>
     <title>Authorization</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
-    <link rel="stylesheet" href="./res/css/ankysStyles.css" />
+    <link rel="stylesheet" href="/res/css/ankysStyles.css" />
 </head>
 <body>
-<form class="container" method="post">
+<div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <h1 class="text-center login-title">Sign in</h1>
@@ -34,7 +34,7 @@
             <a href="/register" class="text-center new-account">Create an account </a>
         </div>
     </div>
-</form>
+</div>
     <%--<h1>Authenticate please...</h1>--%>
 
     <%--<form method="post">--%>

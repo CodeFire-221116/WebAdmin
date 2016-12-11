@@ -16,6 +16,25 @@ import java.io.IOException;
 @WebServlet("/index")
 public class IndexServlet extends HttpServlet {
     @Override
+    public void init() throws ServletException {
+//        UserService userService = new UserService(getServletContext());
+//        //System.out.println("userService init: " + userService);
+//        UserEntity user;
+//
+//        while (true) {
+//            user = userService.getUserByName("pupkin");
+//            if (user != null) {
+//                userService.delete(user.getId());
+//            } else break;
+//        }
+//
+//        user = userService.getUserByName("pupkin");
+//        if (user == null) {
+//            userService.create(new UserEntity("pupkin", "12345"));
+//        }
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
     }

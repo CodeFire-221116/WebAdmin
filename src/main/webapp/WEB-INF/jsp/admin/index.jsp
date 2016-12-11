@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
     <title>Hello</title>
 </head>
 <body>
@@ -20,6 +20,6 @@
     <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
 </div>
 
-<%@include file="/WEB-INF/jsp/javascript.jsp" %>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
