@@ -1,8 +1,8 @@
 package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
-import ua.com.codefire.cms.db.entity.ProductEntity;
-import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
+import ua.com.codefire.cms.db.entity.BookEntity;
+import ua.com.codefire.cms.db.repo.abstraction.IBookRepo;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -14,53 +14,55 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by User on 07.12.2016.
+ * Created by User on 10.12.2016.
  */
-public class ProductRepo implements IProductRepo {
-    private static final Logger LOGGER = Logger.getLogger(ProductRepo.class.getName());
+public class BookRepo implements IBookRepo {
+    private static final Logger LOGGER = Logger.getLogger(BookRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
 
-    public ProductRepo(EntityManagerHelper entityManagerHelper) {
+    public BookRepo(EntityManagerHelper entityManagerHelper) {
         this.entityManagerHelper = entityManagerHelper;
     }
+
     @Override
-    public Long create(ProductEntity objToCreate) {
+    public Long create(BookEntity objToCreate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.persist(objToCreate);
             entityManagerHelper.commit();
             return  objToCreate.getId();
         } catch (EntityExistsException ex) {
-            LOGGER.log(Level.SEVERE, "Such product already exists.", ex);
+            entityManagerHelper.rollback();
+            LOGGER.log(Level.SEVERE, "Such book already exists.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while creating new product.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new product.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new book.", ex);
         }
         return null;
     }
 
     @Override
-    public ProductEntity read(Long idToFind) {
+    public BookEntity read(Long idToFind) {
         try {
-            return entityManagerHelper.find(ProductEntity.class, idToFind);
+            return entityManagerHelper.find(BookEntity.class, idToFind);
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No product found by such id.", ex);
+            LOGGER.log(Level.SEVERE, "No book found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while searching for product.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching for book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for product.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for book.", ex);
         }
         return null;
     }
 
     @Override
-    public Boolean update(ProductEntity objToUpdate) {
+    public Boolean update(BookEntity objToUpdate) {
         try {
             entityManagerHelper.begin();
             entityManagerHelper.getEntityManager().merge(objToUpdate);
@@ -68,13 +70,13 @@ public class ProductRepo implements IProductRepo {
             return true;
         }  catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No such product found.", ex);
+            LOGGER.log(Level.SEVERE, "No such book found.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while updating the product.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating the book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the product.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the book.", ex);
         }
         return false;
     }
@@ -82,40 +84,40 @@ public class ProductRepo implements IProductRepo {
     @Override
     public Boolean delete(Long objToDeleteId) {
         try {
-            ProductEntity pageToDelete = entityManagerHelper.find(ProductEntity.class, objToDeleteId);
+            BookEntity pageToDelete = entityManagerHelper.find(BookEntity.class, objToDeleteId);
             entityManagerHelper.begin();
             entityManagerHelper.remove(pageToDelete);
             entityManagerHelper.commit();
             return true;
         } catch (EntityNotFoundException ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No product found by such id.", ex);
+            LOGGER.log(Level.SEVERE, "No book found by such id.", ex);
         } catch (PersistenceException ex){
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting product.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting book.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting product.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting book.", ex);
         }
         return null;
     }
 
     @Override
-    public List<ProductEntity> getAllEntities() {
-        List<ProductEntity> products = new ArrayList<>();
+    public List<BookEntity> getAllEntities() {
+        List<BookEntity> books = new ArrayList<>();
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT product FROM ProductEntity product", ProductEntity.class);
-            products = (List<ProductEntity>) query.getResultList();
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT book FROM BookEntity book", BookEntity.class);
+            books = (List<BookEntity>) query.getResultList();
         } catch (ClassCastException ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving products from db.", ex);
+            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving books from db.", ex);
         } catch (PersistenceException ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving products from db.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving books from db.", ex);
         } catch (Exception ex) {
             entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving products from db.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving books from db.", ex);
         }
-        return products;
+        return books;
     }
 }

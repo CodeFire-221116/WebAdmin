@@ -10,22 +10,22 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "user_id")
     private Long id;
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String username;
     // MD5 HASH
-    @Column(name = "password", length = 32)
+    @Column(name = "user_pass", length = 32)
     private String password;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(String username, String notEncryptedPassword) {
+    public User(String username, String password) {
         this.username = username;
         this.password = DigestUtils.md2Hex(notEncryptedPassword);
     }
@@ -63,7 +63,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        UserEntity user = (UserEntity) o;
 
         return id.equals(user.id);
 

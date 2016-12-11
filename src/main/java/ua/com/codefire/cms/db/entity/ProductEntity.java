@@ -7,21 +7,21 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="products")
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "product_id")
     private Long id;
-    @Column(name = "type")
+    @Column(name = "product_type")
     private String type;
-    @Column(name = "brand")
+    @Column(name = "product_brand")
     private String brand;
-    @Column(name = "model")
+    @Column(name = "product_model")
     private String model;
-    @Column(name = "price")
+    @Column(name = "product_price")
     private Double price;
 
-    public Product(Long id, String type, String brand, String model, Double price) {
+    public ProductEntity(Long id, String type, String brand, String model, Double price) {
         this.id = id;
         this.type = type;
         this.brand = brand;
@@ -29,14 +29,14 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String type, String brand, String model, Double price) {
+    public ProductEntity(String type, String brand, String model, Double price) {
         this.type = type;
         this.brand = brand;
         this.model = model;
         this.price = price;
     }
 
-    public Product() {
+    public ProductEntity() {
     }
 
     public Long getId() {
@@ -84,7 +84,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Product product = (Product) o;
+        ProductEntity product = (ProductEntity) o;
 
         return id.equals(product.id);
 
