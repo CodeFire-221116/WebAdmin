@@ -22,11 +22,11 @@
 
         <div class="row">
             <div class="col-md-9">
-                <input class="form-control" type="text" name="oldpassword"
+                <input class="form-control" type="password" name="oldpassword"
                        placeholder="enter old password here"/>
-                <input class="form-control" type="text" name="password"
+                <input class="form-control" type="password" name="password"
                        placeholder="enter new password here"/>
-                <input class="form-control" type="text" name="confirmpassword"
+                <input class="form-control" type="password" name="confirmpassword"
                        placeholder="confirm new password here"/>
                 <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
                 <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
