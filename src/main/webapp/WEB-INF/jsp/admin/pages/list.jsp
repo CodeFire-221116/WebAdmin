@@ -13,19 +13,20 @@
     </header>
 
     <div class="row">
-        <c:import url="/WEB-INF/jsp/admin/menu.jsp"/>
+        <c:import var="menu" url="/WEB-INF/jsp/admin/menu.jsp"/>
 
         <div class="col-md-9">
             Pages count <span class="badge">${page_count}</span>
         </div>
 
-        <div style="alignment: right;">
-            <a class="btn btn-success" href="admin/pages?action=new">+</a>
+        <div style="display: inline-block;" class="text-right">
+            <a class="btn btn-success" href="/admin/pages?action=new">+</a>
         </div>
 
+        <br/>
         <c:forEach var="page" items="${pages}">
-            <a href="/pages?id=${page.getId()}" class="btn btn-success" type="reset">${page.getTitle()}</a>
-            <br>
+            <a href="/admin/pages?id=${page.getId()}" class="btn btn-success" type="menu">${page.getTitle()}</a>
+            <br/>
         </c:forEach>
     </div>
 </div>
