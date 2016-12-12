@@ -19,7 +19,7 @@
     </header>
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-        <h4>Users count</h4><span class="badge">${usersCount}</span>
+        <h4>Users count <span class="badge">${usersCount}</span></h4>
         <div style="display: inline-block" class="text-right">
             <a class="btn btn-success" href="/admin/users?action=new">+</a>
         </div>

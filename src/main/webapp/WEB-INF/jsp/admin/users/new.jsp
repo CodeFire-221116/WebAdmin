@@ -17,18 +17,37 @@
         <h1>Add user</h1>
     </header>
 
-    ${errorMessage}
+    <div div style="color: red; font-weight: bold;">
+        <p>${errorMessage}</p>
+    </div>
 
     <div class="row">
         <div class="col-md-9">
-            <input class="form-control" type="text" name="username" value="${usernameValue}"
-                   placeholder="enter username here"/>
-            <input class="form-control" type="password" name="password" value="${passwordValue}"
-                   placeholder="enter password here"/>
-            <input class="form-control" type="password" name="confirmpassword" value="${confirmPasswordValue}"
-                   placeholder="confirm password here"/>
-            <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
-            <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
+
+            <div class="form-group">
+                <label for="username">Enter user name</label>
+                <div class="form-inline ${classAdditionForUsername}">
+                    <input class="form-control" type="text" name="username" value="${usernameValue}" id="username"
+                           placeholder="username"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Enter password and then confirm it</label>
+                <div class="form-inline">
+                    <div class="form-group ${classAdditionForNewPassword}">
+                        <input class="form-control" type="password" name="password" id="password"
+                               placeholder="password"/>
+                    </div>
+                    <div class="form-group ${classAdditionForNewPassword}">
+                        <input class="form-control" type="password" name="confirmpassword" id="confirmpassword"
+                               placeholder="password again"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" name="submition" value="SUBMIT">
+                <input type="submit" class="btn btn-primary" name="submition" value="GO BACK">
+            </div>
         </div>
     </div>
 </form>

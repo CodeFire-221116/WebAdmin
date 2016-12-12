@@ -31,23 +31,27 @@ public class UserServlet extends HttpServlet {
             if ("new".equals(action)) {
                 String confirmation = req.getParameter("submition");
                 if (confirmation != null && "SUBMIT".equals(confirmation)) {
+                    String username = req.getParameter("username");
+                    req.setAttribute("usernameValue", username);
                     if (!req.getParameter("password").toString().equals(req.getParameter("confirmpassword").toString())) {
                         req.setAttribute("errorMessage", "The confirmation password does not match new password!");
+                        req.setAttribute("classAdditionForNewPassword", " has-error");
                         req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                         return;
                     } else {
                         String newPass = req.getParameter("password");
-                        String username = req.getParameter("username");
                         if (username != null && !username.isEmpty()) {
                             if (newPass != null && !newPass.isEmpty()) {
                                 new UserService(req).create(new UserEntity(username, newPass));
                             } else {
                                 req.setAttribute("errorMessage", "Password is empty!");
+                                req.setAttribute("classAdditionForNewPassword", " has-error");
                                 req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                                 return;
                             }
                         } else {
                             req.setAttribute("errorMessage", "Username is empty!");
+                            req.setAttribute("classAdditionForUsername", " has-error");
                             req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                             return;
                         }
