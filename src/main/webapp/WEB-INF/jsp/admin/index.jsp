@@ -8,18 +8,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
     <title>Hello</title>
+
+    <link rel="stylesheet" href="./res/css/main.css"/>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
+
 </head>
 <body>
+
 <div class="container">
     <header class="page-header">
-        <h1>Dashboard</h1>
+        <h1>Hello ${$USERNAME}</h1>
     </header>
-
-    <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+    <div class="row">
+        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+    </div>
 </div>
-
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

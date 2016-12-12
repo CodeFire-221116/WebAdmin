@@ -48,6 +48,7 @@ public class ProductServlet extends HttpServlet {
         ProductService productService = new ProductService(req);
         errors = new StringBuilder();
         String action = req.getParameter("action");
+        String buttonValue = req.getParameter("button");
 
         if (action != null && "new".equals(action)) {
 
@@ -59,7 +60,6 @@ public class ProductServlet extends HttpServlet {
 
             Long id = Long.parseLong(req.getParameter("id"));
             setAttributesToEdit(req, id);
-            String buttonValue = req.getParameter("button");
 
             if (buttonValue != null) {
                 if ("Apply".equals(buttonValue)) {
@@ -69,7 +69,10 @@ public class ProductServlet extends HttpServlet {
                 }
             }
         }
-        if (!errors.toString().isEmpty()) {
+        if ("Back".equals(buttonValue)){
+            resp.sendRedirect("/admin/products");
+            return;
+        } else if (!errors.toString().isEmpty()) {
             req.setAttribute("errors", errors);
             req.getRequestDispatcher("/WEB-INF/jsp/admin/products/edit.jsp").forward(req, resp);
             return;

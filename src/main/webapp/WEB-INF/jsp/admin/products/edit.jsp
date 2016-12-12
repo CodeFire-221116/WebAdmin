@@ -37,12 +37,13 @@
                 <input class="form-control" type="text" name="productPrice" value="${PRICEtoedit}"
                        placeholder="Enter price here"/>
                 <br>
+                <input class="btn btn-default" type="submit" name="button" value="Back">
                 <c:if test="${action != null}">
                     <input class="btn btn-primary" type="submit" name="add" value="Add">
                 </c:if>
                 <c:if test="${IDtoedit != null}">
                     <input class="btn btn-primary" type="submit" name="button" value="Apply">
-                    <input class="btn btn-primary" type="submit" name="button" value="Delete">
+                    <input class="btn btn-danger" type="submit" name="button" value="Delete">
                 </c:if>
             </div>
         </div>
