@@ -8,29 +8,28 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>PostData</title>
+    <title>Change user password</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <form class="container" method="post">
     <div class="container">
         <header class="page-header">
-            <h1>Edit Product</h1>
+            <h1>Change user password</h1>
         </header>
 
-        <div class="row">
-            <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-        </div>
+        ${errorMessage}
 
         <div class="row">
             <div class="col-md-9">
-                <input class="form-control" type="text" name="oldpassword" value="${oldPasswordValue}"
+                <input class="form-control" type="text" name="oldpassword"
                        placeholder="enter old password here"/>
-                <input class="form-control" type="text" name="password" value="${passwordValue}"
+                <input class="form-control" type="text" name="password"
                        placeholder="enter new password here"/>
-                <input class="form-control" type="text" name="confirmpassword" value="${confirmPasswordValue}"
+                <input class="form-control" type="text" name="confirmpassword"
                        placeholder="confirm new password here"/>
-                <input type="submit" class="btn btn-primary" value="OK">
+                <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
+                <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
             </div>
         </div>
     </div>

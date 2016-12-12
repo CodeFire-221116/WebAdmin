@@ -31,7 +31,32 @@ public class UserServlet extends HttpServlet {
             if ("new".equals(action)) {
                 return;
             } else if ("changepassword".equals(action)) {
-                return;
+                String confirmation = req.getParameter("submition");
+                if (confirmation != null && "SUBMIT".equals(confirmation)) {
+                    if (!req.getParameter("password").toString().equals(req.getParameter("confirmpassword").toString())) {
+                        req.setAttribute("errorMessage", "The confirmation password does not match new password!");
+                        req.getRequestDispatcher("/WEB-INF/jsp/admin/users/changepassword.jsp").forward(req, resp);
+                        return;
+                    } else {
+                        UserEntity user = new UserService(req).read(id);
+                        String oldPass = req.getParameter("oldpassword");
+                        String newPass = req.getParameter("password");
+                        if (oldPass != null && user.checkPassword(oldPass)) {
+                            if (newPass != null && !newPass.isEmpty()) {
+                                user.updatePassword(newPass);
+                                new UserService(req).update(user);
+                            } else {
+                                req.setAttribute("errorMessage", "New password is empty!");
+                                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/changepassword.jsp").forward(req, resp);
+                                return;
+                            }
+                        } else {
+                            req.setAttribute("errorMessage", "Old password is incorrect!");
+                            req.getRequestDispatcher("/WEB-INF/jsp/admin/users/changepassword.jsp").forward(req, resp);
+                            return;
+                        }
+                    }
+                }
             } else if ("delete".equals(action)) {
                 String confirmation = req.getParameter("confirmation");
                 if (confirmation != null && "CONFIRM".equals(confirmation)) {
