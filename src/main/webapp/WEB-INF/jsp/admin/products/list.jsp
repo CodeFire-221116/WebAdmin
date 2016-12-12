@@ -46,10 +46,6 @@
                     <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
                        style="background-color: aquamarine">Edit product</a>
                 </td>
-                <td>
-                    <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
-                       style="background-color: antiquewhite">Delete product</a>
-                </td>
             </tr>
         </c:forEach>
         </tbody>
