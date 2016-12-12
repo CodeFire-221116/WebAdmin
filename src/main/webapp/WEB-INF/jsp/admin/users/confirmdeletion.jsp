@@ -13,17 +13,20 @@
 </head>
 <body>
 <form class="container" method="post">
-    <div class="container">
-        <header class="page-header">
-            <h1>User delete confirmation</h1>
-        </header>
+    <header class="page-header">
+        <h1>User delete confirmation</h1>
+    </header>
 
-        <div class="row">
-            <div class="col-md-9">
-                <p>Press CONFIRM button to delete user "${userName}"</p>
-                <input type="submit" class="btn btn-danger" name="confirmation" value="CONFIRM">
-                <input type="submit" class="btn btn-primary" name="confirmation" value="CANCEL">
-            </div>
+    <div class="row">
+        <div class="col-md-9">
+            <p>Click
+                <input type="submit" class="btn btn-danger btn-xs" name="confirmation" value="CONFIRM">
+                to delete user
+                <mark><strong>${userName}</strong></mark>
+                or just
+                <input type="submit" class="btn btn-primary btn-xs" name="confirmation" value="GO BACK">
+                and nothing happens
+            </p>
         </div>
     </div>
 </form>

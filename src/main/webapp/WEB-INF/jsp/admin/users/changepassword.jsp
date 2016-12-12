@@ -13,23 +13,40 @@
 </head>
 <body>
 <form class="container" method="post">
-    <div class="container">
-        <header class="page-header">
-            <h1>Change user password</h1>
-        </header>
+    <header class="page-header">
+        <h1>Change user password</h1>
+    </header>
 
-        ${errorMessage}
+    <div div style="color: red; font-weight: bold;">
+        <p>${errorMessage}</p>
+    </div>
 
-        <div class="row">
-            <div class="col-md-9">
-                <input class="form-control" type="password" name="oldpassword"
-                       placeholder="enter old password here"/>
-                <input class="form-control" type="password" name="password"
-                       placeholder="enter new password here"/>
-                <input class="form-control" type="password" name="confirmpassword"
-                       placeholder="confirm new password here"/>
-                <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
-                <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
+    <div class="row">
+        <div class="col-md-9">
+
+            <div class="form-group">
+                <label for="currentpassword">Enter current or old <mark><strong>${userName}</strong></mark>'s password</label>
+                <div class="form-inline ${classAdditionForCurrentPassword}">
+                    <input class="form-control" type="password" name="currentpassword" id="currentpassword"
+                           placeholder="current password"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Enter new password and then confirm it</label>
+                <div class="form-inline">
+                    <div class="form-group ${classAdditionForNewPassword}">
+                        <input class="form-control" type="password" name="password" id="password"
+                               placeholder="new password"/>
+                    </div>
+                    <div class="form-group ${classAdditionForNewPassword}">
+                        <input class="form-control" type="password" name="confirmpassword" id="confirmpassword"
+                               placeholder="new password again"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-warning" name="submition" value="SUBMIT">
+                <input type="submit" class="btn btn-primary" name="submition" value="GO BACK">
             </div>
         </div>
     </div>

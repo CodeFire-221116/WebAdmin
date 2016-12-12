@@ -9,7 +9,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>PostData</title>
+    <title>Users</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
@@ -24,7 +24,7 @@
             <a class="btn btn-success" href="/admin/users?action=new">+</a>
         </div>
     </div>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>id</th>
@@ -38,8 +38,8 @@
                 <td>${ListItem.getId()}</td>
                 <td>${ListItem.getUsername()}</td>
                 <td>
-                    <a href="/admin/users?action=changepassword&id=${ListItem.getId()}" class="btn btn-info" type="reset">Change password</a>
-                    <a href="/admin/users?action=delete&id=${ListItem.getId()}" class="btn btn-danger" type="reset">Delete user</a>
+                    <a href="/admin/users?action=changepassword&id=${ListItem.getId()}" class="btn btn-info btn-xs" type="reset">Change password</a>
+                    <a href="/admin/users?action=delete&id=${ListItem.getId()}" class="btn btn-danger btn-xs" type="reset">Delete user</a>
                 </td>
             </tr>
         </c:forEach>

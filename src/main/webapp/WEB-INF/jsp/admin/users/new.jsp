@@ -13,24 +13,22 @@
 </head>
 <body>
 <form class="container" method="post">
-    <div class="container">
-        <header class="page-header">
-            <h1>Add user</h1>
-        </header>
+    <header class="page-header">
+        <h1>Add user</h1>
+    </header>
 
-        ${errorMessage}
+    ${errorMessage}
 
-        <div class="row">
-            <div class="col-md-9">
-                <input class="form-control" type="text" name="username" value="${usernameValue}"
-                       placeholder="enter username here"/>
-                <input class="form-control" type="password" name="password" value="${passwordValue}"
-                       placeholder="enter password here"/>
-                <input class="form-control" type="password" name="confirmpassword" value="${confirmPasswordValue}"
-                       placeholder="confirm password here"/>
-                <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
-                <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
-            </div>
+    <div class="row">
+        <div class="col-md-9">
+            <input class="form-control" type="text" name="username" value="${usernameValue}"
+                   placeholder="enter username here"/>
+            <input class="form-control" type="password" name="password" value="${passwordValue}"
+                   placeholder="enter password here"/>
+            <input class="form-control" type="password" name="confirmpassword" value="${confirmPasswordValue}"
+                   placeholder="confirm password here"/>
+            <input type="submit" class="btn btn-primary" name="submition" value="SUBMIT">
+            <input type="submit" class="btn btn-primary" name="submition" value="RETURN">
         </div>
     </div>
 </form>
