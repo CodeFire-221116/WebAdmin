@@ -32,20 +32,27 @@
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Price</th>
-                    <th></th>
+                    <th style="width: 1%"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${productsList}" var="ListItem">
                     <tr>
-                        <td>${ListItem.getId()}</td>
-                        <td>${ListItem.getType()}</td>
-                        <td>${ListItem.getBrand()}</td>
-                        <td>${ListItem.getModel()}</td>
-                        <td>${ListItem.getPrice()}</td>
-                        <td>
-                            <a href="/admin/products?id=${ListItem.getId()}" class="btn" type="reset"
-                               style="background-color: aquamarine">Edit product</a>
+                        <td>${ListItem.id}</td>
+                        <td>${ListItem.type}</td>
+                        <td>${ListItem.brand}</td>
+                        <td>${ListItem.model}</td>
+                        <td>${ListItem.price}</td>
+                        <td nowrap>
+                            <a href="/admin/products?id=${ListItem.getId()}"
+                               class="btn btn-warning" type="reset">
+                                <i class="fa fa-fw fa-wrench"></i>
+                            </a>
+                            <a href="/admin/products?id=${ListItem.getId()}&action=delete"
+                               onclick="return confirm('Are you sure want delete ${ListItem.id} item?');"
+                               class="btn btn-danger" type="reset">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
