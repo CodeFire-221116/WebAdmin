@@ -3,7 +3,7 @@ package ua.com.codefire.cms.servlet.admin;
 import ua.com.codefire.cms.db.entity.PageEntity;
 import ua.com.codefire.cms.db.service.abstraction.IPageService;
 import ua.com.codefire.cms.db.service.implemetation.PageService;
-import ua.com.codefire.cms.model.Constants;
+import ua.com.codefire.cms.model.Fields;
 import ua.com.codefire.cms.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -36,15 +36,15 @@ public class PageServlet extends HttpServlet {
         }
 
 
-        String action = req.getParameter(Constants.ACTION);
-        String id = req.getParameter(Constants.ID);
+        String action = req.getParameter(Fields.ACTION);
+        String id = req.getParameter(Fields.ID);
 
-        if (action != null && Constants.ACTION_NEW.equals(action)) {
-            createPage(req, resp);
-        } else if (id != null) {
-            editPage(req, resp, Long.parseLong(id));
+        if (Utils.isValid(action) && Fields.ACTION_NEW.equals(action)) {
+            openCreatePage(req, resp);
+        } else if (Utils.isValid(id)) {
+            openEditPage(req, resp, Long.parseLong(id));
         } else {
-            showAllPages(req, resp);
+            openAllPagesList(req, resp);
         }
     }
 
@@ -53,58 +53,58 @@ public class PageServlet extends HttpServlet {
 
         service = new PageService(req);
 
-        String idStr = req.getParameter(Constants.ID);
-        String title = req.getParameter(Constants.TITLE);
-        String content = req.getParameter(Constants.CONTENT);
+        String id = req.getParameter(Fields.ID);
+        String title = req.getParameter(Fields.TITLE);
+        String content = req.getParameter(Fields.CONTENT);
 
-        if (req.getParameter(Constants.BTN_OK) != null) {
+        if (req.getParameter(Fields.BTN_OK) != null) {
 
             if (Utils.isValid(title) && Utils.isValid(content)) {
 
-                if (idStr != null) {
-                    service.update(getPage(Long.parseLong(idStr), title, content));
+                if (id != null) {
+                    service.update(getPage(Long.parseLong(id), title, content));
                 } else {
                     service.create(getPage(null, title, content));
                 }
 
                 resp.sendRedirect("/admin/pages");
             } else {
-                req.setAttribute(Constants.ERROR_MESSAGE, "Fields title and content must be filled");
+                req.setAttribute(Fields.ERROR_MESSAGE, "Fields title and content must be filled");
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/edit.jsp").forward(req, resp);
             }
-        } else if (req.getParameter(Constants.BTN_DELETE) != null) {
-            if (idStr != null) {
-                service.delete(Long.parseLong(idStr));
+        } else if (req.getParameter(Fields.BTN_DELETE) != null) {
+            if (id != null) {
+                service.delete(Long.parseLong(id));
                 resp.sendRedirect("/admin/pages");
             }
         }
 
     }
 
-    private void createPage(HttpServletRequest req, HttpServletResponse resp)
+    private void openCreatePage(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/edit.jsp").forward(req, resp);
     }
 
-    private void editPage(HttpServletRequest req, HttpServletResponse resp, Long id)
+    private void openEditPage(HttpServletRequest req, HttpServletResponse resp, Long id)
             throws ServletException, IOException {
 
         PageEntity page = service.read(id);
 
-        req.setAttribute(Constants.ID, page.getId());
-        req.setAttribute(Constants.TITLE, page.getTitle());
-        req.setAttribute(Constants.CONTENT, page.getContent());
+        req.setAttribute(Fields.ID, page.getId());
+        req.setAttribute(Fields.TITLE, page.getTitle());
+        req.setAttribute(Fields.CONTENT, page.getContent());
 
         req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/edit.jsp").forward(req, resp);
     }
 
-    private void showAllPages(HttpServletRequest req, HttpServletResponse resp)
+    private void openAllPagesList(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         List<PageEntity> pages = service.getAllEntities();
 
-        req.setAttribute(Constants.PAGE_COUNT, pages.size());
-        req.setAttribute(Constants.PAGES, pages);
+        req.setAttribute(Fields.PAGE_COUNT, pages.size());
+        req.setAttribute(Fields.PAGES, pages);
 
         req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/list.jsp").forward(req, resp);
     }

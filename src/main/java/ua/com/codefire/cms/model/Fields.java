@@ -4,7 +4,7 @@ package ua.com.codefire.cms.model;
  * Created by kris on 12.12.16
  */
 
-public interface Constants {
+public interface Fields {
 
     String ACTION = "action";
     String ACTION_NEW = "new";
