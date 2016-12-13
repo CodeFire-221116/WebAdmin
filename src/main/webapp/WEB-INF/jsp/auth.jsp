@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="/res/css/ankysStyles.css" />
 </head>
 <body>
-<div class="container">
+<form class="container" method="post">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <h1 class="text-center login-title">Sign in</h1>
             <div class="account-wall">
                 <img class="profile-img" src=""
                      alt="">
-                <form class="form-signin" method="post">
+                <div class="form-signin">
                     <input type="text" name="username" class="form-control" placeholder="Nickname" required autofocus>
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -29,12 +29,12 @@
                         <input type="checkbox" value="remember-me">
                         Remember me
                     </label>
-                </form>
+                </div>
             </div>
             <a href="/register" class="text-center new-account">Create an account </a>
         </div>
     </div>
-</div>
+</form>
     <%--<h1>Authenticate please...</h1>--%>
 
     <%--<form method="post">--%>

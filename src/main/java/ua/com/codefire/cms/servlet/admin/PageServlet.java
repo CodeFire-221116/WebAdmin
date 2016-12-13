@@ -31,7 +31,7 @@ public class PageServlet extends HttpServlet {
 
         service = new PageService(req);
 
-        if (service.getAmountOfPAges() <= 0) {
+        if (service.getAmountOfEntities() <= 0) {
             prepareDefaultData(service);
         }
 
