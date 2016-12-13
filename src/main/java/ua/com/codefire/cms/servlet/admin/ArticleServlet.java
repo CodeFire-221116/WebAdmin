@@ -1,7 +1,8 @@
 package ua.com.codefire.cms.servlet.admin;
 
-import ua.com.codefire.cms.db.entity.Article;
-import ua.com.codefire.cms.db.service.implementation.ArticleService;
+
+import ua.com.codefire.cms.db.entity.ArticleEntity;
+import ua.com.codefire.cms.db.service.implemetation.ArticleService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,19 +28,19 @@ public class ArticleServlet extends HttpServlet {
                 id = Long.parseLong(req.getParameter("id"));
             }
 
-            List<Article> articles = new ArticleService(req).getAllEntities();
+            List<ArticleEntity> articles = new ArticleService(req).getAllEntities();
 
             if (!articles.isEmpty()) {
                 req.setAttribute("articlesList", articles);
                 req.setAttribute("count", articles.size());
 
-                for (Article article : articles) {
+                for (ArticleEntity article : articles) {
                     if (id != null && id.equals(article.getId())) {
                         req.setAttribute("IDtoedit", id);
-                        req.setAttribute("Aythortoedit", article.getArticleauthor());
-                        req.setAttribute("Contenttoedit", article.getArticlecontent());
-                        req.setAttribute("Titletoedit", article.getArticletitle());
-                        req.setAttribute("Timestamptoedit", article.getArticletimestamp());
+                        req.setAttribute("Aythortoedit", article.getAuthors());
+                        req.setAttribute("Contenttoedit", article.getContent());
+                        req.setAttribute("Titletoedit", article.getTitle());
+                        req.setAttribute("Datetoedit", article.getDate());
 
                         req.getRequestDispatcher("/WEB-INF/jsp/admin/article/edit.jsp").forward(req, resp);
                         return;
@@ -60,11 +61,11 @@ public class ArticleServlet extends HttpServlet {
 
         if (action != null && "new".equals(action)) {
             ArticleService newArticle = new ArticleService(req);
-            newArticle.update(new Article(
-                    req.getParameter("articleTitle"),
-                    req.getParameter("articleAuthor"),
-                    req.getParameter("articleContent"),
-                    new Date ()));
+            newArticle.update(new ArticleEntity(
+                    req.getParameter("Title"),
+                    req.getParameter("Author"),
+                    new Date (),
+                    req.getParameter("Content")));
 
 
 
@@ -81,12 +82,12 @@ public class ArticleServlet extends HttpServlet {
 
                 if (id != null) {
                     ArticleService newArticle = new ArticleService(req);
-                    newArticle.update(new Article(
+                    newArticle.update(new ArticleEntity(
                             id,
-                            req.getParameter("articleTitle"),
-                            req.getParameter("articleAuthor"),
-                            req.getParameter("articleContent"),
-                            new Date()));
+                            req.getParameter("Title"),
+                            req.getParameter("Author"),
+                            new Date(),
+                            req.getParameter("Content")));
                 }
             }
         }
