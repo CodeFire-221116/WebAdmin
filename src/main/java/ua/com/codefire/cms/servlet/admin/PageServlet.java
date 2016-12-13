@@ -61,7 +61,7 @@ public class PageServlet extends HttpServlet {
 
             if (Utils.isValid(title) && Utils.isValid(content)) {
 
-                if (id != null) {
+                if (id != null && !id.isEmpty()) {
                     service.update(getPage(Long.parseLong(id), title, content));
                 } else {
                     service.create(getPage(null, title, content));
