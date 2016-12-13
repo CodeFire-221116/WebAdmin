@@ -9,6 +9,7 @@
 <div class="container">
     <header class="page-header">
         <h1>Edit Page</h1>
+        <h3>Page ID: ${id}</h3>
     </header>
 
     <div class="row">
@@ -17,9 +18,10 @@
 
     <div class="row">
         <form class="container" method="post">
+            <input type="hidden" name="id" value="${id}"/>
+
             <div>
                 <div class="col-md-9">
-                    <input class="form-control" disabled type="text" name="id" value="${id}"/>
                     <input class="form-control" type="text" name="title" value="${title}"
                            placeholder="Title"/>
                     <input class="form-control" type="text" name="content" value="${content}"
@@ -29,14 +31,12 @@
             </div>
         </form>
 
-        <c:choose>
-            <c:when test="${not empty id}">
-                <form method="post">
-                    <input class="form-control" type="hidden" name="id" value="${id}"/>
-                    <input type="submit" class="btn btn-primary" value="Delete" name="btn_delete">
-                </form>
-            </c:when>
-        </c:choose>
+        <c:if test="${not empty id}">
+            <form method="post">
+                <input class="form-control" type="hidden" name="id" value="${id}"/>
+                <input type="submit" class="btn btn-primary" value="Delete" name="btn_delete">
+            </form>
+        </c:if>
 
         ${error_message}
 
