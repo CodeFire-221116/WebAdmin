@@ -1,5 +1,10 @@
 package ua.com.codefire.cms.servlet;
 
+import ua.com.codefire.cms.db.entity.*;
+import ua.com.codefire.cms.db.service.abstraction.IArticleService;
+import ua.com.codefire.cms.db.service.abstraction.IBookService;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
+import ua.com.codefire.cms.db.service.implemetation.*;
 import ua.com.codefire.cms.model.AttributeNames;
 
 import javax.servlet.ServletException;
@@ -9,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by human on 12/1/16.
@@ -26,15 +34,17 @@ public class AuthServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-            HttpSession session = req.getSession();
+        IUserService service = new UserService(req);
+
+        HttpSession session = req.getSession();
         // TODO: Validate user by database data.
-        if (username != null && username.equals("pupkin") && password != null && password.equals("12345")) {
+        if (service.ifUserRegistered(username, password)) {
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
         } else {
             session.setAttribute("flash_message", "Username or password is incorrect.");
         }
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin/");
     }
 }

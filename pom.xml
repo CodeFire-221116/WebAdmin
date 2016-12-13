@@ -22,27 +22,47 @@
     </build>
     <dependencies>
         <!-- WEB -->
-        <dependency><!--javax.servlet:javax.servlet-api:3.1.0-->
+        <!-- javax.servlet : javax.servlet-api : 3.1.0 -->
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency><!--jstl:jstl:1.2-->
+        <!-- jstl : jstl : 1.2 -->
+        <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
         <!-- MySQL -->
+        <!-- mysql : mysql-connector-java : 5.1.40 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.40</version>
         </dependency>
+        <!-- org.hibernate : hibernate-entitymanager : 5.2.3.Final -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.3.Final</version>
         </dependency>
+
+        <!-- Crypto -->
+        <!-- commons-codec : commons-codec : 1.10 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <!-- org.mindrot : jbcrypt : 0.3m -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
+
     </dependencies>
 
 

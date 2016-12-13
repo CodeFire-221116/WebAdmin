@@ -9,8 +9,12 @@
 <html>
 <head>
     <title>Hello</title>
+
+    <link rel="stylesheet" href="./res/css/main.css" />
 </head>
 <body>
     <h1>Hello MAVEN</h1>
+
+    <%@include file="/WEB-INF/jsp/admin/menu.jsp"%>
 </body>
 </html>
