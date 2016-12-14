@@ -1,7 +1,5 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.mindrot.jbcrypt.BCrypt;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
@@ -33,7 +31,6 @@ public class UserService implements IUserService {
 
     @Override
     public Long create(UserEntity objToCreate) {
-        objToCreate.setPassword(DigestUtils.md5Hex(objToCreate.getPassword()));
         return userRepo.create(objToCreate);
     }
 
@@ -44,7 +41,6 @@ public class UserService implements IUserService {
 
     @Override
     public Boolean update(UserEntity objToUpdate) {
-        objToUpdate.setPassword(BCrypt.hashpw(objToUpdate.getPassword(), BCrypt.gensalt()));
         return userRepo.update(objToUpdate);
     }
 
@@ -64,13 +60,21 @@ public class UserService implements IUserService {
     // INSERT INTO `test`.`users` VALUES ('pupkin', MD5('12345'));
     @Override
     public Boolean ifUserRegistered(String name, String password) {
+        if (name == null) {
+            return null;
+        }
+
         UserEntity userByName = userRepo.getUserByName(name);
 
         if (userByName == null) {
             return null;
         }
 
-        return DigestUtils.md5Hex(password).equals(userByName.getPassword());
+        if (password == null) {
+            return false;
+        }
+
+        return userByName.checkPassword(password);
     }
 
     @Override

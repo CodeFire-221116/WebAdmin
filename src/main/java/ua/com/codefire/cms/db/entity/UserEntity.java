@@ -1,5 +1,7 @@
 package ua.com.codefire.cms.db.entity;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -23,9 +25,9 @@ public class UserEntity implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(String username, String password) {
+    public UserEntity(String username, String notEncryptedPassword) {
         this.username = username;
-        this.password = password;
+        this.password = DigestUtils.md5Hex(notEncryptedPassword);
     }
 
     public Long getId() {
@@ -50,6 +52,14 @@ public class UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean checkPassword(String notEncryptedPassword) {
+        return DigestUtils.md5Hex(notEncryptedPassword).equals(password);
+    }
+
+    public void updatePassword(String notEncryptedPassword) {
+        this.password = DigestUtils.md5Hex(notEncryptedPassword);
     }
 
     @Override

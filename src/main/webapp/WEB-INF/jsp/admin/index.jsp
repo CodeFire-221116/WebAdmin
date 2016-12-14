@@ -10,11 +10,20 @@
 <head>
     <title>Hello</title>
 
-    <link rel="stylesheet" href="./res/css/main.css" />
+    <link rel="stylesheet" href="./res/css/main.css"/>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
+
 </head>
 <body>
-    <h1>Hello MAVEN</h1>
 
-    <%@include file="/WEB-INF/jsp/admin/menu.jsp"%>
+<div class="container">
+    <header class="page-header">
+        <h1>Hello ${$USERNAME}</h1>
+    </header>
+    <div class="row">
+        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+    </div>
+</div>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

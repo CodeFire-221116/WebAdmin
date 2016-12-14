@@ -10,7 +10,7 @@
 <head>
     <title>Authorization</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
-    <link rel="stylesheet" href="./res/css/ankysStyles.css" />
+    <link rel="stylesheet" href="/res/css/ankysStyles.css" />
 </head>
 <body>
 <form class="container" method="post">
@@ -20,7 +20,7 @@
             <div class="account-wall">
                 <img class="profile-img" src=""
                      alt="">
-                <form class="form-signin" method="post">
+                <div class="form-signin">
                     <input type="text" name="username" class="form-control" placeholder="Nickname" required autofocus>
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -29,7 +29,7 @@
                         <input type="checkbox" value="remember-me">
                         Remember me
                     </label>
-                </form>
+                </div>
             </div>
             <a href="/register" class="text-center new-account">Create an account </a>
         </div>

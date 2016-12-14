@@ -9,8 +9,21 @@
 <html>
 <head>
     <title>Hello</title>
+
+    <link rel="stylesheet" href="./res/css/ankysStyles.css" />
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
-    <h1>Hello MAVEN</h1>
+<h1 class="text-center">Welcome!</h1>
+<%@include file="/WEB-INF/jsp/menu.jsp" %>
+
+<form class="container" method="post">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <a href="/admin/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
+        </div>
+    </div>
+</form>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

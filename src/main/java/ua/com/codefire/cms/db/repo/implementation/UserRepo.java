@@ -124,6 +124,7 @@ public class UserRepo implements IUserRepo {
     public UserEntity getUserByName(String name) {
         try {
             Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user WHERE user.username = :userName", UserEntity.class);
+            query.setMaxResults(1);
             query.setParameter("userName", name);
             return (UserEntity) query.getSingleResult();
         } catch (ClassCastException ex) {
