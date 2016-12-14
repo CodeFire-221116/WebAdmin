@@ -46,7 +46,8 @@ public class PageServlet extends HttpServlet {
 
                 if (Utils.isValid(id)) {
                     service.delete(Long.parseLong(id));
-                    openAllPagesList(req, resp);
+
+                    resp.sendRedirect("/admin/pages");
                 }
             }
         } else if (Utils.isValid(id)) {
@@ -74,18 +75,18 @@ public class PageServlet extends HttpServlet {
                 } else {
                     service.create(getPage(null, title, content));
                 }
-
-                resp.sendRedirect("/admin/pages");
             } else {
                 req.setAttribute(Fields.ERROR_MESSAGE, "Fields title and content must be filled");
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/edit.jsp").forward(req, resp);
+                return;
             }
         } else if (req.getParameter(Fields.BTN_DELETE) != null) {
             if (Utils.isValid(id)) {
                 service.delete(Long.parseLong(id));
-                resp.sendRedirect("/admin/pages");
             }
         }
+
+        resp.sendRedirect("/admin/pages");
 
     }
 
