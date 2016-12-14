@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by Valery on 08.12.2016.
  */
+
 @WebServlet("/admin/users")
 public class UserServlet extends HttpServlet {
     @Override

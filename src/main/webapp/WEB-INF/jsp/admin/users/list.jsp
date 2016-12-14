@@ -19,32 +19,40 @@
     </header>
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-        <h4>Users count <span class="badge">${usersCount}</span></h4>
-        <div style="display: inline-block" class="text-right">
-            <a class="btn btn-success" href="/admin/users?action=new">+</a>
+        <div class="col-md-9">
+            <h3>Users count <sup class="badge">${usersCount}</sup>
+                <a class="btn btn-success pull-right" href="/admin/users?action=new">
+                    <i class="fa fa-fw fa-plus"></i>
+                </a>
+            </h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>username</th>
+                    <th style="width: 1%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${usersList}" var="ListItem">
+                    <tr>
+                        <td>${ListItem.getId()}</td>
+                        <td>${ListItem.getUsername()}</td>
+                        <td nowrap>
+                            <a href="/admin/users?action=changepassword&id=${ListItem.getId()}"
+                               class="btn btn-info btn-xs"
+                               type="reset">Change password</a>
+                            <a href="/admin/users?action=delete&id=${ListItem.getId()}"
+                               class="btn btn-danger btn-sm"
+                               type="reset"><i class="fa fa-fw fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>username</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${usersList}" var="ListItem">
-            <tr>
-                <td>${ListItem.getId()}</td>
-                <td>${ListItem.getUsername()}</td>
-                <td>
-                    <a href="/admin/users?action=changepassword&id=${ListItem.getId()}" class="btn btn-info btn-xs" type="reset">Change password</a>
-                    <a href="/admin/users?action=delete&id=${ListItem.getId()}" class="btn btn-danger btn-xs" type="reset">Delete user</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
 </div>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
