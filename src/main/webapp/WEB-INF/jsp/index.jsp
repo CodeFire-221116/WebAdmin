@@ -28,6 +28,9 @@
     </div>
 
     <button type="button" class="btn btn-lg btn-primary" onclick="send();">SEND HELLO WORLD</button>
+    <button type="button" class="btn btn-lg btn-danger" onclick="getTimeNow();">GET TIME NOW</button>
+
+    <div id="time_display" class="label label-primary">00:00:00</div>
 </div>
 
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
