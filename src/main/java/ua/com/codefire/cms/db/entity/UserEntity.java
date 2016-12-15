@@ -21,6 +21,10 @@ public class UserEntity implements Serializable {
     // MD5 HASH
     @Column(name = "user_pass", length = 32)
     private String password;
+    @Column(name = "user_email")
+    private String email;
+    @Column(name = "user_email_valid")
+    private Long emailKey;
 
     public UserEntity() {
     }
@@ -52,6 +56,22 @@ public class UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getEmailKey() {
+        return emailKey;
+    }
+
+    public void setEmailKey(Long emailKey) {
+        this.emailKey = emailKey;
     }
 
     public boolean checkPassword(String notEncryptedPassword) {
