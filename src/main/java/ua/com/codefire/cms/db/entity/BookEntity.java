@@ -12,23 +12,23 @@ public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    private Long Id;
+    private Long id;
 
     @Basic
     @Column(name = "book_name")
-    private String Name;
+    private String name;
 
     @Basic
     @Column(name = "book_authors")
-    private String Authors;
+    private String authors;
 
     @Basic
     @Column(name = "book_date")
-    private Timestamp Date;
+    private Timestamp date;
 
     @Basic
     @Column(name = "book_pages_amount")
-    private Integer PagesAmount;
+    private Integer pagesAmount;
 
     @Basic
     @Column(name = "book_text")
@@ -38,51 +38,51 @@ public class BookEntity {
     }
 
     public BookEntity(String name, String authors, Timestamp date, Integer pagesAmount, String bookText) {
-        Name = name;
-        Authors = authors;
-        Date = date;
-        PagesAmount = pagesAmount;
+        this.name = name;
+        this.authors = authors;
+        this.date = date;
+        this.pagesAmount = pagesAmount;
         this.bookText = bookText;
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long bookId) {
-        this.Id = bookId;
+        this.id = bookId;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String bookName) {
-        this.Name = bookName;
+        this.name = bookName;
     }
 
     public String getAuthors() {
-        return Authors;
+        return authors;
     }
 
     public void setAuthors(String bookAuthors) {
-        this.Authors = bookAuthors;
+        this.authors = bookAuthors;
     }
 
     public Timestamp getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(Timestamp bookDate) {
-        this.Date = bookDate;
+        this.date = bookDate;
     }
 
     public Integer getPagesAmount() {
-        return PagesAmount;
+        return pagesAmount;
     }
 
     public void setPagesAmount(Integer bookPagesAmount) {
-        this.PagesAmount = bookPagesAmount;
+        this.pagesAmount = bookPagesAmount;
     }
 
     public String getBookText() {
@@ -100,11 +100,11 @@ public class BookEntity {
 
         BookEntity books = (BookEntity) o;
 
-        if (Id != books.Id) return false;
-        if (Name != null ? !Name.equals(books.Name) : books.Name != null) return false;
-        if (Authors != null ? !Authors.equals(books.Authors) : books.Authors != null) return false;
-        if (Date != null ? !Date.equals(books.Date) : books.Date != null) return false;
-        if (PagesAmount != null ? !PagesAmount.equals(books.PagesAmount) : books.PagesAmount != null)
+        if (id != books.id) return false;
+        if (name != null ? !name.equals(books.name) : books.name != null) return false;
+        if (authors != null ? !authors.equals(books.authors) : books.authors != null) return false;
+        if (date != null ? !date.equals(books.date) : books.date != null) return false;
+        if (pagesAmount != null ? !pagesAmount.equals(books.pagesAmount) : books.pagesAmount != null)
             return false;
         if (bookText != null ? !bookText.equals(books.bookText) : books.bookText != null) return false;
 
@@ -113,11 +113,11 @@ public class BookEntity {
 
     @Override
     public int hashCode() {
-        Long result = Id;
-        result = 31 * result + (Name != null ? Name.hashCode() : 0);
-        result = 31 * result + (Authors != null ? Authors.hashCode() : 0);
-        result = 31 * result + (Date != null ? Date.hashCode() : 0);
-        result = 31 * result + (PagesAmount != null ? PagesAmount.hashCode() : 0);
+        Long result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (authors != null ? authors.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (pagesAmount != null ? pagesAmount.hashCode() : 0);
         result = 31 * result + (bookText != null ? bookText.hashCode() : 0);
         return result.hashCode();
     }
