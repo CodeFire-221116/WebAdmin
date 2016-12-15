@@ -14,16 +14,25 @@
 </head>
 <body>
 <div class="container">
+
     <header class="page-header">
         <h1>Products</h1>
     </header>
+
     <div class="row">
+
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+
         <div class="col-md-9">
-            <h4>Products count</h4><span class="badge">${count}</span>
-            <div style="display: inline-block" class="text-right">
-                <a class="btn btn-success" href="/admin/products?action=new">+</a>
-            </div>
+
+            <h3>Products count
+                <sup class="badge">${count}</sup>
+
+                <a class="btn btn-success pull-right" href="/admin/products?action=new">
+                    <i class="fa fa-fw fa-plus"></i>
+                </a>
+            </h3>
+
             <table class="table">
                 <thead>
                 <tr>
