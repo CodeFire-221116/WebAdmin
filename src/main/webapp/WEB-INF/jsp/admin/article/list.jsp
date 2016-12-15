@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: mkoval
@@ -40,25 +42,28 @@
                     <th>Title</th>
                     <th>Content</th>
                     <th>Author</th>
-                    <th>Timestamp</th>
+                    <th>When</th>
                     <th style="width: 1%"></th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <c:forEach items="${articleList}" var="ListItem">
+                <c:forEach items="${articlesList}" var="item">
                     <tr>
-                        <td>${ListItem.getId()}</td>
-                        <td>${ListItem.getTitle()}</td>
-                        <td>${ListItem.getContent()}</td>
-                        <td>${ListItem.getAuthor()}</td>
-                        <td>${ListItem.getTimestamp()}</td>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>${item.content}</td>
+                        <td>${item.authors}</td>
+                        <td>
+                            <fmt:formatDate value="${item.date}" pattern="dd.MM.yyyy" />
+                            <span class="text-muted"><fmt:formatDate value="${item.date}" pattern="HH:mm" /></span>
+                        </td>
                         <td nowrap>
-                            <a href="/article?id=${ListItem.getId()}" class="btn btn-warning" type="reset">
+                            <a href="/article?id=${item.id}" class="btn btn-warning" type="reset">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/article?id=${ListItem.getId()}"
-                               onclick="return confirm('Do you really want to delete page ${ListItem.getId()}?')"
+                            <a href="/article?id=${item.id}"
+                               onclick="return confirm('Do you really want to delete page ${item.id}?')"
                                class="btn btn-danger" type="reset">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
