@@ -34,8 +34,7 @@
                 </a>
             </h3>
 
-            <table class="table">
-
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -46,7 +45,6 @@
                     <th style="width: 1%"></th>
                 </tr>
                 </thead>
-
                 <tbody>
                 <c:forEach items="${articlesList}" var="item">
                     <tr>
@@ -59,12 +57,13 @@
                             <span class="text-muted"><fmt:formatDate value="${item.date}" pattern="HH:mm" /></span>
                         </td>
                         <td nowrap>
-                            <a href="/article?id=${item.id}" class="btn btn-warning" type="reset">
+                            <a href="/article?id=${item.id}"
+                               class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
                             <a href="/article?id=${item.id}"
                                onclick="return confirm('Do you really want to delete page ${item.id}?')"
-                               class="btn btn-danger" type="reset">
+                               class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
                         </td>

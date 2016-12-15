@@ -33,7 +33,7 @@
                 </a>
             </h3>
 
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -45,21 +45,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${productsList}" var="ListItem">
+                <c:forEach items="${productsList}" var="item">
                     <tr>
-                        <td>${ListItem.id}</td>
-                        <td>${ListItem.type}</td>
-                        <td>${ListItem.brand}</td>
-                        <td>${ListItem.model}</td>
-                        <td>${ListItem.price}</td>
+                        <td>${item.id}</td>
+                        <td>${item.type}</td>
+                        <td>${item.brand}</td>
+                        <td>${item.model}</td>
+                        <td>${item.price}</td>
                         <td nowrap>
-                            <a href="/admin/products?id=${ListItem.getId()}"
-                               class="btn btn-warning" type="reset">
+                            <a href="/admin/products?id=${item.getId()}"
+                               class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/admin/products?id=${ListItem.getId()}&action=delete"
-                               onclick="return confirm('Are you sure want delete ${ListItem.id} item?');"
-                               class="btn btn-danger" type="reset">
+                            <a href="/admin/products?id=${item.getId()}&action=delete"
+                               onclick="return confirm('Are you sure want delete ${item.id} item?');"
+                               class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
                         </td>

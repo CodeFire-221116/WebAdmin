@@ -25,8 +25,7 @@
                 </a>
             </h3>
 
-            <table class="table">
-
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>id</th>
@@ -35,21 +34,20 @@
                     <th style="width: 1%;"></th>
                 </tr>
                 </thead>
-
                 <tbody>
-
                 <c:forEach var="page" items="${pages}">
                     <tr>
                         <td>${page.id}</td>
                         <td>${page.title}</td>
                         <td>${page.content}</td>
                         <td nowrap>
-                            <a href="/admin/pages?id=${page.getId()}" class="btn btn-warning" type="reset">
+                            <a href="/admin/pages?id=${page.getId()}"
+                               class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
                             <a href="/admin/pages?id=${page.getId()}&action=delete"
                                onclick="return confirm('Do you really want to delete page ${page.id}?')"
-                               class="btn btn-danger" type="reset">
+                               class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
                         </td>
