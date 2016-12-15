@@ -28,17 +28,37 @@
             <div class="container">
                 <form method="post">
 
-                    <div class="row">
-                        <div class="col-md-9">
+                    <div class="form-group row">
+                        <label class="col-md-1" for="articleTitle">Title</label>
+                        <div class=" col-md-8">
                             <input class="form-control" type="text" name="articleTitle" value="${Titletoedit}"
-                                   placeholder="Enter title here"/>
-                            <input class="form-control" type="text" name="articleAuthor" value="${Authortoedit}"
-                                   placeholder="Enter content here"/>
-                            <input class="form-control" type="text" name="articleContent" value="${Contenttoedit}"
-                                   placeholder="Enter content here"/>
-                            <input type="submit" class="btn btn-primary" value="OK">
+                                   placeholder="Enter title here" id="articleTitle"/>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-1" for="articleAuthor">Author</label>
+                        <div class=" col-md-8">
+                            <input class="form-control" type="text" name="articleAuthor" value="${Authortoedit}"
+                                   placeholder="Enter content here" id="articleAuthor"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-1" for="articleContent">Content</label>
+                        <div class=" col-md-8">
+                            <input class="form-control" type="text" name="articleContent" value="${Contenttoedit}"
+                                   placeholder="Enter content here" id="articleContent"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-success" value="OK">
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
