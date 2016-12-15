@@ -40,10 +40,12 @@
                         <td>${ListItem.getUsername()}</td>
                         <td nowrap>
                             <a href="/admin/users?action=changepassword&id=${ListItem.getId()}"
-                               class="btn btn-info btn-xs"
-                               type="reset">Change password</a>
+                               class="btn btn-warning"
+                               type="reset">
+                                <i class="fa fa-fw fa-wrench"></i>
+                            </a>
                             <a href="/admin/users?action=delete&id=${ListItem.getId()}"
-                               class="btn btn-danger btn-sm"
+                               class="btn btn-danger"
                                type="reset"><i class="fa fa-fw fa-trash"></i>
                             </a>
                         </td>

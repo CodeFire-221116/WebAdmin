@@ -12,45 +12,60 @@
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
-<form class="container" method="post">
+
+
+<div class="container">
+
     <header class="page-header">
         <h1>Add user</h1>
     </header>
 
-    <div div style="color: red; font-weight: bold;">
-        <p>${errorMessage}</p>
-    </div>
-
     <div class="row">
+
+        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+
+
         <div class="col-md-9">
 
-            <div class="form-group">
-                <label for="username">Enter user name</label>
-                <div class="form-inline ${classAdditionForUsername}">
-                    <input class="form-control" type="text" name="username" value="${usernameValue}" id="username"
-                           placeholder="username"/>
+            <form class="container" method="post">
+
+                <div class="form-group row">
+                    <label class="col-md-2" for="username">Username</label>
+                    <div class="col-md-7 form-group ${classAdditionForUsername}">
+                        <input class="form-control" type="text" name="username" value="${usernameValue}" id="username"
+                               placeholder="username"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Enter password and then confirm it</label>
-                <div class="form-inline">
-                    <div class="form-group ${classAdditionForNewPassword}">
+
+                <div class="form-group row">
+                    <label class="col-md-2" for="password">Password</label>
+                    <div class="col-md-7 form-group ${classAdditionForNewPassword}">
                         <input class="form-control" type="password" name="password" id="password"
                                placeholder="password"/>
                     </div>
-                    <div class="form-group ${classAdditionForNewPassword}">
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-md-2" for="confirmpassword">Confirm password</label>
+                    <div class="col-md-7 form-group ${classAdditionForNewPassword}">
                         <input class="form-control" type="password" name="confirmpassword" id="confirmpassword"
                                placeholder="password again"/>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-success" name="submition" value="SUBMIT">
-                <input type="submit" class="btn btn-primary" name="submition" value="GO BACK">
-            </div>
+
+
+                <div class="col-md-9">
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-primary" name="submition" value="GO BACK">
+                        <input type="submit" class="btn btn-success" name="submition" value="SUBMIT">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
+</div>
+<p class="text-error"><strong>${errorMessage}</strong></p>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

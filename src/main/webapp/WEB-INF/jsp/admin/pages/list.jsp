@@ -29,10 +29,10 @@
 
                 <thead>
                 <tr>
-                    <td>id</td>
-                    <td>title</td>
-                    <td>content</td>
-                    <td style="width: 1%;"></td>
+                    <th>id</th>
+                    <th>title</th>
+                    <th>content</th>
+                    <th style="width: 1%;"></th>
                 </tr>
                 </thead>
 
@@ -42,7 +42,7 @@
                     <tr>
                         <td>${page.id}</td>
                         <td>${page.title}</td>
-                        <td >${page.content}</td>
+                        <td>${page.content}</td>
                         <td nowrap>
                             <a href="/admin/pages?id=${page.getId()}" class="btn btn-warning" type="reset">
                                 <i class="fa fa-fw fa-wrench"></i>
