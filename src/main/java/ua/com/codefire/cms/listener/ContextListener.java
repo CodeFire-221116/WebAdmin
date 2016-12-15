@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.filter;
+package ua.com.codefire.cms.listener;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
