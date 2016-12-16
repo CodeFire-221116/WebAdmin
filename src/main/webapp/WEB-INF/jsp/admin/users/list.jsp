@@ -39,13 +39,17 @@
                         <td>${item.getId()}</td>
                         <td>${item.getUsername()}</td>
                         <td nowrap>
-                            <a href="/admin/users?action=changepassword&id=${item.getId()}"
+                            <a href="/admin/users?action=change_password&id=${item.getId()}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
                             <a href="/admin/users?action=delete&id=${item.getId()}"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
+                            </a>
+                            <a href="/admin/users?action=validate_email&id=${item.getId()}"
+                               class="btn btn-sm btn-warning">
+                                <i class="fa fa-fw fa-envelope"></i>
                             </a>
                         </td>
                     </tr>

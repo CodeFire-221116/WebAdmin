@@ -3,13 +3,18 @@ package ua.com.codefire.cms.db.repo.implementation;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
+import ua.com.codefire.cms.model.ExternalServicesAccounts;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -141,9 +146,58 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
+    public Boolean sendValidationEmail(Long id) {
+        UserEntity userEntity = read(id);
+        if (userEntity.getEmail().isEmpty()) {
+            return false;
+        }
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(ExternalServicesAccounts.GOOGLE_ACCOUNT_NAME,
+                                ExternalServicesAccounts.GOOGLE_ACCOUNT_PASSWORD);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(ExternalServicesAccounts.GOOGLE_ACCOUNT_NAME));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(userEntity.getEmail()));
+            message.setSubject("User email address validation");
+            message.setText("Dear Mail Crawler,"
+                    + "\n\n No spam to my email, please!");
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException ex) {
+            //throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while sending validation email.", ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean validateEmail(Long id, Long key) {
+        return null;
+    }
+
+    @Override
     public Long getAmountOfEntities() {
         try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(user.id) FROM UserEntity users", Long.class);
+            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(users.id) FROM UserEntity users", Long.class);
             return (Long) query.getSingleResult();
         } catch (ClassCastException ex) {
             entityManagerHelper.rollback();

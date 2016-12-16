@@ -18,9 +18,9 @@ public class UserService implements IUserService {
 
     public UserService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
-        if(factory != null) {
+        if (factory != null) {
             try {
-                userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory)factory));
+                userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory) factory));
             } catch (ClassCastException ex) {
                 System.out.println("Wrong parameter put into context. StackTrace:\n" + ex);
             } catch (Exception ex) {
@@ -50,7 +50,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserEntity> getAllEntities() { return userRepo.getAllEntities(); }
+    public List<UserEntity> getAllEntities() {
+        return userRepo.getAllEntities();
+    }
 
     @Override
     public UserEntity getUserByName(String name) {
@@ -75,6 +77,16 @@ public class UserService implements IUserService {
         }
 
         return userByName.checkPassword(password);
+    }
+
+    @Override
+    public Boolean sendValidationEmail(Long id) {
+        return userRepo.sendValidationEmail(id);
+    }
+
+    @Override
+    public Boolean validateEmail(Long id, Long key) {
+        return userRepo.validateEmail(id, key);
     }
 
     @Override
