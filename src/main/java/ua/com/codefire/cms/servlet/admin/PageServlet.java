@@ -16,6 +16,9 @@ import java.util.List;
 
 /**
  * Created by kris on 08.12.16
+ * <p>
+ * PageServlet provides displaying of pages' info.
+ * Also it affords functionality to create, edit and delete pages.
  */
 
 @WebServlet("/admin/pages")
