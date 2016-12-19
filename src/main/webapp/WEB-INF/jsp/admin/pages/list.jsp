@@ -3,33 +3,63 @@
 <html>
 <head>
     <title>Pages</title>
-    <c:import var="css" url="/WEB-INF/jsp/common/stylesheet.jsp"/>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <div class="container">
     <header class="page-header">
 
-        <h1>Hello MAVEN</h1>
+        <h1>Pages</h1>
     </header>
 
     <div class="row">
-        <c:import var="menu" url="/WEB-INF/jsp/admin/menu.jsp"/>
+
+        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
 
         <div class="col-md-9">
-            Pages count <span class="badge">${page_count}</span>
-        </div>
+            <h3>Pages count
+                <sup class="badge">${page_count}</sup>
 
-        <div style="display: inline-block;" class="text-right">
-            <a class="btn btn-success" href="/admin/pages?action=new">+</a>
-        </div>
+                <a class="btn btn-success pull-right" href="/admin/pages?action=new">
+                    <i class="fa fa-fw fa-plus"></i>
+                </a>
+            </h3>
 
-        <br/>
-        <c:forEach var="page" items="${pages}">
-            <a href="/admin/pages?id=${page.getId()}" class="btn btn-success" type="menu">${page.getTitle()}</a>
-            <br/>
-        </c:forEach>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>title</th>
+                    <th>content</th>
+                    <th style="width: 1%;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="page" items="${pages}">
+                    <tr>
+                        <td>${page.id}</td>
+                        <td>${page.title}</td>
+                        <td>${page.content}</td>
+                        <td nowrap>
+                            <a href="/admin/pages?id=${page.getId()}"
+                               class="btn btn-sm btn-warning">
+                                <i class="fa fa-fw fa-wrench"></i>
+                            </a>
+                            <a href="/admin/pages?id=${page.getId()}&action=delete"
+                               onclick="return confirm('Do you really want to delete page ${page.id}?')"
+                               class="btn btn-sm btn-danger">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+                </tbody>
+            </table>
+
+        </div>
     </div>
 </div>
-<c:import var="list.jsp" url="/WEB-INF/jsp/common/javascript.jsp"/>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

@@ -8,57 +8,58 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Add user</title>
+    <title>Change user password</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 
-
 <div class="container">
-
     <header class="page-header">
-        <h1>Add user</h1>
+        <h1>Change user password</h1>
     </header>
 
     <div class="row">
 
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-
-
         <div class="col-md-9">
 
             <form class="container" method="post">
 
                 <div class="form-group row">
-                    <label class="col-md-2" for="username">Username</label>
-                    <div class="col-md-7 form-group ${classAdditionForUsername}">
-                        <input class="form-control" type="text" name="username" value="${usernameValue}" id="username"
-                               placeholder="username"/>
+
+                    <label class="col-md-2" for="current_password">
+                        <mark>
+                            <strong>${userName} </strong>
+                        </mark>
+                        password
+                    </label>
+
+                    <div class="col-md-7 form-group ${classAdditionForCurrentPassword}">
+                        <input class="form-control" type="password" name="current_password" id="current_password"
+                               placeholder="current password"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-md-2" for="password">Password</label>
+                    <label class="col-md-2" for="password">New password</label>
                     <div class="col-md-7 form-group ${classAdditionForNewPassword}">
                         <input class="form-control" type="password" name="password" id="password"
-                               placeholder="password"/>
+                               placeholder="new password"/>
                     </div>
                 </div>
-
 
                 <div class="form-group row">
                     <label class="col-md-2" for="confirm_password">Confirm password</label>
                     <div class="col-md-7 form-group ${classAdditionForNewPassword}">
                         <input class="form-control" type="password" name="confirm_password" id="confirm_password"
-                               placeholder="password again"/>
+                               placeholder="new password again"/>
                     </div>
                 </div>
-
 
                 <div class="col-md-9">
                     <div class="pull-right">
                         <input type="submit" class="btn btn-primary" name="submission" value="GO BACK">
-                        <input type="submit" class="btn btn-success" name="submission" value="SUBMIT">
+                        <input type="submit" class="btn btn-warning" name="submission" value="SUBMIT">
                     </div>
                 </div>
             </form>

@@ -7,4 +7,6 @@ import ua.com.codefire.cms.db.entity.UserEntity;
  */
 public interface IUserRepo extends ICommonRepo<UserEntity> {
     UserEntity getUserByName(String name);
+    Boolean sendValidationEmail(Long id);
+    Boolean validateEmail(Long id, Long key);
 }

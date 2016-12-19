@@ -5,16 +5,20 @@ import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.service.implemetation.ArticleService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
+
 
 /**
  * Created by mkoval on 10.12.2016.
  */
+@WebServlet("/admin/articles")
 public class ArticleServlet extends HttpServlet {
 
     @Override
@@ -64,7 +68,7 @@ public class ArticleServlet extends HttpServlet {
             newArticle.update(new ArticleEntity(
                     req.getParameter("Title"),
                     req.getParameter("Author"),
-                    new Date (),
+                    new Timestamp(new Date().getTime()),
                     req.getParameter("Content")));
 
 
@@ -82,12 +86,12 @@ public class ArticleServlet extends HttpServlet {
 
                 if (id != null) {
                     ArticleService newArticle = new ArticleService(req);
-                    newArticle.update(new ArticleEntity(
-                            id,
-                            req.getParameter("Title"),
-                            req.getParameter("Author"),
-                            new Date(),
-                            req.getParameter("Content")));
+                    ArticleEntity objToUpdate = newArticle.read(id);
+                    objToUpdate.setTitle(req.getParameter("Title"));
+                    objToUpdate.setAuthors(req.getParameter("Author"));
+                    objToUpdate.setDate(new Timestamp(new Date().getTime()));
+                    objToUpdate.setContent(req.getParameter("Content"));
+                    newArticle.update(objToUpdate);
                 }
             }
         }

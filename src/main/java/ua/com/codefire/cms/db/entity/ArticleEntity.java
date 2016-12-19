@@ -12,64 +12,64 @@ public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
-    private Long Id;
+    private Long id;
     @Column(name = "article_title")
-    private String Title;
+    private String title;
     @Column(name = "article_content")
-    private String Content;
+    private String content;
     @Column(name = "article_date")
-    private Timestamp Date;
+    private Timestamp date;
     @Column(name = "article_authors")
-    private String Authors;
+    private String authors;
 
     public ArticleEntity() {
     }
 
     public ArticleEntity(String title, String content, Timestamp date, String authors) {
-        Title = title;
-        Content = content;
-        Date = date;
-        Authors = authors;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        this.authors = authors;
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long Id) {
-        this.Id = Id;
+        this.id = Id;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String Title) {
-        this.Title = Title;
+        this.title = Title;
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String Content) {
-        this.Content = Content;
+        this.content = Content;
     }
 
     public Timestamp getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(Timestamp Date) {
-        this.Date = Date;
+        this.date = Date;
     }
 
     public String getAuthors() {
-        return Authors;
+        return authors;
     }
 
     public void setAuthors(String Authors) {
-        this.Authors = Authors;
+        this.authors = Authors;
     }
 
     @Override
@@ -79,14 +79,14 @@ public class ArticleEntity {
 
         ArticleEntity articles = (ArticleEntity) o;
 
-        if (Id != articles.Id) return false;
-        if (Title != null ? !Title.equals(articles.Title) : articles.Title != null)
+        if (id != articles.id) return false;
+        if (title != null ? !title.equals(articles.title) : articles.title != null)
             return false;
-        if (Content != null ? !Content.equals(articles.Content) : articles.Content != null)
+        if (content != null ? !content.equals(articles.content) : articles.content != null)
             return false;
-        if (Date != null ? !Date.equals(articles.Date) : articles.Date != null)
+        if (date != null ? !date.equals(articles.date) : articles.date != null)
             return false;
-        if (Authors != null ? !Authors.equals(articles.Authors) : articles.Authors != null)
+        if (authors != null ? !authors.equals(articles.authors) : articles.authors != null)
             return false;
 
         return true;
@@ -94,11 +94,11 @@ public class ArticleEntity {
 
     @Override
     public int hashCode() {
-        Long result = Id;
-        result = 31 * result + (Title != null ? Title.hashCode() : 0);
-        result = 31 * result + (Content != null ? Content.hashCode() : 0);
-        result = 31 * result + (Date != null ? Date.hashCode() : 0);
-        result = 31 * result + (Authors != null ? Authors.hashCode() : 0);
+        Long result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (authors != null ? authors.hashCode() : 0);
         return result.hashCode();
     }
 }

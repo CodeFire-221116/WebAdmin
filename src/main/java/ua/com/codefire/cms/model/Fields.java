@@ -8,6 +8,7 @@ public interface Fields {
 
     String ACTION = "action";
     String ACTION_NEW = "new";
+    String ACTION_DELETE = "delete";
 
     String ID = "id";
     String TITLE = "title";
@@ -19,5 +20,5 @@ public interface Fields {
     String PAGE_COUNT = "page_count";
     String PAGES = "pages";
 
-    String ERROR_MESSAGE ="error_message";
+    String ERROR_MESSAGE = "error_message";
 }

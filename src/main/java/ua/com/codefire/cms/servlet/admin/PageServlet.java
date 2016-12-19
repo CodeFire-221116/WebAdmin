@@ -39,8 +39,17 @@ public class PageServlet extends HttpServlet {
         String action = req.getParameter(Fields.ACTION);
         String id = req.getParameter(Fields.ID);
 
-        if (Utils.isValid(action) && Fields.ACTION_NEW.equals(action)) {
-            openCreatePage(req, resp);
+        if (Utils.isValid(action)) {
+            if (Fields.ACTION_NEW.equals(action)) {
+                openCreatePage(req, resp);
+            } else if (Fields.ACTION_DELETE.equals(action)) {
+
+                if (Utils.isValid(id)) {
+                    service.delete(Long.parseLong(id));
+
+                    resp.sendRedirect("/admin/pages");
+                }
+            }
         } else if (Utils.isValid(id)) {
             openEditPage(req, resp, Long.parseLong(id));
         } else {
@@ -61,23 +70,23 @@ public class PageServlet extends HttpServlet {
 
             if (Utils.isValid(title) && Utils.isValid(content)) {
 
-                if (id != null && !id.isEmpty()) {
+                if (Utils.isValid(id)) {
                     service.update(getPage(Long.parseLong(id), title, content));
                 } else {
                     service.create(getPage(null, title, content));
                 }
-
-                resp.sendRedirect("/admin/pages");
             } else {
                 req.setAttribute(Fields.ERROR_MESSAGE, "Fields title and content must be filled");
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/pages/edit.jsp").forward(req, resp);
+                return;
             }
         } else if (req.getParameter(Fields.BTN_DELETE) != null) {
-            if (id != null) {
+            if (Utils.isValid(id)) {
                 service.delete(Long.parseLong(id));
-                resp.sendRedirect("/admin/pages");
             }
         }
+
+        resp.sendRedirect("/admin/pages");
 
     }
 

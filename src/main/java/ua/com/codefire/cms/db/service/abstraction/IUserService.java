@@ -8,4 +8,6 @@ import ua.com.codefire.cms.db.entity.UserEntity;
 public interface IUserService extends ICommonService<UserEntity> {
     UserEntity getUserByName(String name);
     Boolean ifUserRegistered(String name, String password);
+    Boolean sendValidationEmail(Long id);
+    Boolean validateEmail(Long id, Long key);
 }

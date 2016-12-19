@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: mkoval
@@ -9,50 +11,68 @@
 <html>
 <head>
     <title>PostData</title>
-    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <div class="container">
+
     <header class="page-header">
         <h1>Article</h1>
     </header>
+
     <div class="row">
+
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-        <h4>Article count</h4><span class="badge">${count}</span>
-        <div style="display: inline-block" class="text-right">
-            <a class="btn btn-success" href="/article?action=new">+</a>
+
+        <div class="col-md-9">
+
+            <h3>Article count
+                <sup class="badge">${count}</sup>
+
+                <a class="btn btn-success pull-right" href="/article?action=new">
+                    <i class="fa fa-fw fa-plus"></i>
+                </a>
+            </h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Author</th>
+                    <th>When</th>
+                    <th style="width: 1%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${articlesList}" var="item">
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>${item.content}</td>
+                        <td>${item.authors}</td>
+                        <td>
+                            <fmt:formatDate value="${item.date}" pattern="dd.MM.yyyy" />
+                            <span class="text-muted"><fmt:formatDate value="${item.date}" pattern="HH:mm" /></span>
+                        </td>
+                        <td nowrap>
+                            <a href="/article?id=${item.id}"
+                               class="btn btn-sm btn-warning">
+                                <i class="fa fa-fw fa-wrench"></i>
+                            </a>
+                            <a href="/article?id=${item.id}"
+                               onclick="return confirm('Do you really want to delete page ${item.id}?')"
+                               class="btn btn-sm btn-danger">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Author</th>
-            <th>Timestamp</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${articleList}" var="ListItem">
-            <tr>
-                <td>${ListItem.getId()}</td>
-                <td>${ListItem.getTitle()}</td>
-                <td>${ListItem.getContent()}</td>
-                <td>${ListItem.getAuthor()}</td>
-                <td>${ListItem.getTimestamp()}</td>
-                <td>
-                    <a href="/article?id=${ListItem.getId()}" class="btn" type="reset"
-                       style="background-color: aquamarine">Edit article</a>
-                </td>
-                <td>
-                    <a href="/article?id=${ListItem.getId()}" class="btn" type="reset"
-                       style="background-color: antiquewhite">Delete article</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
 </div>
 <%@include file="/WEB-INF/jsp/javascript.jsp" %>
 </body>
