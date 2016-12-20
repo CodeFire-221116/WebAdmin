@@ -99,8 +99,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Boolean validateEmail(Long id, Long key) {
-        return userRepo.validateEmail(id, key);
+    public Boolean validateEmail(String validationCode) {
+        return userRepo.validateEmail(validationCode);
     }
 
     @Override

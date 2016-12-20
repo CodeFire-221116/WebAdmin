@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: human
@@ -20,52 +21,61 @@
         <h1>Add user</h1>
     </header>
 
-    <div class="row">
 
-        <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
-
-
-        <div class="col-md-9">
-
-            <form class="container" method="post">
-
-                <div class="form-group row">
-                    <label class="col-md-2" for="username">Username</label>
-                    <div class="col-md-7 form-group ${classAdditionForUsername}">
-                        <input class="form-control" type="text" name="username" value="${usernameValue}" id="username"
-                               placeholder="username"/>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-md-2" for="password">Password</label>
-                    <div class="col-md-7 form-group ${classAdditionForNewPassword}">
-                        <input class="form-control" type="password" name="password" id="password"
-                               placeholder="password"/>
-                    </div>
-                </div>
+    <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
 
 
-                <div class="form-group row">
-                    <label class="col-md-2" for="confirm_password">Confirm password</label>
-                    <div class="col-md-7 form-group ${classAdditionForNewPassword}">
-                        <input class="form-control" type="password" name="confirm_password" id="confirm_password"
-                               placeholder="password again"/>
-                    </div>
-                </div>
+    <form class="col-md-9 form-horizontal" method="post">
+
+        <c:if test="${errorMessage != null}">
+
+            <div class="alert alert-danger">
+                <p class="text-error"><strong>${errorMessage}</strong></p>
+            </div>
+        </c:if>
 
 
-                <div class="col-md-9">
-                    <div class="pull-right">
-                        <input type="submit" class="btn btn-primary" name="submission" value="GO BACK">
-                        <input type="submit" class="btn btn-success" name="submission" value="SUBMIT">
-                    </div>
-                </div>
-            </form>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="username">Username</label>
+            <div class="col-md-6 ${classAdditionForUsername}">
+                <input class="form-control" type="text"
+                       name="username"
+                       value="${usernameValue}"
+                       id="username"
+                       placeholder="username"/>
+            </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="password">Password</label>
+            <div class="col-md-6 ${classAdditionForNewPassword}">
+                <input class="form-control" type="password"
+                       name="password"
+                       id="password"
+                       placeholder="password"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="confirm_password">Confirm password</label>
+            <div class="col-md-6 ${classAdditionForNewPassword}">
+                <input class="form-control" type="password"
+                       name="confirm_password"
+                       id="confirm_password"
+                       placeholder="password again"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="pull-center">
+                <input type="submit" class="btn btn-primary" name="submission" value="GO BACK">
+                <input type="submit" class="btn btn-success" name="submission" value="SUBMIT">
+            </div>
+        </div>
+    </form>
 </div>
-<p class="text-error"><strong>${errorMessage}</strong></p>
+
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>

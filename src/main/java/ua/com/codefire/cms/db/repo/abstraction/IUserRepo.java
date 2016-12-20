@@ -15,5 +15,5 @@ public interface IUserRepo extends ICommonRepo<UserEntity> {
      */
     UserEntity getUserByName(String name);
     Boolean sendValidationEmail(Long id);
-    Boolean validateEmail(Long id, Long key);
+    Boolean validateEmail(String validationCode);
 }
