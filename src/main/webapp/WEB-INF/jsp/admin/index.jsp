@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: human
@@ -17,12 +18,19 @@
 <body>
 
 <div class="container">
+
     <header class="page-header">
         <h1>Hello ${$USERNAME}</h1>
     </header>
+
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
     </div>
+
+    <div class="row">
+        <%@include file="/WEB-INF/jsp/users.jsp" %>
+    </div>
+
 </div>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>

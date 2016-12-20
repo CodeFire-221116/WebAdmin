@@ -1,33 +1,41 @@
 package ua.com.codefire.cms.listener;
 
 import ua.com.codefire.cms.model.AttributeNames;
+import ua.com.codefire.cms.model.Fields;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by human on 12/6/16.
+ * Created by human on 12/6/16
  */
+
 @WebListener
 public class UsersSessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
+    private Map<String, String> users = new HashMap<>();
+
+    private ServletContext context;
+
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        // USER CONNECT
+
+        context = se.getSession().getServletContext();
+
+        users.put(se.getSession().getId(), Fields.USER_ANONYMOUS);
+
+        context.setAttribute(Fields.USERS, users);
     }
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
+
         if (event.getName().equals(AttributeNames.SESSION_USERNAME)) {
-            String username = event.getValue().toString();
+
+            users.put(event.getSession().getId(), event.getValue().toString());
         }
     }
 
@@ -43,6 +51,8 @@ public class UsersSessionListener implements HttpSessionListener, HttpSessionAtt
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        // USER DISCONNECT
+        users.remove(se.getSession().getId());
+
+//        context.setAttribute(Fields.USERS, users);
     }
 }

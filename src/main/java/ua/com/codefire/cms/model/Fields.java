@@ -20,5 +20,8 @@ public interface Fields {
     String PAGE_COUNT = "page_count";
     String PAGES = "pages";
 
+    String USERS = "users";
+    String USER_ANONYMOUS = "anonymous";
+
     String ERROR_MESSAGE = "error_message";
 }
