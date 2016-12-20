@@ -25,8 +25,7 @@ public class UsersSessionListener implements HttpSessionListener, HttpSessionAtt
 
         context = se.getSession().getServletContext();
 
-        HttpSession session = se.getSession();
-        users.put(session.getId(), Fields.USER_ANONYMOUS);
+        users.put(se.getSession().getId(), Fields.USER_ANONYMOUS);
 
         context.setAttribute(Fields.USERS, users);
     }
@@ -36,8 +35,7 @@ public class UsersSessionListener implements HttpSessionListener, HttpSessionAtt
 
         if (event.getName().equals(AttributeNames.SESSION_USERNAME)) {
 
-            String username = event.getValue().toString();
-            users.put(event.getSession().getId(), username);
+            users.put(event.getSession().getId(), event.getValue().toString());
         }
     }
 
@@ -53,10 +51,8 @@ public class UsersSessionListener implements HttpSessionListener, HttpSessionAtt
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
+        users.remove(se.getSession().getId());
 
-        HttpSession session = se.getSession();
-        users.remove(session.getId());
-
-        context.setAttribute(Fields.USERS, users);
+//        context.setAttribute(Fields.USERS, users);
     }
 }
