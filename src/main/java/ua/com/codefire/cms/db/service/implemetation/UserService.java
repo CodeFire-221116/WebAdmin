@@ -13,14 +13,28 @@ import java.util.List;
 /**
  * Created by human on 12/6/16.
  */
+/**
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IUserService variable in case of need in entity-specific
+ * methods and in the ICommonService(UserEntity) variable in case of need in CRUD operations.
+ */
 public class UserService implements IUserService {
+    /**
+     * IUserRepo variable, which holds a link to UserRepo object in order to communicate with DataBase
+     * with it`s help
+     */
     private IUserRepo userRepo;
 
+    /**
+     * Creates a new instance of Service, intended to work with articles. Retrieves entity factory from request context
+     * and creates a new repository, based on this factory, in order to communicate with DataBase
+     * @param req HttpServletRequest instance, which can be retrieved in servlet`s methods.
+     */
     public UserService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
-        if(factory != null) {
+        if (factory != null) {
             try {
-                userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory)factory));
+                userRepo = new UserRepo(new EntityManagerHelper((EntityManagerFactory) factory));
             } catch (ClassCastException ex) {
                 System.out.println("Wrong parameter put into context. StackTrace:\n" + ex);
             } catch (Exception ex) {
@@ -50,7 +64,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserEntity> getAllEntities() { return userRepo.getAllEntities(); }
+    public List<UserEntity> getAllEntities() {
+        return userRepo.getAllEntities();
+    }
 
     @Override
     public UserEntity getUserByName(String name) {
@@ -75,6 +91,16 @@ public class UserService implements IUserService {
         }
 
         return userByName.checkPassword(password);
+    }
+
+    @Override
+    public Boolean sendValidationEmail(Long id) {
+        return userRepo.sendValidationEmail(id);
+    }
+
+    @Override
+    public Boolean validateEmail(Long id, Long key) {
+        return userRepo.validateEmail(id, key);
     }
 
     @Override

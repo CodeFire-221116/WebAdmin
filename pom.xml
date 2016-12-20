@@ -56,6 +56,14 @@
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
         </dependency>
+
+        <!-- Mail -->
+        <!-- javax.mail : mail : 1.4.7 -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
     </dependencies>
 
 

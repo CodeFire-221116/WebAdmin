@@ -27,7 +27,7 @@
 
                 <div class="form-group row">
 
-                    <label class="col-md-2" for="currentpassword">
+                    <label class="col-md-2" for="current_password">
                         <mark>
                             <strong>${userName} </strong>
                         </mark>
@@ -35,7 +35,7 @@
                     </label>
 
                     <div class="col-md-7 form-group ${classAdditionForCurrentPassword}">
-                        <input class="form-control" type="password" name="currentpassword" id="currentpassword"
+                        <input class="form-control" type="password" name="current_password" id="current_password"
                                placeholder="current password"/>
                     </div>
                 </div>
@@ -49,17 +49,17 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-md-2" for="confirmpassword">Confirm password</label>
+                    <label class="col-md-2" for="confirm_password">Confirm password</label>
                     <div class="col-md-7 form-group ${classAdditionForNewPassword}">
-                        <input class="form-control" type="password" name="confirmpassword" id="confirmpassword"
+                        <input class="form-control" type="password" name="confirm_password" id="confirm_password"
                                placeholder="new password again"/>
                     </div>
                 </div>
 
                 <div class="col-md-9">
                     <div class="pull-right">
-                        <input type="submit" class="btn btn-primary" name="submition" value="GO BACK">
-                        <input type="submit" class="btn btn-warning" name="submition" value="SUBMIT">
+                        <input type="submit" class="btn btn-primary" name="submission" value="GO BACK">
+                        <input type="submit" class="btn btn-warning" name="submission" value="SUBMIT">
                     </div>
                 </div>
             </form>

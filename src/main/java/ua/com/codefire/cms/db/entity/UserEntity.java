@@ -21,6 +21,10 @@ public class UserEntity implements Serializable {
     // MD5 HASH
     @Column(name = "user_pass", length = 32)
     private String password;
+    @Column(name = "user_email")
+    private String email;
+    @Column(name = "user_email_valid")
+    private Long emailKey;
 
     public UserEntity() {
     }
@@ -54,13 +58,29 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getEmailKey() {
+        return emailKey;
+    }
+
+    public void setEmailKey(Long emailKey) {
+        this.emailKey = emailKey;
+    }
+
     public boolean checkPassword(String notEncryptedPassword) {
         return DigestUtils.md5Hex(notEncryptedPassword).equals(password);
     }
 
     /**
      * function for updating password by user
-     * @param notEncryptedPassword
+     * @param notEncryptedPassword New not encrypted password.
      */
     public void updatePassword(String notEncryptedPassword) {
         this.password = DigestUtils.md5Hex(notEncryptedPassword);

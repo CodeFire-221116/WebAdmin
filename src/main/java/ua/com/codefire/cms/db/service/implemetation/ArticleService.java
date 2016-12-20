@@ -13,9 +13,24 @@ import java.util.List;
 /**
  * Created by User on 10.12.2016.
  */
+
+/**
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IArticleService variable in case of need in entity-specific
+ * methods and in the ICommonService(ArticleEntity) variable in case of need in CRUD operations.
+ */
 public class ArticleService implements IArticleService {
+    /**
+     * IArticleRepo variable, which holds a link to ArticleRepo object in order to communicate with DataBase
+     * with it`s help
+     */
     private IArticleRepo articleRepo;
 
+    /**
+     * Creates a new instance of Service, intended to work with articles. Retrieves entity factory from request context
+     * and creates a new repository, based on this factory, in order to communicate with DataBase
+     * @param req HttpServletRequest instance, which can be retrieved in servlet`s methods.
+     */
     public ArticleService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
         if(factory != null) {

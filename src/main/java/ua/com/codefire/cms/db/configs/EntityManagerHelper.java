@@ -7,6 +7,12 @@ import javax.persistence.Persistence;
 /**
  * Created by User on 07.12.2016.
  */
+
+/**
+ * Class, used in order to provide EntityManager and main functionality to communicate with it.
+ * Used in repositories in order ro communicate with DataBase.
+ * EntityManagers are retrieved from ThreadLocal in order to make them thread-safe.
+ */
 public class EntityManagerHelper {
     private EntityManagerFactory emf;
     private static final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<EntityManager>();
@@ -15,6 +21,11 @@ public class EntityManagerHelper {
         this.emf = emf;
     }
 
+    /**
+     * Method to get EntityManager. Tries to get it from ThreadLocal. Returns it in case of success.
+     * Creates a new instance of entityManager in case otherwise, putts it to ThreadLocal and returns for usage.
+     * @return Thread safe Entity Manager instance ready to communicate with DataBase
+     */
     public EntityManager getEntityManager() {
         EntityManager em = threadLocal.get();
 
@@ -26,6 +37,9 @@ public class EntityManagerHelper {
         return em;
     }
 
+    /**
+     * Closes busy EntityManager
+     */
     public void closeEntityManager() {
         EntityManager em = threadLocal.get();
         if (em != null) {
@@ -34,6 +48,9 @@ public class EntityManagerHelper {
         }
     }
 
+    /**
+     * Closes Entity manager Factory in order to end session with DataBase
+     */
     public void closeEntityManagerFactory() {
         emf.close();
     }

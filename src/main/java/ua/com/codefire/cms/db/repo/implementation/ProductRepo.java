@@ -16,6 +16,12 @@ import java.util.logging.Logger;
 /**
  * Created by User on 07.12.2016.
  */
+/**
+ * An implementation of entity-specific Repository Interface.
+ * The object of this class needs to be put in the IProductRepo variable in case of need in entity-specific
+ * methods and in the ICommonRepo(ProductEntity) variable in case of need in CRUD operations.
+ * Used in ProductService in order to communicate with DataBase
+ */
 public class ProductRepo implements IProductRepo {
     private static final Logger LOGGER = Logger.getLogger(ProductRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
