@@ -21,6 +21,12 @@ import java.util.logging.Logger;
 /**
  * Created by human on 12/6/16.
  */
+/**
+ * An implementation of entity-specific Repository Interface.
+ * The object of this class needs to be put in the IUserRepo variable in case of need in entity-specific
+ * methods and in the ICommonRepo(UserEntity) variable in case of need in CRUD operations.
+ * Used in UserService in order to communicate with DataBase
+ */
 public class UserRepo implements IUserRepo {
     private static final Logger LOGGER = Logger.getLogger(UserRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
