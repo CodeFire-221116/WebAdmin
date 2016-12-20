@@ -39,7 +39,9 @@
                     <tr>
                         <td>${page.id}</td>
                         <td>${page.title}</td>
-                        <td>${page.content}</td>
+                        <td>
+                            <c:out value="${page.content}" escapeXml="true" />
+                        </td>
                         <td nowrap>
                             <a href="/admin/pages?id=${page.getId()}"
                                class="btn btn-sm btn-warning">
