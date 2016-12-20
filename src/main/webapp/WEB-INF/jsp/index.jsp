@@ -10,20 +10,36 @@
 <head>
     <title>Hello</title>
 
-    <link rel="stylesheet" href="./res/css/ankysStyles.css" />
+    <link rel="stylesheet" href="./res/css/ankysStyles.css"/>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <h1 class="text-center">Welcome!</h1>
 <%@include file="/WEB-INF/jsp/menu.jsp" %>
 
-<form class="container" method="post">
+<div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <a href="/admin/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
+            <a href="/admin/" class="btn btn-success btn-lg btn-block" type="button">Sign in</a>
         </div>
     </div>
-</form>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <section class="panel panel-primary">
+                <ul id="messagesList" class="list-group" style="max-height: 300px; overflow-y: scroll;">
+                    <li class="list-group-item">ok</li>
+                </ul>
+                <div class="panel-body">
+                    <form onsubmit="sendMessage(); return false;">
+                        <input class="form-control" id="messageInput"/>
+                        <button type="submit" class="btn btn-block btn-primary">SEND</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
