@@ -114,8 +114,10 @@ public class UserServlet extends HttpServlet {
             }
             UserEntity userEntity = new UserService(req).read(id);
 
-            if ("validate_email".equals(action)) {
+            if ("email_validation".equals(action)) {
                 new UserService(req).sendValidationEmail(id);
+                resp.sendRedirect("/admin/users");
+                return;
             } else if ("new".equals(action)) {
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                 return;

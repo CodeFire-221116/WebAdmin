@@ -28,28 +28,43 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>id</th>
+                    <!--<th style="width: 1%" class="text-right">id</th>
+                    <th style="width: 1%" ></th>-->
                     <th>username</th>
+                    <!--
+                    <th class="text-right">email</th>-->
                     <th style="width: 1%"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${usersList}" var="item">
                     <tr>
-                        <td>${item.getId()}</td>
-                        <td>${item.getUsername()}</td>
-                        <td nowrap>
-                            <a href="/admin/users?action=change_password&id=${item.getId()}"
+                        <!--<td class="text-right">${item.id}</td>
+                        <td></td>-->
+                        <td>${item.username}</td>
+                        <!--
+                        <td class="text-right">
+                            <div class="input-group">
+                            <a class="btn btn-xs btn-primary" href="mailto:${item.email}">${item.email}</a>
+                                <span class="btn-addon">@</span></div>
+                        </td>-->
+                        <td class="text-right" nowrap>
+                            <c:if test="${item.email != null && !item.email.isEmpty()}">
+                                <a href="/admin/users?action=email_validation&id=${item.id}"
+                                   class="btn btn-sm ${item.emailKey == 1 ? 'btn-success' : 'btn-warning'}"
+                                    ${item.emailKey == 1 ? 'disabled' : ''}>
+                                        ${item}
+                                        ${item.emailKey}
+                                    <i class="fa fa-fw fa-envelope"></i>
+                                </a>
+                            </c:if>
+                            <a href="/admin/users?action=change_password&id=${item.id}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/admin/users?action=delete&id=${item.getId()}"
+                            <a href="/admin/users?action=delete&id=${item.id}"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
-                            </a>
-                            <a href="/admin/users?action=validate_email&id=${item.getId()}"
-                               class="btn btn-sm btn-warning">
-                                <i class="fa fa-fw fa-envelope"></i>
                             </a>
                         </td>
                     </tr>
