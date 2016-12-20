@@ -2,6 +2,7 @@ package ua.com.codefire.cms.servlet;
 
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.implemetation.UserService;
+import ua.com.codefire.cms.utils.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +37,15 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String validationCode = req.getParameter("umv");
+        if (Utils.isValid(validationCode)) {
+            UserService userService = new UserService(req);
+            if (userService.validateEmail(validationCode)) {
+
+            }
+            resp.sendRedirect("/index");
+            return;
+        }
         req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
     }
 }

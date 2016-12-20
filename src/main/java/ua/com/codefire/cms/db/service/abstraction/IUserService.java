@@ -37,9 +37,8 @@ public interface IUserService extends ICommonService<UserEntity> {
 
     /**
      * Method to validate email in case of response to validation Email. Not implemented in UserRepo yet
-     * @param id An id of user, whose email need to be validated
-     * @param key Unique parameter, which is sent by user while validating email
+     * @param validationCode code from validation email
      * @return true in case of successful validation, false otherwise.
      */
-    Boolean validateEmail(Long id, Long key);
+    Boolean validateEmail(String validationCode);
 }
