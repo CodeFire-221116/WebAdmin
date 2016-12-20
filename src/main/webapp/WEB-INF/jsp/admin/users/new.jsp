@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: human
@@ -6,6 +5,7 @@
   Time: 7:52 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -67,8 +67,8 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <div class="pull-center">
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-6">
                 <input type="submit" class="btn btn-primary" name="submission" value="GO BACK">
                 <input type="submit" class="btn btn-success" name="submission" value="SUBMIT">
             </div>
