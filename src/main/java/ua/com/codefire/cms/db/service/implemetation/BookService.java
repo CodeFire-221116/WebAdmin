@@ -15,7 +15,7 @@ import java.util.List;
  */
 /**
  * An implementation of entity-specific Service Interface.
- * The object of this class need to be put in the IBookService variable in case of need in entity-specific
+ * The object of this class needs to be put in the IBookService variable in case of need in entity-specific
  * methods and in the ICommonService(BookEntity) variable in case of need in CRUD operations.
  */
 public class BookService implements IBookService {

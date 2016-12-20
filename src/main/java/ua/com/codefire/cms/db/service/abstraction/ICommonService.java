@@ -48,14 +48,14 @@ public interface ICommonService<T> {
 
     /**
      * Method which retrieves an amount of rows of any Entity, presenting table, from DataBase
-     * @return Amount of rows in table, represented by Entity class or null in case of troubles while connecting to DataBase
+     * @return amount of rows in table, represented by Entity class
      */
     Long getAmountOfEntities();
 
     /**
      * Method which retrieves all rows of table, represented by Entity class.
      * @return List of instances of any Entity class, which represents a table in DataBase in case of success
-     * Empty list in case of troubles while connecting to DataBase or empty table
+     * Empty list in case of troubles while connecting to DB or empty table
      */
     List<T> getAllEntities();
 }

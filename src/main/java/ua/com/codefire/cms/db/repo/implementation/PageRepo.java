@@ -16,6 +16,12 @@ import java.util.logging.Logger;
 /**
  * Created by User on 07.12.2016.
  */
+/**
+ * An implementation of entity-specific Repository Interface.
+ * The object of this class needs to be put in the IPageRepo variable in case of need in entity-specific
+ * methods and in the ICommonRepo(PageEntity) variable in case of need in CRUD operations.
+ * Used in PageService in order to communicate with DataBase
+ */
 public class PageRepo implements IPageRepo {
     private static final Logger LOGGER = Logger.getLogger(PageRepo.class.getName());
     private EntityManagerHelper entityManagerHelper;
