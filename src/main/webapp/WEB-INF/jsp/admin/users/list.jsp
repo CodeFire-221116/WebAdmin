@@ -51,10 +51,10 @@
                         <td class="text-right" nowrap>
                             <c:if test="${item.email != null && !item.email.isEmpty()}">
                                 <a href="/admin/users?action=email_validation&id=${item.id}"
-                                        <c:choose>
-                                            <c:when test="${item.emailKey == 1}">class="btn btn-sm btn-success" disabled</c:when>
-                                            <c:otherwise>class="btn btn-sm btn-warning"</c:otherwise>
-                                        </c:choose>>
+                                   class="btn btn-sm ${item.emailKey == 1 ? 'btn-success' : 'btn-warning'}"
+                                    ${item.emailKey == 1 ? 'disabled' : ''}>
+                                        ${item}
+                                        ${item.emailKey}
                                     <i class="fa fa-fw fa-envelope"></i>
                                 </a>
                             </c:if>
