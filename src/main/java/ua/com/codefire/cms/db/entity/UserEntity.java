@@ -80,7 +80,7 @@ public class UserEntity implements Serializable {
 
     /**
      * function for updating password by user
-     * @param notEncryptedPassword
+     * @param notEncryptedPassword New not encrypted password.
      */
     public void updatePassword(String notEncryptedPassword) {
         this.password = DigestUtils.md5Hex(notEncryptedPassword);
