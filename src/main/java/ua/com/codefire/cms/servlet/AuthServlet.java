@@ -39,7 +39,10 @@ public class AuthServlet extends HttpServlet {
         HttpSession session = req.getSession();
         // TODO: Validate user by database data.
         if (service.ifUserRegistered(username, password)) {
+            UserEntity currUser = service.getUserByName(username);
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
+            session.setAttribute(AttributeNames.SESSION_USER, currUser);
+            //Left userName, because it is used too many times in too many places, need time to change
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
         } else {
             session.setAttribute("flash_message", "Username or password is incorrect.");

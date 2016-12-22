@@ -35,7 +35,7 @@ public class UserServlet extends HttpServlet {
                 if (confirmation != null && "SUBMIT".equals(confirmation)) {
                     String username = req.getParameter("username");
                     req.setAttribute("usernameValue", username);
-                    if (!req.getParameter("password").toString().equals(req.getParameter("confirm_password").toString())) {
+                    if (!req.getParameter("password").equals(req.getParameter("confirm_password"))) {
                         req.setAttribute("errorMessage", "The confirmation password does not match new password!");
                         req.setAttribute("classAdditionForNewPassword", " has-error");
                         req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
@@ -59,16 +59,19 @@ public class UserServlet extends HttpServlet {
                         }
                     }
                 }
-            } else if ("change_password".equals(action)) {
+            } else if ("edit".equals(action)) {
                 UserEntity user = new UserService(req).read(id);
                 String confirmation = req.getParameter("submission");
                 req.setAttribute("userName", user.getUsername());
                 if (confirmation != null && "SUBMIT".equals(confirmation)) {
-                    if (!req.getParameter("password").toString().equals(req.getParameter("confirm_password").toString())) {
+                    String newUserName = req.getParameter("username");
+                    if(newUserName != null && !newUserName.equals(user.getUsername()))
+                        user.setUsername(newUserName);
+                    if (!req.getParameter("password").equals(req.getParameter("confirm_password"))) {
                         req.setAttribute("errorMessage", "The confirmation password does not match new password!");
                         req.setAttribute("classAdditionForNewPassword", " has-error");
-                        req.getRequestDispatcher("/WEB-INF/jsp/admin/users/change_password.jsp").forward(req, resp);
-                        return;
+//                        req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
+//                        return;
                     } else {
                         String oldPass = req.getParameter("current_password");
                         String newPass = req.getParameter("password");
@@ -79,15 +82,23 @@ public class UserServlet extends HttpServlet {
                             } else {
                                 req.setAttribute("errorMessage", "New password is empty!");
                                 req.setAttribute("classAdditionForNewPassword", " has-error");
-                                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/change_password.jsp").forward(req, resp);
-                                return;
+//                                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
+//                                return;
                             }
                         } else {
                             req.setAttribute("errorMessage", "Current password is incorrect!");
                             req.setAttribute("classAdditionForCurrentPassword", " has-error");
-                            req.getRequestDispatcher("/WEB-INF/jsp/admin/users/change_password.jsp").forward(req, resp);
-                            return;
+//                            req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
+//                            return;
                         }
+                    }
+                    if(req.getAttribute("errorMessage") != null) {
+                        req.setAttribute("id", user.getId());
+                        req.setAttribute("email", user.getEmail());
+                        req.setAttribute("userName", user.getUsername());
+                        req.setAttribute("userAccessLvl", user.getAccessLvl());
+                        req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
+                        return;
                     }
                 }
             } else if ("delete".equals(action)) {
@@ -118,12 +129,20 @@ public class UserServlet extends HttpServlet {
                 new UserService(req).sendValidationEmail(id);
                 resp.sendRedirect("/admin/users");
                 return;
-            } else if ("new".equals(action)) {
+            } else if ("new".equals(action) || "edit".equals(action)) {
+                //ankys changes for editing enabling
+                if(userEntity != null) {
+                    req.setAttribute("id", userEntity.getId());
+                    req.setAttribute("email", userEntity.getEmail());
+                    req.setAttribute("userName", userEntity.getUsername());
+                    req.setAttribute("userAccessLvl", userEntity.getAccessLvl());
+                }
+
                 req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                 return;
-            } else if ("change_password".equals(action)) {
+            } else if ("edit".equals(action)) {
                 req.setAttribute("userName", userEntity.getUsername());
-                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/change_password.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/jsp/admin/users/new.jsp").forward(req, resp);
                 return;
             } else if ("delete".equals(action)) {
                 req.setAttribute("userName", userEntity.getUsername());

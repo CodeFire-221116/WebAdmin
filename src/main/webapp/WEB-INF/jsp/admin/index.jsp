@@ -25,6 +25,9 @@
 
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+        <div class="col-md-9">
+            <%@include file="/WEB-INF/jsp/admin/users/userProfilePartials/user_profile_partial.jsp" %>
+        </div>
     </div>
 
     <div class="row">

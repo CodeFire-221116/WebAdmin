@@ -16,6 +16,7 @@ import javax.persistence.Persistence;
 public class EntityManagerHelper {
     private EntityManagerFactory emf;
     private static final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<EntityManager>();
+    private EntityManager currEntityManager;
 
     public EntityManagerHelper(EntityManagerFactory emf) {
         this.emf = emf;
@@ -34,6 +35,8 @@ public class EntityManagerHelper {
             // set your flush mode here
             threadLocal.set(em);
         }
+
+        currEntityManager = em;
         return em;
     }
 
@@ -57,16 +60,19 @@ public class EntityManagerHelper {
 
 
     public void begin() {
-        getEntityManager().getTransaction().begin();
+        currEntityManager = getEntityManager();
+        currEntityManager.getTransaction().begin();
     }
 
     public <T> void remove(T thingToRemove) {
-        getEntityManager().remove(thingToRemove);
+        if(currEntityManager != null) {
+            currEntityManager.remove(thingToRemove);
+        }
     }
 
     public <T> void persist(T thingToPersist) {
         try {
-            getEntityManager().persist(thingToPersist);
+            currEntityManager.persist(thingToPersist);
         } catch(Exception e)
         {
             System.out.println("Something went wrong");
@@ -74,12 +80,15 @@ public class EntityManagerHelper {
     }
 
     public void rollback() {
-        getEntityManager().getTransaction().rollback();
+        if(currEntityManager != null) {
+            currEntityManager.getTransaction().rollback();
+        }
     }
 
     public void commit() {
-        getEntityManager().getTransaction().commit();
-
+        if(currEntityManager != null) {
+            currEntityManager.getTransaction().commit();
+        }
     }
 
     public <T> T find(Class<T> a, long id) {

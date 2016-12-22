@@ -35,37 +35,19 @@
         </c:if>
 
 
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="username">Username</label>
-            <div class="col-md-6 ${classAdditionForUsername}">
-                <input class="form-control" type="text"
-                       name="username"
-                       value="${usernameValue}"
-                       id="username"
-                       placeholder="username"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="password">Password</label>
-            <div class="col-md-6 ${classAdditionForNewPassword}">
-                <input class="form-control" type="password"
-                       name="password"
-                       id="password"
-                       placeholder="password"/>
-            </div>
-        </div>
+        <c:choose>
+            <c:when test="${id == null}">
+                <%@include file="/WEB-INF/jsp/admin/users/userProfilePartials/new_user_partial.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <%@include file="/WEB-INF/jsp/admin/users/userProfilePartials/change_user_info_partial.jsp" %>
+                <c:if test="${id == $CURR_USER.id}">
+                    <%@include file="/WEB-INF/jsp/admin/users/userProfilePartials/change_pass_partial.jsp" %>
+                </c:if>
+            </c:otherwise>
+        </c:choose>
 
 
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="confirm_password">Confirm password</label>
-            <div class="col-md-6 ${classAdditionForNewPassword}">
-                <input class="form-control" type="password"
-                       name="confirm_password"
-                       id="confirm_password"
-                       placeholder="password again"/>
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-6">
@@ -73,9 +55,41 @@
                 <input type="submit" class="btn btn-success" name="submission" value="SUBMIT">
             </div>
         </div>
+
+
+        <%--<div class="form-group">--%>
+            <%--<label class="col-md-3 control-label" for="username">Username</label>--%>
+            <%--<div class="col-md-6 ${classAdditionForUsername}">--%>
+                <%--<input class="form-control" type="text"--%>
+                       <%--name="username"--%>
+                       <%--value="${userName}"--%>
+                       <%--id="username"--%>
+                       <%--placeholder="username"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
+        <%--<div class="form-group">--%>
+            <%--<label class="col-md-3 control-label" for="password">Password</label>--%>
+            <%--<div class="col-md-6 ${classAdditionForNewPassword}">--%>
+                <%--<input class="form-control" type="password"--%>
+                       <%--name="password"--%>
+                       <%--id="password"--%>
+                       <%--placeholder="password"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
+
+        <%--<div class="form-group">--%>
+            <%--<label class="col-md-3 control-label" for="confirm_password">Confirm password</label>--%>
+            <%--<div class="col-md-6 ${classAdditionForNewPassword}">--%>
+                <%--<input class="form-control" type="password"--%>
+                       <%--name="confirm_password"--%>
+                       <%--id="confirm_password"--%>
+                       <%--placeholder="password again"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </form>
 </div>
-
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
