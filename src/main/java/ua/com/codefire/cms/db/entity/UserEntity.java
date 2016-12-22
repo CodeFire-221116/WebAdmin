@@ -23,6 +23,9 @@ public class UserEntity implements Serializable {
     private String password;
     @Column(name = "user_email")
     private String email;
+    @Column(name="user_access_lvl")
+    @Enumerated(EnumType.ORDINAL)
+    private AccessLevel accessLvl;
     @Column(name = "user_email_valid")
     private Long emailKey;
 
@@ -74,6 +77,14 @@ public class UserEntity implements Serializable {
         this.emailKey = emailKey;
     }
 
+    public AccessLevel getAccessLvl() {
+        return accessLvl;
+    }
+
+    public void setAccessLvl(AccessLevel accessLvl) {
+        this.accessLvl = accessLvl;
+    }
+
     public boolean checkPassword(String notEncryptedPassword) {
         return DigestUtils.md5Hex(notEncryptedPassword).equals(password);
     }
@@ -108,5 +119,11 @@ public class UserEntity implements Serializable {
                 "username='" + username + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    public enum AccessLevel {
+        HyperAdmin,
+        Admin,
+        User
     }
 }
