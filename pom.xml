@@ -35,6 +35,14 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- Spring -->
+        <!-- org.springframework : spring-webmvc : 4.3.1.RELEASE -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.3.1.RELEASE</version>
+        </dependency>
+
         <!-- MySQL -->
         <!-- mysql : mysql-connector-java : 5.1.40 -->
         <dependency>
