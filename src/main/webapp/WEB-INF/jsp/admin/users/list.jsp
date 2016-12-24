@@ -59,11 +59,6 @@
                                 </a>
                             </c:if>
 
-                            <%--Ankys changes to enable editing--%>
-                            <%--<a href="/admin/users?action=change_password&id=${item.id}"--%>
-                               <%--class="btn btn-sm btn-warning">--%>
-                                <%--<i class="fa fa-fw fa-wrench"></i>--%>
-                            <%--</a>--%>
                             <a href="/admin/users?action=edit&id=${item.id}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
