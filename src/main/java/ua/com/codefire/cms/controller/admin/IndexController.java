@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by User on 25.12.2016.
  */
 @RequestMapping(path = "/admin")
-@Controller
+@Controller("AdminIndexController")
 public class IndexController {
     @RequestMapping(path="/index")
     public String getAdminIndex(){
