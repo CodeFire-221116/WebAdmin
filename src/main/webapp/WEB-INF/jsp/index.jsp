@@ -21,7 +21,7 @@
     <div class="row">
 
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <a href="/admin/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
+            <a href="/auth/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
         </div>
 
     </div>

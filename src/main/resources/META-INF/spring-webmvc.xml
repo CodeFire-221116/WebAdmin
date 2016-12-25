@@ -6,7 +6,7 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="ua.com.codefire.cms.controller"/>
     <mvc:view-resolvers>
-        <mvc:jsp prefix="WEB-INF/jsp/" suffix=".jsp"/>
+        <mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp"/>
     </mvc:view-resolvers>
-    <mvc:resources mapping="/res**" location="/res/"/>
+    <mvc:resources mapping="/res/**" location="/res/"/>
 </beans>

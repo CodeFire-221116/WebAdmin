@@ -6,6 +6,7 @@ import ua.com.codefire.cms.model.AttributeNames;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -33,7 +34,8 @@ public class AuthFilter implements Filter {
             if (isAuth != null && isAuth) {
                 chain.doFilter(request, response);
             } else {
-                req.getRequestDispatcher("/auth").forward(request, response);
+                ((HttpServletResponse)  response).sendRedirect("/auth");
+                //req.getRequestDispatcher("/auth").forward(request, response);
             }
         } else {
             chain.doFilter(request, response);
