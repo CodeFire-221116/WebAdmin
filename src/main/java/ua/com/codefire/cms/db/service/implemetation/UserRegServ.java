@@ -1,9 +1,13 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
+
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IUserReg;
+
 import ua.com.codefire.cms.db.repo.implementation.UserReg;
 import ua.com.codefire.cms.db.service.abstraction.IUserRegServ;
+
+
 
 /**
  * Created by USER on 18.12.2016.
@@ -11,6 +15,7 @@ import ua.com.codefire.cms.db.service.abstraction.IUserRegServ;
 public class UserRegServ implements IUserRegServ {
 
     private final IUserReg userReg = new UserReg();
+
 
     @Override
     public void register(UserEntity user) {
