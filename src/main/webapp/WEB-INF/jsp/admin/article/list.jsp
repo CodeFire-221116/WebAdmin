@@ -29,7 +29,7 @@
             <h3>Article count
                 <sup class="badge">${count}</sup>
 
-                <a class="btn btn-success pull-right" href="/admin/article/new">
+                <a class="btn btn-success pull-right" href="./new">
                     <i class="fa fa-fw fa-plus"></i>
                 </a>
             </h3>
@@ -57,11 +57,11 @@
                             <span class="text-muted"><fmt:formatDate value="${item.date}" pattern="HH:mm" /></span>
                         </td>
                         <td nowrap>
-                            <a href="/admin/article/edit?id=${item.id}"
+                            <a href="./edit?id=${item.id}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/admin/article/delete?id=${item.id}"
+                            <a href="./delete?id=${item.id}"
                                onclick="return confirm('Do you really want to delete page ${item.id}?')"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>

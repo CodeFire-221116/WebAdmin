@@ -5,6 +5,6 @@
         <a class="list-group-item" href="/admin/products">Products</a>
         <a class="list-group-item" href="/admin/pages">Pages</a>
         <a class="list-group-item" href="/admin/users">Users</a>
-        <a class="list-group-item" href="/admin/article/list">Articles</a>
+        <a class="list-group-item" href="/admin/articles/">Articles</a>
     </div>
 </div>

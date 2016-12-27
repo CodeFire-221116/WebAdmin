@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by User on 25.12.2016.
  */
-@RequestMapping(path = "/admin/article")
+@RequestMapping(path = "/admin/articles")
 @Controller
 public class ArticleController {
     private IArticleService articleService;
@@ -27,7 +27,7 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String getArticlesList(Model model) {
         List<ArticleEntity> articles = articleService.getAllEntities();
 
@@ -35,19 +35,6 @@ public class ArticleController {
         model.addAttribute("count", articles.size());
 
         return "admin/article/list";
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String getArticleEditPage(@RequestParam Long id, Model model) {
-        ArticleEntity articleToEdit = articleService.read(id);
-
-        model.addAttribute("IDtoedit", id);
-        model.addAttribute("Authortoedit", articleToEdit.getAuthors());
-        model.addAttribute("Contenttoedit", articleToEdit.getContent());
-        model.addAttribute("Titletoedit", articleToEdit.getTitle());
-        model.addAttribute("Datetoedit", articleToEdit.getDate());
-
-        return "admin/article/edit";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -66,11 +53,17 @@ public class ArticleController {
         return "redirect:/admin/article/list";
     }
 
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String getArticleEditPage(@RequestParam Long id, Model model) {
+        ArticleEntity articleToEdit = articleService.read(id);
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String postDeleteArticle(@RequestParam Long id) {
-        articleService.delete(id);
-        return "redirect:/admin/article/list";
+        model.addAttribute("IDtoedit", id);
+        model.addAttribute("Authortoedit", articleToEdit.getAuthors());
+        model.addAttribute("Contenttoedit", articleToEdit.getContent());
+        model.addAttribute("Titletoedit", articleToEdit.getTitle());
+        model.addAttribute("Datetoedit", articleToEdit.getDate());
+
+        return "admin/article/edit";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -82,6 +75,13 @@ public class ArticleController {
         objToUpdate.setDate(new Timestamp(new Date().getTime()));
         objToUpdate.setContent(articleContent);
         articleService.update(objToUpdate);
+        return "redirect:/admin/article/list";
+    }
+
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String postDeleteArticle(@RequestParam Long id) {
+        articleService.delete(id);
         return "redirect:/admin/article/list";
     }
 }
