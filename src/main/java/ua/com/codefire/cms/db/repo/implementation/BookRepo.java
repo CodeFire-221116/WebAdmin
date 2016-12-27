@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IBookRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(BookEntity) variable in case of need in CRUD operations.
  * Used in BookService in order to communicate with DataBase
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.BookEntityRepository}
  */
 public class BookRepo implements IBookRepo {
     private static final Logger LOGGER = Logger.getLogger(BookRepo.class.getName());

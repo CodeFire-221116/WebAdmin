@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IArticleRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(ArticleEntity) variable in case of need in CRUD operations.
  * Used in ArticleService in order to communicate with DataBase
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.ArticleEntityRepository}
  */
 public class ArticleRepo implements IArticleRepo {
     private static final Logger LOGGER = Logger.getLogger(ArticleRepo.class.getName());

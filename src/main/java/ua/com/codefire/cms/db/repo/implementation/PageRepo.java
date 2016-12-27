@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IPageRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(PageEntity) variable in case of need in CRUD operations.
  * Used in PageService in order to communicate with DataBase
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.PageEntityRepository}
  */
 public class PageRepo implements IPageRepo {
     private static final Logger LOGGER = Logger.getLogger(PageRepo.class.getName());

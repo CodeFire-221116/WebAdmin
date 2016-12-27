@@ -9,6 +9,9 @@ import java.util.logging.Logger;
 
 /**
  * Created by USER on 18.12.2016.
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.UserEntityRepository}
+ * Not required, because these methods exist in UserEntityRepo, linked higher. They are used in the latest
+ * UserService {@link ua.com.codefire.cms.db.service.springImplementation.UserService}
  */
 public class UserReg implements IUserReg{
 
