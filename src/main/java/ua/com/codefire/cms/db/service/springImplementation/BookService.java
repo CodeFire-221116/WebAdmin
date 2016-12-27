@@ -5,7 +5,7 @@ import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.entity.BookEntity;
 import ua.com.codefire.cms.db.service.abstraction.IBookService;
-import ua.com.codefire.cms.db.springRepo.BookEntityRepository;
+import ua.com.codefire.cms.db.repo.BookEntityRepository;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;

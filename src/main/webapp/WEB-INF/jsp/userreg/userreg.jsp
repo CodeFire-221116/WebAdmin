@@ -6,25 +6,21 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Material Login Form</title>
 
-    <link rel="stylesheet" href="css/reset.css">
-
-    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
-    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-
-    <link rel="stylesheet" href="css/style.css">
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 <!-- Mixins-->
 <!-- Pen Title-->
 <div class="pen-title">
-    <h1>Material Login Form</h1><span>Pen <i class='fa fa-code'></i> by <a href='http://andytran.me'>Andy Tran</a></span>
+    <h1>Material Login Form</h1><span>Pen <i class='fa fa-code'></i> by <a href='http://andytran.me'>Andy
+    Tran</a></span>
 </div>
 <div class="rerun"><a href="">Rerun Pen</a></div>
 <div class="container">
@@ -92,9 +88,8 @@
 </div>
 <!-- Portfolio--><a id="portfolio" href="http://andytran.me/" title="View my portfolio!"><i class="fa fa-link"></i></a>
 <!-- CodePen--><a id="codepen" href="http://codepen.io/andytran/" title="Follow me!"><i class="fa fa-codepen"></i></a>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-<script src="js/index.js"></script>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
 

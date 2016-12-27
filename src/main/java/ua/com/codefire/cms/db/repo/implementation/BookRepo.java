@@ -2,6 +2,7 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.BookEntity;
+import ua.com.codefire.cms.db.repo.BookEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IBookRepo;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IBookRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(BookEntity) variable in case of need in CRUD operations.
  * Used in BookService in order to communicate with DataBase
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.BookEntityRepository}
+ * @deprecated  As of release 1.3, replaced by {@link BookEntityRepository}
  */
 public class BookRepo implements IBookRepo {
     private static final Logger LOGGER = Logger.getLogger(BookRepo.class.getName());

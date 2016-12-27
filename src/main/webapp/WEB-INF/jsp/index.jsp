@@ -10,7 +10,6 @@
 <head>
     <title>Hello</title>
 
-    <link rel="stylesheet" href="./res/css/ankysStyles.css" />
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>

@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
-import ua.com.codefire.cms.db.repo.implementation.ArticleRepo;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
-import ua.com.codefire.cms.db.springRepo.ArticleEntityRepository;
+import ua.com.codefire.cms.db.repo.ArticleEntityRepository;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;

@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.springRepo;
+package ua.com.codefire.cms.db.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

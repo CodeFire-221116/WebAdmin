@@ -2,6 +2,7 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.ProductEntity;
+import ua.com.codefire.cms.db.repo.ProductEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 
 import javax.persistence.EntityExistsException;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IProductRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(ProductEntity) variable in case of need in CRUD operations.
  * Used in ProductService in order to communicate with DataBase
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.ProductEntityRepository}
+ * @deprecated  As of release 1.3, replaced by {@link ProductEntityRepository}
  */
 public class ProductRepo implements IProductRepo {
     private static final Logger LOGGER = Logger.getLogger(ProductRepo.class.getName());

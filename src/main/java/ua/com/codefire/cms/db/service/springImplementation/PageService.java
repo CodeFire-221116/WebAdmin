@@ -5,7 +5,7 @@ import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.entity.PageEntity;
 import ua.com.codefire.cms.db.service.abstraction.IPageService;
-import ua.com.codefire.cms.db.springRepo.PageEntityRepository;
+import ua.com.codefire.cms.db.repo.PageEntityRepository;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;

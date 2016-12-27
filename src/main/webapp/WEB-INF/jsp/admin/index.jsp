@@ -11,9 +11,7 @@
 <head>
     <title>Hello</title>
 
-    <link rel="stylesheet" href="./res/css/main.css"/>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
-
 </head>
 <body>
 

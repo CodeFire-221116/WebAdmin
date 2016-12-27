@@ -1,13 +1,10 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IArticleRepo;
 import ua.com.codefire.cms.db.repo.implementation.ArticleRepo;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
-import ua.com.codefire.cms.db.springRepo.ArticleEntityRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;

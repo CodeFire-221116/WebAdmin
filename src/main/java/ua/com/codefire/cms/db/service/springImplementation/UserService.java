@@ -5,7 +5,7 @@ import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
-import ua.com.codefire.cms.db.springRepo.UserEntityRepository;
+import ua.com.codefire.cms.db.repo.UserEntityRepository;
 import ua.com.codefire.cms.model.ExternalServicesAccounts;
 
 import javax.mail.*;

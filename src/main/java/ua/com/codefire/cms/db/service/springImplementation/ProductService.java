@@ -5,7 +5,7 @@ import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.service.abstraction.IProductService;
-import ua.com.codefire.cms.db.springRepo.ProductEntityRepository;
+import ua.com.codefire.cms.db.repo.ProductEntityRepository;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;

@@ -2,9 +2,9 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.UserEntity;
+import ua.com.codefire.cms.db.repo.UserEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
 import ua.com.codefire.cms.model.ExternalServicesAccounts;
-import ua.com.codefire.cms.utils.Utils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -13,8 +13,6 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +28,7 @@ import java.util.logging.Logger;
  * The object of this class needs to be put in the IUserRepo variable in case of need in entity-specific
  * methods and in the ICommonRepo(UserEntity) variable in case of need in CRUD operations.
  * Used in UserService in order to communicate with DataBase
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.springRepo.UserEntityRepository}
+ * @deprecated  As of release 1.3, replaced by {@link UserEntityRepository}
  */
 public class UserRepo implements IUserRepo {
     private static final Logger LOGGER = Logger.getLogger(UserRepo.class.getName());

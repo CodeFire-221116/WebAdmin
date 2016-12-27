@@ -1,56 +1,52 @@
 package ua.com.codefire.cms.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
  * Created by User on 26.12.2016.
  */
-@EnableWebMvc
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"ua.com.codefire.cms.db", "ua.com.codefire.cms.controller"})
-@PropertySource("classpath:META-INF/app.properties")
-@EnableJpaRepositories("ua.com.codefire.cms.db.springRepo")
-//@ImportResource("classpath:META-INF/spring-webmvc.xml")
-public class DataConfig extends WebMvcConfigurerAdapter {
+@ComponentScan("ua.com.codefire.cms.db")
+@EnableJpaRepositories("ua.com.codefire.cms.db.repo")
+public class DataConfig {
+
     private static final String PROP_DATABASE_DRIVER = "db.driver";
     private static final String PROP_DATABASE_PASSWORD = "db.password";
     private static final String PROP_DATABASE_URL = "db.url";
     private static final String PROP_DATABASE_USERNAME = "db.username";
+
     private static final String PROP_HIBERNATE_DIALECT = "db.hibernate.dialect";
     private static final String PROP_HIBERNATE_SHOW_SQL = "db.hibernate.show_sql";
-    private static final String PROP_ENTITYMANAGER_PACKAGES_TO_SCAN = "db.entitymanager.packages.to.scan";
     private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "db.hibernate.hbm2ddl.auto";
 
-    @Resource
+    @Autowired
     private Environment env;
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        HikariConfig config = new HikariConfig();
 
-        dataSource.setDriverClassName(env.getRequiredProperty(PROP_DATABASE_DRIVER));
-        dataSource.setUrl(env.getRequiredProperty(PROP_DATABASE_URL));
-        dataSource.setUsername(env.getRequiredProperty(PROP_DATABASE_USERNAME));
-        dataSource.setPassword(env.getRequiredProperty(PROP_DATABASE_PASSWORD));
+        config.setDriverClassName(env.getRequiredProperty(PROP_DATABASE_DRIVER));
+        config.setJdbcUrl(env.getRequiredProperty(PROP_DATABASE_URL));
+        config.setUsername(env.getRequiredProperty(PROP_DATABASE_USERNAME));
+        config.setPassword(env.getRequiredProperty(PROP_DATABASE_PASSWORD));
 
-        return dataSource;
+        return new HikariDataSource(config);
     }
 
     @Bean
@@ -58,21 +54,18 @@ public class DataConfig extends WebMvcConfigurerAdapter {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        entityManagerFactoryBean.setPackagesToScan(env.getRequiredProperty(PROP_ENTITYMANAGER_PACKAGES_TO_SCAN));
+        entityManagerFactoryBean.setPackagesToScan("ua.com.codefire.cms.db");
 
         entityManagerFactoryBean.setJpaProperties(getHibernateProperties());
 
         return entityManagerFactoryBean;
     }
 
-    @Bean
-    public JpaTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
-        return transactionManager;
-    }
-
+    /**
+     * Compute Hibernate props.
+     *
+     * @return new properties object.
+     */
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put(PROP_HIBERNATE_DIALECT, env.getRequiredProperty(PROP_HIBERNATE_DIALECT));
@@ -82,18 +75,11 @@ public class DataConfig extends WebMvcConfigurerAdapter {
         return properties;
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/res/**").addResourceLocations("/res/");
-    }
-
     @Bean
-    public InternalResourceViewResolver setupViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
-        resolver.setSuffix(".jsp");
-        resolver.setViewClass(JstlView.class);
+    public JpaTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 
-        return resolver;
+        return transactionManager;
     }
 }
