@@ -1,10 +1,13 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IArticleRepo;
 import ua.com.codefire.cms.db.repo.implementation.ArticleRepo;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
+import ua.com.codefire.cms.db.springRepo.ArticleEntityRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +16,15 @@ import java.util.List;
 /**
  * Created by User on 10.12.2016.
  */
-
 /**
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IArticleService variable in case of need in entity-specific
  * methods and in the ICommonService(ArticleEntity) variable in case of need in CRUD operations.
  */
+/**
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.springImplementation.ArticleService()}
+ */
+@Deprecated
 public class ArticleService implements IArticleService {
     /**
      * IArticleRepo variable, which holds a link to ArticleRepo object in order to communicate with DataBase
@@ -43,7 +49,6 @@ public class ArticleService implements IArticleService {
             }
         }
     }
-
     @Override
     public Long create(ArticleEntity objToCreate) {
         return articleRepo.create(objToCreate);

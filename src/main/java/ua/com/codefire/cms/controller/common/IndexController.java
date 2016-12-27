@@ -17,7 +17,10 @@ import java.io.IOException;
  */
 @Controller
 public class IndexController {
-    @RequestMapping(path = "/index")
+    @RequestMapping(path = "/")
+    public String InitProj() {
+        return "index";
+    }
     protected String getIndexPage(@RequestParam("umv") String validationCode) {
         if (Utils.isValid(validationCode)) {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

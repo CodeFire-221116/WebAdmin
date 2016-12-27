@@ -43,7 +43,7 @@
             <version>4.3.1.RELEASE</version>
         </dependency>
 
-        <!-- MySQL -->
+        <!-- DataBase -->
         <!-- mysql : mysql-connector-java : 5.1.40 -->
         <dependency>
             <groupId>mysql</groupId>
@@ -55,6 +55,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.3.Final</version>
+        </dependency>
+        <!-- org.springframework.data : spring-data-jpa : 1.10.6.RELEASE -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.10.6.RELEASE</version>
         </dependency>
 
         <!-- Crypto -->

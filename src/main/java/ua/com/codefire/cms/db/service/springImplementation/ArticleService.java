@@ -1,0 +1,101 @@
+package ua.com.codefire.cms.db.service.springImplementation;
+
+/**
+ * Created by User on 26.12.2016.
+ */
+
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.SQLWarningException;
+import org.springframework.stereotype.Service;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
+import ua.com.codefire.cms.db.repo.implementation.ArticleRepo;
+import ua.com.codefire.cms.db.service.abstraction.IArticleService;
+import ua.com.codefire.cms.db.springRepo.ArticleEntityRepository;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IArticleService variable in case of need in entity-specific
+ * methods and in the ICommonService(ArticleEntity) variable in case of need in CRUD operations.
+ */
+@Service
+public class ArticleService implements IArticleService {
+    private ArticleEntityRepository articleRepo;
+    private static final Logger LOGGER = Logger.getLogger(ArticleRepo.class.getName());
+
+    @Autowired
+    public ArticleService(ArticleEntityRepository articleEntityRepository) {
+        this.articleRepo = articleEntityRepository;
+    }
+
+    @Override
+    public Long create(ArticleEntity objToCreate) {
+        try {
+            ArticleEntity savedArticle = articleRepo.saveAndFlush(objToCreate);
+            return savedArticle.getId();
+        } catch (SQLWarningException ex) {
+            LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
+        } catch (EntityExistsException ex) {
+            LOGGER.log(Level.SEVERE, "Such article already exists.", ex);
+        } catch (PersistenceException ex){
+            LOGGER.log(Level.SEVERE, "Problems with database, while creating new article.", ex);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
+        }
+        return null;
+    }
+
+    @Override
+    public ArticleEntity read(Long idToFind) {
+        return articleRepo.findOne(idToFind);
+    }
+
+    @Override
+    public Boolean delete(Long objToDelete) {
+        try {
+            articleRepo.delete(objToDelete);
+            return true;
+        } catch (EntityNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, "No article found by such id.", ex);
+        } catch (PersistenceException ex){
+            LOGGER.log(Level.SEVERE, "Problems with database, while deleting article.", ex);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while deleting article.", ex);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean update(ArticleEntity objToCreate) {
+        try {
+            articleRepo.saveAndFlush(objToCreate);
+            return true;
+        } catch (EntityNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, "No such article found.", ex);
+        } catch (SQLWarningException ex) {
+            LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
+        } catch (PersistenceException ex){
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating article.", ex);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
+        }
+        return false;
+    }
+
+    @Override
+    public List<ArticleEntity> getAllEntities() {
+        return articleRepo.findAll();
+    }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return articleRepo.count();
+    }
+}
