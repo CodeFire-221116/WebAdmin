@@ -67,6 +67,11 @@
             <artifactId>HikariCP</artifactId>
             <version>2.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.3</version>
+        </dependency>
 
         <!-- Crypto -->
         <!-- commons-codec : commons-codec : 1.10 -->
