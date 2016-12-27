@@ -14,15 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by User on 10.12.2016.
- */
-/**
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IArticleService variable in case of need in entity-specific
  * methods and in the ICommonService(ArticleEntity) variable in case of need in CRUD operations.
- */
-/**
  * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.springImplementation.ArticleService()}
+ * @author ankys
  */
 @Deprecated
 public class ArticleService implements IArticleService {

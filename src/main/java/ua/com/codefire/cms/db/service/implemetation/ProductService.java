@@ -12,12 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by User on 07.12.2016.
- */
-/**
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IProductService variable in case of need in entity-specific
  * methods and in the ICommonService(ProductEntity) variable in case of need in CRUD operations.
+ * @author ankys
  */
 public class ProductService implements IProductService {
     /**
