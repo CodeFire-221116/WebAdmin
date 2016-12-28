@@ -21,7 +21,7 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         <div class="col-md-9">
             <h3>Users count <sup class="badge">${usersCount}</sup>
-                <a class="btn btn-success pull-right" href="/admin/users?action=new">
+                <a class="btn btn-success pull-right" href="./new">
                     <i class="fa fa-fw fa-plus"></i>
                 </a>
             </h3>
@@ -50,7 +50,7 @@
                         </td>-->
                         <td class="text-right" nowrap>
                             <c:if test="${item.email != null && !item.email.isEmpty()}">
-                                <a href="/admin/users?action=email_validation&id=${item.id}"
+                                <a href="./email_validation?id=${item.id}"
                                    class="btn btn-sm ${item.emailKey == 1 ? 'btn-success' : 'btn-warning'}"
                                     ${item.emailKey == 1 ? 'disabled' : ''}>
                                         ${item}
@@ -59,12 +59,12 @@
                                 </a>
                             </c:if>
 
-                            <a href="/admin/users?action=edit&id=${item.id}"
+                            <a href="./edit?id=${item.id}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
 
-                            <a href="/admin/users?action=delete&id=${item.id}"
+                            <a href="./delete?id=${item.id}"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>

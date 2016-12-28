@@ -161,6 +161,10 @@ public class UserRepo implements IUserRepo {
             return false;
         }
 
+        if (userEntity.getEmailKey() == 1) {
+            return false;
+        }
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
