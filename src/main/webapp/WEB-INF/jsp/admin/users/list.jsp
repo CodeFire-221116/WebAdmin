@@ -21,9 +21,11 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
         <div class="col-md-9">
             <h3>Users count <sup class="badge">${usersCount}</sup>
-                <a class="btn btn-success pull-right" href="./new">
-                    <i class="fa fa-fw fa-plus"></i>
-                </a>
+                <c:if test="${$CURR_USER.canChangeAccessLvl(UserEntity.AccessLevel.User)}">
+                    <a class="btn btn-success pull-right" href="./new">
+                        <i class="fa fa-fw fa-plus"></i>
+                    </a>
+                </c:if>
             </h3>
             <table class="table table-striped">
                 <thead>
@@ -32,6 +34,7 @@
                     <th style="width: 1%" ></th>-->
                     <th>username</th>
                     <th>access level</th>
+                    <th>email</th>
                     <!--
                     <th class="text-right">email</th>-->
                     <th style="width: 1%"></th>
@@ -44,6 +47,20 @@
                         <td></td>-->
                         <td>${item.username}</td>
                         <td>${item.accessLvl}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${item.email != null && !item.email.isEmpty() && item.emailKey != 1}">
+                                    <a href="./email_validation?id=${item.id}"
+                                       class="btn btn-sm
+                                    <i class=" fa fa-fw fa-envelope"></i>
+                                    validate ${item.email}
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    ${item.email}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <!--
                         <td class="text-right">
                             <div class="input-group">
@@ -51,25 +68,17 @@
                                 <span class="btn-addon">@</span></div>
                         </td>-->
                         <td class="text-right" nowrap>
-                            <c:if test="${item.email != null && !item.email.isEmpty()}">
-                                <a href="./email_validation?id=${item.id}"
-                                   class="btn btn-sm ${item.emailKey == 1 ? 'btn-success' : 'btn-warning'}"
-                                    ${item.emailKey == 1 ? 'disabled' : ''}>
-                                        ${item}
-                                        ${item.emailKey}
-                                    <i class="fa fa-fw fa-envelope"></i>
+                            <c:if test="${$CURR_USER.canChangeAccessLvl(item.accessLvl)}">
+                                <a href="./edit?id=${item.id}"
+                                   class="btn btn-sm btn-warning">
+                                    <i class="fa fa-fw fa-wrench"></i>
+                                </a>
+
+                                <a href="./delete?id=${item.id}"
+                                   class="btn btn-sm btn-danger">
+                                    <i class="fa fa-fw fa-trash"></i>
                                 </a>
                             </c:if>
-
-                            <a href="./edit?id=${item.id}"
-                               class="btn btn-sm btn-warning">
-                                <i class="fa fa-fw fa-wrench"></i>
-                            </a>
-
-                            <a href="./delete?id=${item.id}"
-                               class="btn btn-sm btn-danger">
-                                <i class="fa fa-fw fa-trash"></i>
-                            </a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -23,7 +23,9 @@ public class IndexController {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             IUserService userService = new UserService(attr.getRequest());
             if (userService.validateEmail(validationCode)) {
-
+                System.out.println("Email validation with code: " + validationCode + " is OK");
+            } else {
+                System.out.println("Error email validation with code: " + validationCode);
             }
             return "redirect:/index";
         }
