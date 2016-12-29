@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.service.springImplementation;
+package ua.com.codefire.cms.db.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;

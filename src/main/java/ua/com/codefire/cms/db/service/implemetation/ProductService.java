@@ -4,7 +4,6 @@ import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 import ua.com.codefire.cms.db.repo.implementation.ProductRepo;
-import ua.com.codefire.cms.db.service.abstraction.ICommonService;
 import ua.com.codefire.cms.db.service.abstraction.IProductService;
 
 import javax.persistence.EntityManagerFactory;
@@ -15,7 +14,7 @@ import java.util.List;
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IProductService variable in case of need in entity-specific
  * methods and in the ICommonService(ProductEntity) variable in case of need in CRUD operations.
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.springImplementation.ProductService}
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.ProductService}
  * @author ankys
  */
 public class ProductService implements IProductService {

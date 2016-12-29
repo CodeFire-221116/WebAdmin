@@ -11,6 +11,9 @@ import ua.com.codefire.cms.db.entity.UserEntity;
  */
 @Repository
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
-    @Query("select b from UserEntity b where b.username = :name")
-    UserEntity getUserByName(@Param("name") String name);
+//    @Query("select b from UserEntity b where b.username = :name")
+//    UserEntity getUserByName(@Param("name") String name);
+
+    UserEntity findByUsername(String username);
+    UserEntity findByUsernameAndPasword(String username, String password);
 }

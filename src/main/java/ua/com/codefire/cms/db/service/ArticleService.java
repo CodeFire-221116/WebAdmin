@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.service.springImplementation;
+package ua.com.codefire.cms.db.service;
 
 /**
  * Created by User on 26.12.2016.

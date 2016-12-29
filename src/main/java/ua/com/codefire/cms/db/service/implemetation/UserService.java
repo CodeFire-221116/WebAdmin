@@ -14,7 +14,7 @@ import java.util.List;
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IUserService variable in case of need in entity-specific
  * methods and in the ICommonService(UserEntity) variable in case of need in CRUD operations.
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.springImplementation.UserService}
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.UserService}
  * @author ankys
  */
 public class UserService implements IUserService {

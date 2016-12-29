@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.service.springImplementation;
+package ua.com.codefire.cms.db.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
@@ -99,7 +99,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserEntity getUserByName(String name) {
-        return userRepo.getUserByName(name);
+        return userRepo.findByUsername(name);
     }
 
     @Override

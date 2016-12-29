@@ -3,6 +3,7 @@ package ua.com.codefire.cms.db.repo.implementation;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.UserEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IUserReg;
+import ua.com.codefire.cms.db.service.UserService;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * Created by USER on 18.12.2016.
  * @deprecated  As of release 1.3, replaced by {@link UserEntityRepository}
  * Not required, because these methods exist in UserEntityRepo, linked higher. They are used in the latest
- * UserService {@link ua.com.codefire.cms.db.service.springImplementation.UserService}
+ * UserService {@link UserService}
  */
 public class UserReg implements IUserReg{
 

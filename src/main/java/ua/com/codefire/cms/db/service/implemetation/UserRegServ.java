@@ -7,7 +7,7 @@ import ua.com.codefire.cms.db.service.abstraction.IUserRegServ;
 
 /**
  * Created by USER on 18.12.2016.
- * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.springImplementation.UserService}
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.UserService}
  * Not required, because these methods exist in UserService
  */
 public class UserRegServ implements IUserRegServ {
