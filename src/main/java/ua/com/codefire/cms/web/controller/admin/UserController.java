@@ -1,6 +1,5 @@
 package ua.com.codefire.cms.web.controller.admin;
 
-import com.sun.javafx.sg.prism.NGShape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping(path = "/admin/users")
@@ -55,7 +55,9 @@ public class UserController {
                 model.addAttribute("classAdditionForNewPassword", " has-error");
                 model.addAttribute("userName", userName);
             } else {
-                userService.create(new UserEntity(userName, password));
+                UserEntity user = new UserEntity(userName, password);
+                user.setAccessLvl(UserEntity.AccessLevel.User);
+                userService.create(user);
                 return "redirect:/admin/users/";
             }
         } else {
@@ -67,38 +69,63 @@ public class UserController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String getUpdateUser(@RequestParam Long id, Model model) {
+
         UserEntity user = userService.read(id);
         model.addAttribute("userName", user.getUsername());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("userAccessLevel", user.getAccessLvl());
+        StringBuilder userAccessLevels = new StringBuilder();
+        for (UserEntity.AccessLevel accessLevel: UserEntity.AccessLevel.values())
+        {
+            userAccessLevels.append("<option");
+            if (accessLevel.equals(user.getAccessLvl())) userAccessLevels.append(" selected");
+            userAccessLevels.append(">").append(accessLevel).append("</option>");
+        }
         model.addAttribute("id", user.getId());
+        model.addAttribute("userAccessLevels", userAccessLevels.toString());
+
         return "/admin/users/new";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-//    public String postUpdateUser(@RequestParam Long id, @RequestParam String userName,
-//                                 @RequestParam String email, @RequestParam UserEntity.AccessLevel userAccessLvl) {
     public String postUpdateUser(@RequestParam Long id, @RequestParam(name = "username") String userName,
-                                 @RequestParam(name = "submission") String confirmation) {
+                                 @RequestParam(name = "submission") String confirmation,
+                                 @RequestParam String email, @RequestParam UserEntity.AccessLevel userAccessLevel) {
 
         if (confirmation != null && "SUBMIT".equals(confirmation)) {
             UserEntity user = userService.read(id);
             user.setUsername(userName);
-//            user.setEmail(email);
-//            user.setAccessLvl(userAccessLvl);
+            if (!email.equals(user.getEmail())) {
+                user.setEmail(email);
+                user.setEmailKey(new Date().getTime());
+            }
+/*
+            for (UserEntity.AccessLevel accessLevel : UserEntity.AccessLevel.values()) {
+                if (accessLevel.name().equalsIgnoreCase(userAccessLevel)) {
+                    break;
+                }
+            }
+*/
+            user.setAccessLvl(userAccessLevel);
             userService.update(user);
         }
+
         return "redirect:/admin/users/";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String getDeleteUser(@RequestParam Long id, Model model) {
+
         UserEntity user = userService.read(id);
         model.addAttribute("userName", user.getUsername());
         model.addAttribute("id", user.getId());
+
         return "/admin/users/confirm_deletion";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String postDeleteUser(@RequestParam String confirmation, @RequestParam Long id) {
+
         if (confirmation != null && "CONFIRM".equals(confirmation)) {
             userService.delete(id);
         }

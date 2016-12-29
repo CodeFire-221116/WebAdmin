@@ -16,3 +16,25 @@
                placeholder="username"/>
     </div>
 </div>
+
+<div class="form-group">
+    <label class="col-md-3 control-label" for="email">Email</label>
+    <div class="col-md-6">
+        <input class="form-control" type="text"
+               name="email"
+               value="${email}"
+               id="email"
+               placeholder="email"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-md-3 control-label" for="userAccessLevel">Access level</label>
+    <div class="col-md-6 ${classAdditionForAccessLevel}">
+        <select class="form-control"
+               name="userAccessLevel"
+                id="userAccessLevel">
+            ${userAccessLevels}
+        </select>
+    </div>
+</div>

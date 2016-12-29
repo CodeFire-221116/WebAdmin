@@ -30,7 +30,7 @@
                             <i class="glyphicon glyphicon-gift"></i>BirthDay</p>
                         <!-- Split button -->
                         <div class="btn-group">
-                            <a href="/admin/users?action=edit&id=${$CURR_USER.id}"
+                            <a href="/admin/users/edit?id=${$CURR_USER.id}"
                                class="btn btn-warning">
                                 edit profile
                             </a>
