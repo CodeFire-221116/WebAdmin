@@ -23,7 +23,7 @@ public class UserEntity implements Serializable {
     private String password;
     @Column(name = "user_email")
     private String email;
-    @Column(name="user_access_lvl")
+    @Column(name = "user_access_lvl")
     @Enumerated(EnumType.ORDINAL)
     private AccessLevel accessLvl;
     @Column(name = "user_email_valid")
@@ -91,10 +91,22 @@ public class UserEntity implements Serializable {
 
     /**
      * function for updating password by user
+     *
      * @param notEncryptedPassword New not encrypted password.
      */
     public void updatePassword(String notEncryptedPassword) {
         this.password = DigestUtils.md5Hex(notEncryptedPassword);
+    }
+
+    public Boolean canChangeAccessLvl(AccessLevel userAccessLevel) {
+        if (getAccessLvl() == AccessLevel.HyperAdmin) {
+            return true;
+        } else if (getAccessLvl() == userAccessLevel) {
+            return false;
+        } else if (getAccessLvl() == AccessLevel.Admin && userAccessLevel == AccessLevel.User) {
+            return true;
+        }
+        return false;
     }
 
     @Override

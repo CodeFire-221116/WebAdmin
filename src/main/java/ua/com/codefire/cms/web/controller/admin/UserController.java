@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
+import ua.com.codefire.cms.model.AttributeNames;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -68,18 +70,26 @@ public class UserController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String getUpdateUser(@RequestParam Long id, Model model) {
+    public String getUpdateUser(@RequestParam Long id, Model model, HttpSession session) {
+
+        UserEntity currentUser = (UserEntity) session.getAttribute(AttributeNames.SESSION_USER);
 
         UserEntity user = userService.read(id);
         model.addAttribute("userName", user.getUsername());
         model.addAttribute("email", user.getEmail());
-        model.addAttribute("userAccessLevel", user.getAccessLvl());
+        UserEntity.AccessLevel userAccessLevel = user.getAccessLvl();
+        if (userAccessLevel == null) {
+            userAccessLevel = UserEntity.AccessLevel.User;
+        }
+        model.addAttribute("userAccessLevel", userAccessLevel);
         StringBuilder userAccessLevels = new StringBuilder();
         for (UserEntity.AccessLevel accessLevel: UserEntity.AccessLevel.values())
         {
-            userAccessLevels.append("<option");
-            if (accessLevel.equals(user.getAccessLvl())) userAccessLevels.append(" selected");
-            userAccessLevels.append(">").append(accessLevel).append("</option>");
+            if (currentUser.canChangeAccessLvl(accessLevel) || userAccessLevel == accessLevel) {
+                userAccessLevels.append("<option");
+                if (accessLevel.equals(userAccessLevel)) userAccessLevels.append(" selected");
+                userAccessLevels.append(">").append(accessLevel).append("</option>");
+            }
         }
         model.addAttribute("id", user.getId());
         model.addAttribute("userAccessLevels", userAccessLevels.toString());
@@ -95,17 +105,10 @@ public class UserController {
         if (confirmation != null && "SUBMIT".equals(confirmation)) {
             UserEntity user = userService.read(id);
             user.setUsername(userName);
-            if (!email.equals(user.getEmail())) {
+            if (!email.isEmpty() && !email.equals(user.getEmail())) {
                 user.setEmail(email);
                 user.setEmailKey(new Date().getTime());
             }
-/*
-            for (UserEntity.AccessLevel accessLevel : UserEntity.AccessLevel.values()) {
-                if (accessLevel.name().equalsIgnoreCase(userAccessLevel)) {
-                    break;
-                }
-            }
-*/
             user.setAccessLvl(userAccessLevel);
             userService.update(user);
         }
@@ -129,6 +132,12 @@ public class UserController {
         if (confirmation != null && "CONFIRM".equals(confirmation)) {
             userService.delete(id);
         }
+        return "redirect:/admin/users/";
+    }
+
+    @RequestMapping(value = "/email_validation", method = RequestMethod.GET)
+    public String getSendEmailValidation(@RequestParam Long id) {
+        userService.sendValidationEmail(id);
         return "redirect:/admin/users/";
     }
 

@@ -31,6 +31,7 @@
                     <!--<th style="width: 1%" class="text-right">id</th>
                     <th style="width: 1%" ></th>-->
                     <th>username</th>
+                    <th>access level</th>
                     <!--
                     <th class="text-right">email</th>-->
                     <th style="width: 1%"></th>
@@ -42,6 +43,7 @@
                         <!--<td class="text-right">${item.id}</td>
                         <td></td>-->
                         <td>${item.username}</td>
+                        <td>${item.accessLvl}</td>
                         <!--
                         <td class="text-right">
                             <div class="input-group">

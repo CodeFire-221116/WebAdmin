@@ -27,6 +27,7 @@
                placeholder="email"/>
     </div>
 </div>
+<!-- ${$CURR_USER.canChangeAccessLvl(userAccessLevel) ? 'disabled' : ''} -->
 
 <div class="form-group">
     <label class="col-md-3 control-label" for="userAccessLevel">Access level</label>
