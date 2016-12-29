@@ -22,6 +22,16 @@
             <a href="/auth/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <form action="/mail" method="POST">
+                <input class="form-control" name="to" value="melnyk@codefire.com.ua" />
+                <input class="form-control" name="to" value="giologi@gmail.com" />
+
+                <button class="btn btn-warning" type="submit">SEND</button>
+            </form>
+        </div>
+    </div>
 </div>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
