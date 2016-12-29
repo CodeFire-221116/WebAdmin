@@ -3,6 +3,9 @@ package ua.com.codefire.cms.web.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,32 +42,36 @@ public class UserController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateUser(@RequestParam(name = "username") String userName,
-                                 @RequestParam(name = "password") String password,
+    public String postCreateUser(@Validated @ModelAttribute UserEntity userEntity,
                                  @RequestParam(name = "confirm_password") String passwordConfirmation,
-                                 @RequestParam(name = "submission") String confirmation, Model model) {
+                                 @RequestParam(name = "submission") String confirmation, Model model,
+                                 BindingResult result) {
 
-        if (confirmation != null && "SUBMIT".equals(confirmation)) {
-            if (userName.isEmpty()) {
-                model.addAttribute("errorMessage", "Username is empty!");
-                model.addAttribute("classAdditionForUsername", " has-error");
-            } else if (password.isEmpty()) {
-                model.addAttribute("errorMessage", "Password is empty!");
-                model.addAttribute("classAdditionForNewPassword", " has-error");
-                model.addAttribute("userName", userName);
-            } else if (!password.equals(passwordConfirmation)) {
-                model.addAttribute("errorMessage", "The confirmation password does not match new password!");
-                model.addAttribute("classAdditionForNewPassword", " has-error");
-                model.addAttribute("userName", userName);
-            } else {
-                UserEntity user = new UserEntity(userName, password);
-                user.setAccessLvl(UserEntity.AccessLevel.User);
-                userService.create(user);
-                return "redirect:/admin/users/";
-            }
-        } else {
-            return "redirect:/admin/users/";
+        if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
         }
+
+//        if (confirmation != null && "SUBMIT".equals(confirmation)) {
+//            if (userName.isEmpty()) {
+//                model.addAttribute("errorMessage", "Username is empty!");
+//                model.addAttribute("classAdditionForUsername", " has-error");
+//            } else if (password.isEmpty()) {
+//                model.addAttribute("errorMessage", "Password is empty!");
+//                model.addAttribute("classAdditionForNewPassword", " has-error");
+//                model.addAttribute("userName", userName);
+//            } else if (!password.equals(passwordConfirmation)) {
+//                model.addAttribute("errorMessage", "The confirmation password does not match new password!");
+//                model.addAttribute("classAdditionForNewPassword", " has-error");
+//                model.addAttribute("userName", userName);
+//            } else {
+//                UserEntity user = new UserEntity(userName, password);
+//                user.setAccessLvl(UserEntity.AccessLevel.User);
+//                userService.create(user);
+//                return "redirect:/admin/users/";
+//            }
+//        } else {
+//            return "redirect:/admin/users/";
+//        }
 
         return "/admin/users/new";
     }

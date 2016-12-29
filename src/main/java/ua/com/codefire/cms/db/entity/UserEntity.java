@@ -1,8 +1,11 @@
 package ua.com.codefire.cms.db.entity;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -16,11 +19,18 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+    //    @NotEmpty
+//    @NotNull
+    @NotBlank
+    @Size(min = 6, max = 16)
     @Column(name = "user_name")
     private String username;
     // MD5 HASH
+    @NotBlank
+    @Size(min = 8, max = 40)
     @Column(name = "user_pass", length = 32)
     private String password;
+    @Email
     @Column(name = "user_email")
     private String email;
     @Column(name = "user_access_lvl")
