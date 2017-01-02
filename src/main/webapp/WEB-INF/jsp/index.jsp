@@ -8,20 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Hello</title>
+    <title>Web application</title>
 
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
-<h1 class="text-center">Welcome!</h1>
 <%@include file="/WEB-INF/jsp/menu.jsp" %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <a href="/auth/" class="btn btn-success btn-lg btn-block" type="button" >Sign in</a>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <form action="/mail" method="POST">
@@ -32,6 +27,12 @@
             </form>
         </div>
     </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2016 codefire-ee-221116</p>
+    </footer>
 </div>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
