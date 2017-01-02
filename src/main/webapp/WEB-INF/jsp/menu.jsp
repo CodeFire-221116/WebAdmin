@@ -28,10 +28,10 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="/products/">Products</a></li>
-                        <li><a href="/pages/">Pages</a></li>
-                        <li><a href="/articles/">Articles</a></li>
+                        <li ${page_type == null ? 'class="active"' : ''}><a href="/index/">Home</a></li>
+                        <li ${page_type.equals('products') ? 'class="active"' : ''}><a href="/products/">Products</a></li>
+                        <li ${page_type.equals('pages') ? 'class="active"' : ''}><a href="/pages/">Pages</a></li>
+                        <li ${page_type.equals('articles') ? 'class="active"' : ''}><a href="/articles/">Articles</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
