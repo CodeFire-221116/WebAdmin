@@ -2,6 +2,7 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.UserEntity;
+import ua.com.codefire.cms.db.repo.UserEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
 import ua.com.codefire.cms.model.ExternalServicesAccounts;
 
@@ -13,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -20,6 +22,13 @@ import java.util.logging.Logger;
 
 /**
  * Created by human on 12/6/16.
+ */
+/**
+ * An implementation of entity-specific Repository Interface.
+ * The object of this class needs to be put in the IUserRepo variable in case of need in entity-specific
+ * methods and in the ICommonRepo(UserEntity) variable in case of need in CRUD operations.
+ * Used in UserService in order to communicate with DataBase
+ * @deprecated  As of release 1.3, replaced by {@link UserEntityRepository}
  */
 public class UserRepo implements IUserRepo {
     private static final Logger LOGGER = Logger.getLogger(UserRepo.class.getName());
@@ -152,6 +161,10 @@ public class UserRepo implements IUserRepo {
             return false;
         }
 
+        if (userEntity.getEmailKey() == 1) {
+            return false;
+        }
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -172,9 +185,45 @@ public class UserRepo implements IUserRepo {
             message.setFrom(new InternetAddress(ExternalServicesAccounts.GOOGLE_ACCOUNT_NAME));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(userEntity.getEmail()));
-            message.setSubject("User email address validation");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+
+            message.setSubject("Please verify your email address");
+
+            //message.setText("< SET THE VALIDATION LETTER BODY HERE!!! >");
+            //message.setContent(getUtils.readFileAsString("/", Charset.forName("utf8")), "text/html; charset=utf-8");
+            String content = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
+                    "        \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
+                    "<html lang=\"en\">\n" +
+                    "<head>\n" +
+                    "    <title>Email verification letter</title>\n" +
+                    "    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css\"/>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<div class=\"container\">\n" +
+                    "    <h3 class=\"page-header\">Please verify your email address</h3>\n" +
+                    "    <h4>Hi [username],</h4>\n" +
+                    "    <h4>Please\n" +
+                    "        <mark>verify</mark>\n" +
+                    "        your email address to finish your account registration.\n" +
+                    "    </h4>\n" +
+                    "    <br>\n" +
+                    "    <a class=\"btn btn-primary btn-lg\" href=\"http://localhost:8080/?umv=[KeyCodeForReplacement]\">Verify my email address</a>\n" +
+                    "    <hr>\n" +
+                    "    <p>Cheers,<br>\n" +
+                    "    Your WebAdmin team</p>\n" +
+                    "</div>\n" +
+                    "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n" +
+                    "</html>";
+
+
+            Long time = new Date().getTime();
+            userEntity.setEmailKey(time);
+            update(userEntity);
+            String strId = id.toString();
+            String key = strId + time + String.format("%02d", strId.length());
+            System.out.printf("id:%s time:%d len:%s\n", strId, time, String.format("%02d", strId.length()));
+            System.out.printf("key:%s\n", key);
+
+            message.setContent(content.replace("[KeyCodeForReplacement]", key), "text/html; charset=utf-8");
 
             Transport.send(message);
 
@@ -184,14 +233,61 @@ public class UserRepo implements IUserRepo {
             //throw new RuntimeException(e);
             LOGGER.log(Level.SEVERE, "Unexpected exception, while sending validation email.", ex);
             return false;
+//        } catch (IOException ex) {
+//            //throw new RuntimeException(e);
+//            LOGGER.log(Level.SEVERE, "Unexpected exception, while setting content of validation email.", ex);
+//            return false;
         }
 
         return true;
     }
 
     @Override
-    public Boolean validateEmail(Long id, Long key) {
-        return null;
+    public Boolean validateEmail(String validationCode) {
+
+        if (validationCode.isEmpty()) return false;
+
+        String valCode = validationCode.trim();
+        System.out.println("valCode:"+valCode);
+
+        int valCodeLength = valCode.length();
+        System.out.println("valCodeLength:"+valCodeLength);
+
+        int symCol = Integer.parseInt(valCode.substring(valCodeLength-2, valCodeLength));
+        if (symCol < 1) return false;
+
+        System.out.println("symCol:"+symCol);
+
+        long id = Long.parseLong(valCode.substring(0, symCol));
+        System.out.println("id:"+id);
+
+        long key = Long.parseLong(valCode.substring(symCol, valCodeLength-2));
+        System.out.println("key:"+key);
+
+        // check for valid id and key not earlier than 72 hours
+        System.out.printf("id:%d code:%d\n", id, key);
+        if (id < 1 && key < (new Date().getTime() - 72*60*60)) {
+            return false;
+        }
+
+        UserEntity user = read(id);
+
+        if (user == null) {
+            return false;
+        }
+
+        if (user.getEmailKey() == 1) {
+            return false;
+        } else if (user.getEmailKey() != key) {
+            user.setEmailKey((long)0);
+            update(user);
+            return false;
+        }
+
+        user.setEmailKey((long)1);
+        update(user);
+
+        return true;
     }
 
     @Override

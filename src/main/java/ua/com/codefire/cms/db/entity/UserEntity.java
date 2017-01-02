@@ -1,8 +1,11 @@
 package ua.com.codefire.cms.db.entity;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -16,13 +19,23 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+    //    @NotEmpty
+//    @NotNull
+    @NotBlank
+    @Size(min = 6, max = 16)
     @Column(name = "user_name")
     private String username;
     // MD5 HASH
+    @NotBlank
+    @Size(min = 8, max = 40)
     @Column(name = "user_pass", length = 32)
     private String password;
+    @Email
     @Column(name = "user_email")
     private String email;
+    @Column(name = "user_access_lvl")
+    @Enumerated(EnumType.ORDINAL)
+    private AccessLevel accessLvl;
     @Column(name = "user_email_valid")
     private Long emailKey;
 
@@ -74,16 +87,36 @@ public class UserEntity implements Serializable {
         this.emailKey = emailKey;
     }
 
+    public AccessLevel getAccessLvl() {
+        return accessLvl;
+    }
+
+    public void setAccessLvl(AccessLevel accessLvl) {
+        this.accessLvl = accessLvl;
+    }
+
     public boolean checkPassword(String notEncryptedPassword) {
         return DigestUtils.md5Hex(notEncryptedPassword).equals(password);
     }
 
     /**
      * function for updating password by user
-     * @param notEncryptedPassword
+     *
+     * @param notEncryptedPassword New not encrypted password.
      */
     public void updatePassword(String notEncryptedPassword) {
         this.password = DigestUtils.md5Hex(notEncryptedPassword);
+    }
+
+    public Boolean canChangeAccessLvl(AccessLevel userAccessLevel) {
+        if (getAccessLvl() == AccessLevel.HyperAdmin) {
+            return true;
+        } else if (getAccessLvl() == userAccessLevel) {
+            return false;
+        } else if (getAccessLvl() == AccessLevel.Admin && userAccessLevel == AccessLevel.User) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -108,5 +141,11 @@ public class UserEntity implements Serializable {
                 "username='" + username + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    public enum AccessLevel {
+        HyperAdmin,
+        Admin,
+        User
     }
 }

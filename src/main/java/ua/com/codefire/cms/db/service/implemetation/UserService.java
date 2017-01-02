@@ -11,11 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by human on 12/6/16.
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IUserService variable in case of need in entity-specific
+ * methods and in the ICommonService(UserEntity) variable in case of need in CRUD operations.
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.UserService}
+ * @author ankys
  */
 public class UserService implements IUserService {
+    /**
+     * IUserRepo variable, which holds a link to UserRepo object in order to communicate with DataBase
+     * with it`s help
+     */
     private IUserRepo userRepo;
 
+    /**
+     * Creates a new instance of Service, intended to work with articles. Retrieves entity factory from request context
+     * and creates a new repository, based on this factory, in order to communicate with DataBase
+     * @param req HttpServletRequest instance, which can be retrieved in servlet`s methods.
+     */
     public UserService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
         if (factory != null) {
@@ -85,8 +98,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Boolean validateEmail(Long id, Long key) {
-        return userRepo.validateEmail(id, key);
+    public Boolean validateEmail(String validationCode) {
+        return userRepo.validateEmail(validationCode);
     }
 
     @Override

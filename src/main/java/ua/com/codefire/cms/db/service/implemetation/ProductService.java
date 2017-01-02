@@ -4,7 +4,6 @@ import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IProductRepo;
 import ua.com.codefire.cms.db.repo.implementation.ProductRepo;
-import ua.com.codefire.cms.db.service.abstraction.ICommonService;
 import ua.com.codefire.cms.db.service.abstraction.IProductService;
 
 import javax.persistence.EntityManagerFactory;
@@ -12,11 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by User on 07.12.2016.
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IProductService variable in case of need in entity-specific
+ * methods and in the ICommonService(ProductEntity) variable in case of need in CRUD operations.
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.ProductService}
+ * @author ankys
  */
 public class ProductService implements IProductService {
+    /**
+     * IProductRepo variable, which holds a link to ProductRepo object in order to communicate with DataBase
+     * with it`s help
+     */
     private IProductRepo productRepo;
 
+    /**
+     * Creates a new instance of Service, intended to work with articles. Retrieves entity factory from request context
+     * and creates a new repository, based on this factory, in order to communicate with DataBase
+     * @param req HttpServletRequest instance, which can be retrieved in servlet`s methods.
+     */
     public ProductService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
         if(factory != null) {

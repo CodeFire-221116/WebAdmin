@@ -11,11 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by User on 07.12.2016.
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IPageService variable in case of need in entity-specific
+ * methods and in the ICommonService(PageEntity) variable in case of need in CRUD operations.
+ * @deprecated  As of release 1.3, replaced by {@link ua.com.codefire.cms.db.service.PageService}
+ * @author ankys
  */
 public class PageService implements IPageService {
+    /**
+     * IPageRepo variable, which holds a link to PageRepo object in order to communicate with DataBase
+     * with it`s help
+     */
     private IPageRepo pageRepo;
 
+    /**
+     * Creates a new instance of Service, intended to work with articles. Retrieves entity factory from request context
+     * and creates a new repository, based on this factory, in order to communicate with DataBase
+     * @param req HttpServletRequest instance, which can be retrieved in servlet`s methods.
+     */
     public PageService(HttpServletRequest req) {
         Object factory = req.getServletContext().getAttribute("factory");
         if(factory != null) {

@@ -11,9 +11,7 @@
 <head>
     <title>Hello</title>
 
-    <link rel="stylesheet" href="./res/css/main.css"/>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
-
 </head>
 <body>
 
@@ -25,6 +23,9 @@
 
     <div class="row">
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
+        <div class="col-md-9">
+            <%@include file="/WEB-INF/jsp/admin/users/userProfilePartials/user_profile_partial.jsp" %>
+        </div>
     </div>
 
     <div class="row">

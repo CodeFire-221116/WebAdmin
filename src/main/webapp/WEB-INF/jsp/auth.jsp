@@ -10,7 +10,6 @@
 <head>
     <title>Authorization</title>
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
-    <link rel="stylesheet" href="/res/css/ankysStyles.css" />
 </head>
 <body>
 <form class="container" method="post">

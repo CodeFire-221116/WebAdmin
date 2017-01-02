@@ -2,6 +2,7 @@ package ua.com.codefire.cms.db.repo.implementation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
 import ua.com.codefire.cms.db.entity.PageEntity;
+import ua.com.codefire.cms.db.repo.PageEntityRepository;
 import ua.com.codefire.cms.db.repo.abstraction.IPageRepo;
 
 import javax.persistence.EntityExistsException;
@@ -15,6 +16,13 @@ import java.util.logging.Logger;
 
 /**
  * Created by User on 07.12.2016.
+ */
+/**
+ * An implementation of entity-specific Repository Interface.
+ * The object of this class needs to be put in the IPageRepo variable in case of need in entity-specific
+ * methods and in the ICommonRepo(PageEntity) variable in case of need in CRUD operations.
+ * Used in PageService in order to communicate with DataBase
+ * @deprecated  As of release 1.3, replaced by {@link PageEntityRepository}
  */
 public class PageRepo implements IPageRepo {
     private static final Logger LOGGER = Logger.getLogger(PageRepo.class.getName());

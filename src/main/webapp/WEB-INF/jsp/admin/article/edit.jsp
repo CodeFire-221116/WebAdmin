@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>PostData</title>
-    <%@include file="/WEB-INF/jsp/stylesheet.jsp" %>
+    <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 
             <div class="container">
                 <form method="post">
-
+                    <input type="hidden" name="IDtoedit" value="${IDtoedit}"/>
                     <div class="form-group row">
                         <label class="col-md-1" for="articleTitle">Title</label>
                         <div class=" col-md-8">
@@ -64,6 +64,6 @@
         </div>
     </div>
 </div>
-<%@include file="/WEB-INF/jsp/javascript.jsp" %>
+<%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
 </body>
 </html>
