@@ -32,6 +32,7 @@
                         <li ${page_type.equals('products') ? 'class="active"' : ''}><a href="/products/">Products</a></li>
                         <li ${page_type.equals('pages') ? 'class="active"' : ''}><a href="/pages/">Pages</a></li>
                         <li ${page_type.equals('articles') ? 'class="active"' : ''}><a href="/articles/">Articles</a></li>
+                        ${$CURR_USER.canChangeAccessLvl(UserEntity.AccessLevel.User) ? '<li><a href="/admin/">Admin. menu</a></li>' : ''}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
