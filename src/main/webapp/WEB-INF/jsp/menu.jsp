@@ -35,8 +35,16 @@
                         ${$CURR_USER.canChangeAccessLvl(UserEntity.AccessLevel.User) ? '<li><a href="/admin/">Admin. menu</a></li>' : ''}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="/auth/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <c:choose>
+                            <c:when test="${$CURR_USER != null}">
+                                <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> ${$CURR_USER.username}</a></li>
+                                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                                <li><a href="/auth"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </div>
             </div>
