@@ -54,7 +54,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group row">
                     <label class="col-md-1" for="productPrice">Price</label>
 
@@ -64,13 +63,13 @@
                     </div>
                 </div>
 
-
                 <div class="col-md-1"></div>
                 <div class="col-md-8">
-                    <c:if test="${IDtoedit != null}">
-                        <input class="btn btn-danger" type="submit" name="button" value="Delete">
-                    </c:if>
-
+                    <div class="pull-left">
+                        <c:if test="${IDtoedit != null}">
+                            <input class="btn btn-danger" type="submit" name="button" value="Delete">
+                        </c:if>
+                    </div>
                     <div class="pull-right">
                         <input class="btn btn-info" type="submit" name="button" value="Back">
 
@@ -78,7 +77,7 @@
                             <input class="btn btn-primary" type="submit" name="button" value="Apply">
                         </c:if>
 
-                        <c:if test="${action != null}">
+                        <c:if test="${IDtoedit == null}">
                             <input class="btn btn-primary" type="submit" name="add" value="Add">
                         </c:if>
                     </div>
