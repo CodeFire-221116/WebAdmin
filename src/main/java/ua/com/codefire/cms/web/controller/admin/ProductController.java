@@ -47,8 +47,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateProduct(@ModelAttribute ProductEntity productEntity) {
-        productService.create(productEntity);
+    public String postCreateProduct(@Validated @ModelAttribute ProductEntity productEntity, BindingResult result) {
+        if (!result.hasErrors())
+            productService.create(productEntity);
         return "redirect:/admin/products/";
     }
 
@@ -66,17 +67,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String postUpdateProduct(@RequestParam Long id, @RequestParam String productType, @RequestParam String productBrand,
-                                    @RequestParam String productModel, @RequestParam Double productPrice) {
-        ProductEntity productToEdit = productService.read(id);
-        productToEdit.setProductType(productType);
-        productToEdit.setProductBrand(productBrand);
-        productToEdit.setProductModel(productModel);
-        productToEdit.setProductPrice(productPrice);
-        try {
-            productService.update(productToEdit);
-        } catch (NullPointerException ex){
-
+    public String postUpdateProduct(@Validated @ModelAttribute ProductEntity productEntity, BindingResult result) {
+        if (!result.hasErrors()) {
+            productService.update(productEntity);
         }
         return "redirect:/admin/products/";
     }

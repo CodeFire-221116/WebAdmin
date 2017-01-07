@@ -23,7 +23,6 @@ public class ProductEntity {
     @NotBlank
     @Column(name = "product_model")
     private String productModel;
-    @NotBlank
     @Column(name = "product_price")
     private Double productPrice;
 
@@ -81,8 +80,15 @@ public class ProductEntity {
         return productPrice;
     }
 
-    public void setProductPrice(Double price) {
-        this.productPrice = price;
+    public void setProductPrice(String price) {
+        String[] result = price.split("\\.");
+        String resultPrice;
+        if (result.length < 2) {
+            resultPrice = result[0].replaceAll("\\D", "");
+        } else {
+            resultPrice = result[0].replaceAll("\\D", "") + "." + result[1].replaceAll("\\D", "");
+        }
+        this.productPrice = Double.parseDouble(resultPrice);
     }
 
     @Override
@@ -96,10 +102,10 @@ public class ProductEntity {
 
     }
 
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+//    @Override
+//    public int hashCode() {
+//        return id.hashCode();
+//    }
 
     @Override
     public String toString() {

@@ -13,6 +13,7 @@
     <%@include file="/WEB-INF/jsp/common/stylesheet.jsp" %>
 </head>
 <body>
+<script type = "text/javascript" src="/res/js/check_product.js"></script>
 <div class="container">
 
     <header class="page-header">
@@ -24,8 +25,7 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
 
         <div class="col-md-9">
-            <form method="post">
-
+            <form name="edit_form" method="post" onsubmit="return checkProduct()">
                 <div class="form-group row">
                     <label class="col-md-1" for="productType">Type</label>
 
