@@ -3,6 +3,9 @@ package ua.com.codefire.cms.web.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,20 +23,20 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
-//    public ProductController() {
-//    }
-//
-//    @Autowired
-//    public ProductController(IProductService productService) {
-//        this.productService = productService;
-//    }
+    public ProductController() {
+    }
+
+    @Autowired
+    public ProductController(IProductService productService) {
+        this.productService = productService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getProductsList(Model model) {
-        List<ProductEntity> articles = productService.getAllEntities();
+        List<ProductEntity> products = productService.getAllEntities();
 
-        model.addAttribute("productsList", articles);
-        model.addAttribute("count", articles.size());
+        model.addAttribute("productsList", products);
+        model.addAttribute("count", products.size());
 
         return "admin/products/list";
     }
@@ -44,14 +47,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateProduct(@RequestParam String type, @RequestParam String brand,
-                                    @RequestParam String model, @RequestParam Double price) {
-        productService.create(new ProductEntity(
-                type,
-                brand,
-                model,
-                price));
-        return "redirect:/admin/products/list";
+    public String postCreateProduct(@ModelAttribute ProductEntity productEntity) {
+        productService.create(productEntity);
+        return "redirect:/admin/products/";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -59,32 +57,34 @@ public class ProductController {
         ProductEntity productToEdit = productService.read(id);
 
         model.addAttribute("IDtoedit", id);
-        model.addAttribute("TYPEtoedit", productToEdit.getType());
-        model.addAttribute("BRANDtoedit", productToEdit.getBrand());
-        model.addAttribute("MODELtoedit", productToEdit.getModel());
-        model.addAttribute("PRICEtoedit", productToEdit.getPrice());
+        model.addAttribute("TYPEtoedit", productToEdit.getProductType());
+        model.addAttribute("BRANDtoedit", productToEdit.getProductBrand());
+        model.addAttribute("MODELtoedit", productToEdit.getProductModel());
+        model.addAttribute("PRICEtoedit", productToEdit.getProductPrice());
 
         return "admin/products/edit";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String postUpdateProduct(@RequestParam Long id, @RequestParam String type, @RequestParam String brand,
-                                    @RequestParam String model, @RequestParam Double price) {
+    public String postUpdateProduct(@RequestParam Long id, @RequestParam String productType, @RequestParam String productBrand,
+                                    @RequestParam String productModel, @RequestParam Double productPrice) {
         ProductEntity productToEdit = productService.read(id);
-        productToEdit.setType(type);
-        productToEdit.setBrand(brand);
-        productToEdit.setModel(model);
-        productToEdit.setPrice(price);
-        productService.update(productToEdit);
+        productToEdit.setProductType(productType);
+        productToEdit.setProductBrand(productBrand);
+        productToEdit.setProductModel(productModel);
+        productToEdit.setProductPrice(productPrice);
+        try {
+            productService.update(productToEdit);
+        } catch (NullPointerException ex){
 
-        return "redirect:/admin/article/list";
+        }
+        return "redirect:/admin/products/";
     }
 
-
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String postDeleteArticle(@RequestParam Long id) {
+    public String postDeleteProduct(@RequestParam Long id) {
         productService.delete(id);
 
-        return "redirect:/admin/article/list";
+        return "redirect:/admin/products/";
     }
 }

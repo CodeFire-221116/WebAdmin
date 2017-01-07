@@ -28,18 +28,29 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Long create(ProductEntity objToCreate) {
+    public Long create(ProductEntity objToCreate) throws NullPointerException {
         try {
-            ProductEntity savedPage = productRepo.saveAndFlush(objToCreate);
-            return savedPage.getId();
+            String model = objToCreate.getProductModel();
+            String price = objToCreate.getProductPrice().toString();
+
+            String[] result = price.split("\\.");
+            String resultPrice;
+            if(result.length < 2){
+                resultPrice = result[0].replaceAll("\\D", "");
+            } else {
+                resultPrice = result[0].replaceAll("\\D", "") + "." + result[1].replaceAll("\\D", "");
+            }
+                objToCreate.setProductPrice(Double.parseDouble(resultPrice));
+                ProductEntity savedPage = productRepo.saveAndFlush(objToCreate);
+                return savedPage.getId();
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {
             LOGGER.log(Level.SEVERE, "Such product already exists.", ex);
         } catch (PersistenceException ex){
             LOGGER.log(Level.SEVERE, "Problems with database, while creating new product.", ex);
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
+        } catch (Exception ex){
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new product.", ex);
         }
         return null;
     }

@@ -24,7 +24,6 @@
         <%@include file="/WEB-INF/jsp/admin/menu.jsp" %>
 
         <div class="col-md-9">
-
             <form method="post">
 
                 <div class="form-group row">
@@ -67,19 +66,30 @@
                 <div class="col-md-8">
                     <div class="pull-left">
                         <c:if test="${IDtoedit != null}">
-                            <input class="btn btn-danger" type="submit" name="button" value="Delete">
+                            <a href="./delete?id=${IDtoedit}"
+                               onclick="return confirm('Are you sure want delete ${item.id} item?');"
+                               class="btn btn-md btn-danger">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </a>
                         </c:if>
                     </div>
                     <div class="pull-right">
-                        <input class="btn btn-info" type="submit" name="button" value="Back">
-
-                        <c:if test="${IDtoedit != null}">
-                            <input class="btn btn-primary" type="submit" name="button" value="Apply">
-                        </c:if>
-
-                        <c:if test="${IDtoedit == null}">
-                            <input class="btn btn-primary" type="submit" name="add" value="Add">
-                        </c:if>
+                        <%--<input class="btn btn-md btn-info" type="submit" name="button" value="Back">--%>
+                        <a href="./"
+                           class="btn btn-md btn-info">
+                            <i class="fa fa-mail-reply"></i>
+                        </a>
+                        <%--<c:choose>--%>
+                        <%--<c:when test="${IDtoedit != null}">--%>
+                        <%--<input class="btn btn-md btn-primary" type="submit" name="button" value="Apply">--%>
+                        <%--</c:when>--%>
+                        <%--<c:otherwise>--%>
+                        <%--<input class="btn btn-md btn-primary" type="submit" name="add" value="Add">--%>
+                        <%--</c:otherwise>--%>
+                        <%--</c:choose>--%>
+                        <button class="btn btn-md btn-primary" type="submit" name="add">
+                            <i class="fa fa-check-square-o"></i>
+                        </button>
                     </div>
                 </div>
             </form>

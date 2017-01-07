@@ -14,7 +14,6 @@
 </head>
 <body>
 <div class="container">
-
     <header class="page-header">
         <h1>Products</h1>
     </header>
@@ -48,10 +47,10 @@
                 <c:forEach items="${productsList}" var="item">
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.type}</td>
-                        <td>${item.brand}</td>
-                        <td>${item.model}</td>
-                        <td>${item.price}</td>
+                        <td>${item.productType}</td>
+                        <td>${item.productBrand}</td>
+                        <td>${item.productModel}</td>
+                        <td>${item.productPrice}</td>
                         <td nowrap>
                             <a href="./edit?id=${item.getId()}"
                                class="btn btn-sm btn-warning">

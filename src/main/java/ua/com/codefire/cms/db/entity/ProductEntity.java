@@ -1,5 +1,7 @@
 package ua.com.codefire.cms.db.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 
 /**
@@ -12,28 +14,32 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
+    @NotBlank
     @Column(name = "product_type")
-    private String type;
+    private String productType;
+    @NotBlank
     @Column(name = "product_brand")
-    private String brand;
+    private String productBrand;
+    @NotBlank
     @Column(name = "product_model")
-    private String model;
+    private String productModel;
+    @NotBlank
     @Column(name = "product_price")
-    private Double price;
+    private Double productPrice;
 
     public ProductEntity(Long id, String type, String brand, String model, Double price) {
         this.id = id;
-        this.type = type;
-        this.brand = brand;
-        this.model = model;
-        this.price = price;
+        this.productType = type;
+        this.productBrand = brand;
+        this.productModel = model;
+        this.productPrice = price;
     }
 
     public ProductEntity(String type, String brand, String model, Double price) {
-        this.type = type;
-        this.brand = brand;
-        this.model = model;
-        this.price = price;
+        this.productType = type;
+        this.productBrand = brand;
+        this.productModel = model;
+        this.productPrice = price;
     }
 
     public ProductEntity() {
@@ -47,36 +53,36 @@ public class ProductEntity {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setProductType(String type) {
+        this.productType = type;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getProductBrand() {
+        return productBrand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setProductBrand(String brand) {
+        this.productBrand = brand;
     }
 
-    public String getModel() {
-        return model;
+    public String getProductModel() {
+        return productModel;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setProductModel(String model) {
+        this.productModel = model;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setProductPrice(Double price) {
+        this.productPrice = price;
     }
 
     @Override
@@ -98,7 +104,7 @@ public class ProductEntity {
     @Override
     public String toString() {
         return "Product{" +
-                "product type='" + type + '\'' +
+                "product type='" + productType + '\'' +
                 ", id=" + id +
                 '}';
     }
