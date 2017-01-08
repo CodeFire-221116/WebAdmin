@@ -1,11 +1,13 @@
 package ua.com.codefire.cms.web.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
 
@@ -43,14 +45,12 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateArticle(@RequestParam String articleTitle, @RequestParam String articleAuthor,
-                                    @RequestParam String articleContent) {
-        articleService.create(new ArticleEntity(
-                articleTitle,
-                articleAuthor,
-                new Timestamp(new Date().getTime()),
-                articleContent));
-        return "redirect:/admin/article/list";
+    public String postCreateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
+        if(result.hasErrors())
+            throw new DataIntegrityViolationException("Wrong Data entered");
+        articleEntity.setDate(new Timestamp(new Date().getTime()));
+        articleService.create(articleEntity);
+        return "redirect:/admin/articles/";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -67,21 +67,25 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String postUpdateArticle(@RequestParam Long id, @RequestParam String articleTitle, @RequestParam String articleAuthor,
-                                    @RequestParam String articleContent) {
-        ArticleEntity objToUpdate = articleService.read(id);
-        objToUpdate.setTitle(articleTitle);
-        objToUpdate.setAuthors(articleAuthor);
-        objToUpdate.setDate(new Timestamp(new Date().getTime()));
-        objToUpdate.setContent(articleContent);
-        articleService.update(objToUpdate);
-        return "redirect:/admin/article/list";
+    public String postUpdateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
+        if(result.hasErrors())
+            throw new DataIntegrityViolationException("Wrong Data entered");
+        articleEntity.setDate(new Timestamp(new Date().getTime()));
+        articleService.update(articleEntity);
+        return "redirect:/admin/articles/";
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String postDeleteArticle(@RequestParam Long id) {
         articleService.delete(id);
-        return "redirect:/admin/article/list";
+        return "redirect:/admin/articles/";
+    }
+
+    @ResponseStatus(value= HttpStatus.CONFLICT,
+            reason="Wrong data entered")  // 409
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void conflict() {
+        // Nothing to do
     }
 }
