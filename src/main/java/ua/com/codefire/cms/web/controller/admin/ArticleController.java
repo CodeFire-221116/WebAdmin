@@ -82,6 +82,7 @@ public class ArticleController {
         return "redirect:/admin/articles/";
     }
 
+
     @ResponseStatus(value= HttpStatus.CONFLICT,
             reason="Wrong data entered")  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)

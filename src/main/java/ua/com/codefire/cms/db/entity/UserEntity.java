@@ -1,12 +1,16 @@
 package ua.com.codefire.cms.db.entity;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by human on 12/6/16.
@@ -38,6 +42,12 @@ public class UserEntity implements Serializable {
     private AccessLevel accessLvl;
     @Column(name = "user_email_valid")
     private Long emailKey;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinTable(name="users_articles",
+            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="user_id")},
+            inverseJoinColumns = @JoinColumn(name="article_id", referencedColumnName="article_id"))
+    private Collection<ArticleEntity> articles;
 
     public UserEntity() {
     }
@@ -93,6 +103,14 @@ public class UserEntity implements Serializable {
 
     public void setAccessLvl(AccessLevel accessLvl) {
         this.accessLvl = accessLvl;
+    }
+
+    public Collection<ArticleEntity> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<ArticleEntity> articles) {
+        this.articles = articles;
     }
 
     public boolean checkPassword(String notEncryptedPassword) {

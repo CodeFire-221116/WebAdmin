@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by User on 10.12.2016.
@@ -26,6 +28,9 @@ public class ArticleEntity {
     @NotEmpty
     @Column(name = "article_authors")
     private String authors;
+
+    @ManyToMany(mappedBy="articles")
+    private Collection<UserEntity> users;
 
     public ArticleEntity() {
     }
@@ -75,6 +80,14 @@ public class ArticleEntity {
 
     public void setAuthors(String Authors) {
         this.authors = Authors;
+    }
+
+    public Collection<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 
     @Override
