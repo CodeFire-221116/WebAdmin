@@ -1,10 +1,14 @@
 /**
  * Created by ankys on 09.01.2017.
  */
-function markArticleFavourite(id) {
+function markArticleFavourite(id, event) {
     $.ajax({
-        url: "admin/articles/favourite/" + id,
-    }).done(function() {
-        $(this).toggleClass("glyphicon-star glyphicon-star-empty");
+        url: "favourite/?id=" + id,
+        method: 'PUT'
+    }).done(function(data) {
+        if(data == true) {
+            $target = $(event.target);
+            $target.toggleClass("glyphicon-star glyphicon-star-empty");
+        }
     });
 }

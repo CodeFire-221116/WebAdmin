@@ -66,7 +66,7 @@
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
-                            <span onclick="markArticleFavourite(${item.id})" style="font-size: 25px; color: gold"
+                            <span onclick="markArticleFavourite(${item.id}, event)" style="font-size: 25px; color: gold"
                                   class="star glyphicon glyphicon-star-empty"></span>
                         </td>
                     </tr>

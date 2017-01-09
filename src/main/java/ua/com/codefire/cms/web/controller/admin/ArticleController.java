@@ -9,9 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
+import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
+import ua.com.codefire.cms.model.AttributeNames;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,13 +26,10 @@ import java.util.List;
 @RequestMapping(path = "/admin/articles")
 @Controller
 public class ArticleController {
-    private IArticleService articleService;
-
     @Autowired
-    public ArticleController(IArticleService articleService)
-    {
-        this.articleService = articleService;
-    }
+    private IArticleService articleService;
+    @Autowired
+    private IUserService userService;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String getArticlesList(Model model) {
@@ -82,6 +84,17 @@ public class ArticleController {
         return "redirect:/admin/articles/";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/favourite", method = RequestMethod.PUT)
+    public Boolean changeFavourite(@RequestParam Long id, HttpServletRequest request)
+    {
+        ArticleEntity articleEntity = articleService.read(id);
+        UserEntity currUser = (UserEntity)request.getSession().getAttribute(AttributeNames.SESSION_USER);
+        currUser.setArticles(new ArrayList<ArticleEntity>(){{
+            add(articleEntity);
+        }});
+        return userService.update(currUser);
+    }
 
     @ResponseStatus(value= HttpStatus.CONFLICT,
             reason="Wrong data entered")  // 409
