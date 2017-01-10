@@ -3,6 +3,7 @@ package ua.com.codefire.cms.db.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.db.repo.UserEntityRepository;

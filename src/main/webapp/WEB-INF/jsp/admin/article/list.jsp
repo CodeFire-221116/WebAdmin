@@ -66,8 +66,17 @@
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
                             </a>
+
+                            <c:choose>
+                                <c:when test="${currUserArticles.contains(item)}">
+                                <c:set var="starClass" value="glyphicon-star"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="starClass" value="glyphicon-star-empty"/>
+                            </c:otherwise>
+                            </c:choose>
                             <span onclick="markArticleFavourite(${item.id}, event)" style="font-size: 25px; color: gold"
-                                  class="star glyphicon glyphicon-star-empty"></span>
+                                  class="star glyphicon ${starClass}"></span>
                         </td>
                     </tr>
                 </c:forEach>

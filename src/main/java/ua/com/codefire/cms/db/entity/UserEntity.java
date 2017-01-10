@@ -5,6 +5,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -43,10 +44,14 @@ public class UserEntity implements Serializable {
     @Column(name = "user_email_valid")
     private Long emailKey;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinTable(name="users_articles",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//{CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+//    @MapsId("id")
+    @JoinTable(
+            name="users_articles",
             joinColumns = {@JoinColumn(name="user_id", referencedColumnName="user_id")},
-            inverseJoinColumns = @JoinColumn(name="article_id", referencedColumnName="article_id"))
+            inverseJoinColumns = {@JoinColumn(name="article_id", referencedColumnName="article_id")})//},
+            //uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "article_id"})}
+    //)
     private Collection<ArticleEntity> articles;
 
     public UserEntity() {

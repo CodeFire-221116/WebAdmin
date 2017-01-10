@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,9 +15,11 @@ import ua.com.codefire.cms.db.service.abstraction.IArticleService;
 import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.model.AttributeNames;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -30,13 +33,19 @@ public class ArticleController {
     private IArticleService articleService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ServletContext servletContext;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String getArticlesList(Model model) {
+    public String getArticlesList(Model model, HttpServletRequest request) {
         List<ArticleEntity> articles = articleService.getAllEntities();
 
         model.addAttribute("articlesList", articles);
         model.addAttribute("count", articles.size());
+        String userName = request.getSession().getAttribute(AttributeNames.SESSION_USERNAME).toString();
+        UserEntity user = userService.getUserByName(userName);
+        Collection<ArticleEntity> userArticles = user.getArticles();
+        model.addAttribute("currUserArticles", userArticles);
 
         return "admin/article/list";
     }
@@ -90,9 +99,14 @@ public class ArticleController {
     {
         ArticleEntity articleEntity = articleService.read(id);
         UserEntity currUser = (UserEntity)request.getSession().getAttribute(AttributeNames.SESSION_USER);
-        currUser.setArticles(new ArrayList<ArticleEntity>(){{
-            add(articleEntity);
-        }});
+
+        Collection<ArticleEntity> userArticles = currUser.getArticles();
+        if(userArticles.contains(articleEntity)) {
+            userArticles.remove(articleEntity);
+        } else {
+            userArticles.add(articleEntity);
+        }
+
         return userService.update(currUser);
     }
 

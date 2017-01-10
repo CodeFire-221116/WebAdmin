@@ -1,10 +1,11 @@
 package ua.com.codefire.cms.db.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.entity.UserEntity;
+
+import java.util.List;
 
 /**
  * Created by User on 27.12.2016.
