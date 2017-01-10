@@ -1,6 +1,7 @@
 package ua.com.codefire.cms.db.service.implemetation;
 
 import ua.com.codefire.cms.db.configs.EntityManagerHelper;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
 import ua.com.codefire.cms.db.repo.implementation.UserRepo;

@@ -1,7 +1,11 @@
 package ua.com.codefire.cms.db.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by User on 10.12.2016.
@@ -13,14 +17,20 @@ public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
     private Long id;
+    @NotEmpty
     @Column(name = "article_title")
     private String title;
+    @NotEmpty
     @Column(name = "article_content")
     private String content;
     @Column(name = "article_date")
     private Timestamp date;
+    @NotEmpty
     @Column(name = "article_authors")
     private String authors;
+
+    @ManyToMany(mappedBy="articles")
+    private Collection<UserEntity> users;
 
     public ArticleEntity() {
     }
@@ -72,6 +82,14 @@ public class ArticleEntity {
         this.authors = Authors;
     }
 
+    public Collection<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,15 +108,5 @@ public class ArticleEntity {
             return false;
 
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        Long result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (authors != null ? authors.hashCode() : 0);
-        return result.hashCode();
     }
 }

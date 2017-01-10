@@ -31,7 +31,7 @@
                     <div class="form-group row">
                         <label class="col-md-1" for="articleTitle">Title</label>
                         <div class=" col-md-8">
-                            <input class="form-control" type="text" name="articleTitle" value="${Titletoedit}"
+                            <input class="form-control" type="text" name="title" value="${Titletoedit}"
                                    placeholder="Enter title here" id="articleTitle"/>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="form-group row">
                         <label class="col-md-1" for="articleAuthor">Author</label>
                         <div class=" col-md-8">
-                            <input class="form-control" type="text" name="articleAuthor" value="${Authortoedit}"
+                            <input class="form-control" type="text" name="authors" value="${Authortoedit}"
                                    placeholder="Enter content here" id="articleAuthor"/>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label class="col-md-1" for="articleContent">Content</label>
                         <div class=" col-md-8">
-                            <input class="form-control" type="text" name="articleContent" value="${Contenttoedit}"
+                            <input class="form-control" type="text" name="content" value="${Contenttoedit}"
                                    placeholder="Enter content here" id="articleContent"/>
                         </div>
                     </div>

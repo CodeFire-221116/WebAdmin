@@ -4,7 +4,6 @@ import ua.com.codefire.cms.db.entity.ProductEntity;
 import ua.com.codefire.cms.db.service.implemetation.ProductService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +13,8 @@ import java.util.List;
 /**
  * Created by Katya on 01.12.2016.
  */
-@WebServlet("/admin/products")
+//@WebServlet("/admin/products")
+
 public class ProductServlet extends HttpServlet {
     private StringBuilder errors;
 
@@ -82,10 +82,10 @@ public class ProductServlet extends HttpServlet {
     private void setAttributesToEdit(HttpServletRequest req, Long id) {
         ProductEntity product = new ProductService(req).read(id);
         req.setAttribute("IDtoedit", id);
-        req.setAttribute("TYPEtoedit", product.getType());
-        req.setAttribute("BRANDtoedit", product.getBrand());
-        req.setAttribute("MODELtoedit", product.getModel());
-        req.setAttribute("PRICEtoedit", product.getPrice());
+        req.setAttribute("TYPEtoedit", product.getProductType());
+        req.setAttribute("BRANDtoedit", product.getProductBrand());
+        req.setAttribute("MODELtoedit", product.getProductModel());
+        req.setAttribute("PRICEtoedit", product.getProductPrice());
     }
     private void setAttributesToCreate(HttpServletRequest req) {
         req.setAttribute("TYPEtoedit", req.getParameter("productType"));

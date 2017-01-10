@@ -28,7 +28,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Long create(ProductEntity objToCreate) {
+    public Long create(ProductEntity objToCreate) throws NullPointerException {
         try {
             ProductEntity savedPage = productRepo.saveAndFlush(objToCreate);
             return savedPage.getId();
@@ -36,10 +36,10 @@ public class ProductService implements IProductService {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {
             LOGGER.log(Level.SEVERE, "Such product already exists.", ex);
-        } catch (PersistenceException ex){
+        } catch (PersistenceException ex) {
             LOGGER.log(Level.SEVERE, "Problems with database, while creating new product.", ex);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new product.", ex);
         }
         return null;
     }
@@ -56,7 +56,7 @@ public class ProductService implements IProductService {
             return true;
         } catch (EntityNotFoundException ex) {
             LOGGER.log(Level.SEVERE, "No product found by such id.", ex);
-        } catch (PersistenceException ex){
+        } catch (PersistenceException ex) {
             LOGGER.log(Level.SEVERE, "Problems with database, while deleting product.", ex);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Unexpected exception, while deleting product.", ex);
@@ -73,7 +73,7 @@ public class ProductService implements IProductService {
             LOGGER.log(Level.SEVERE, "No such product found.", ex);
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
-        } catch (PersistenceException ex){
+        } catch (PersistenceException ex) {
             LOGGER.log(Level.SEVERE, "Problems with database, while updating product.", ex);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Unexpected exception", ex);

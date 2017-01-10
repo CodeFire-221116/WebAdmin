@@ -1,15 +1,25 @@
 package ua.com.codefire.cms.web.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ua.com.codefire.cms.db.entity.ArticleEntity;
+import ua.com.codefire.cms.db.entity.UserEntity;
 import ua.com.codefire.cms.db.service.abstraction.IArticleService;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
+import ua.com.codefire.cms.model.AttributeNames;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -19,20 +29,23 @@ import java.util.List;
 @RequestMapping(path = "/admin/articles")
 @Controller
 public class ArticleController {
-    private IArticleService articleService;
-
     @Autowired
-    public ArticleController(IArticleService articleService)
-    {
-        this.articleService = articleService;
-    }
+    private IArticleService articleService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private ServletContext servletContext;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String getArticlesList(Model model) {
+    public String getArticlesList(Model model, HttpServletRequest request) {
         List<ArticleEntity> articles = articleService.getAllEntities();
 
         model.addAttribute("articlesList", articles);
         model.addAttribute("count", articles.size());
+        String userName = request.getSession().getAttribute(AttributeNames.SESSION_USERNAME).toString();
+        UserEntity user = userService.getUserByName(userName);
+        Collection<ArticleEntity> userArticles = user.getArticles();
+        model.addAttribute("currUserArticles", userArticles);
 
         return "admin/article/list";
     }
@@ -43,14 +56,12 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateArticle(@RequestParam String articleTitle, @RequestParam String articleAuthor,
-                                    @RequestParam String articleContent) {
-        articleService.create(new ArticleEntity(
-                articleTitle,
-                articleAuthor,
-                new Timestamp(new Date().getTime()),
-                articleContent));
-        return "redirect:/admin/article/list";
+    public String postCreateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
+        if(result.hasErrors())
+            throw new DataIntegrityViolationException("Wrong Data entered");
+        articleEntity.setDate(new Timestamp(new Date().getTime()));
+        articleService.create(articleEntity);
+        return "redirect:/admin/articles/";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -67,21 +78,42 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String postUpdateArticle(@RequestParam Long id, @RequestParam String articleTitle, @RequestParam String articleAuthor,
-                                    @RequestParam String articleContent) {
-        ArticleEntity objToUpdate = articleService.read(id);
-        objToUpdate.setTitle(articleTitle);
-        objToUpdate.setAuthors(articleAuthor);
-        objToUpdate.setDate(new Timestamp(new Date().getTime()));
-        objToUpdate.setContent(articleContent);
-        articleService.update(objToUpdate);
-        return "redirect:/admin/article/list";
+    public String postUpdateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
+        if(result.hasErrors())
+            throw new DataIntegrityViolationException("Wrong Data entered");
+        articleEntity.setDate(new Timestamp(new Date().getTime()));
+        articleService.update(articleEntity);
+        return "redirect:/admin/articles/";
     }
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String postDeleteArticle(@RequestParam Long id) {
         articleService.delete(id);
-        return "redirect:/admin/article/list";
+        return "redirect:/admin/articles/";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/favourite", method = RequestMethod.PUT)
+    public Boolean changeFavourite(@RequestParam Long id, HttpServletRequest request)
+    {
+        ArticleEntity articleEntity = articleService.read(id);
+        UserEntity currUser = (UserEntity)request.getSession().getAttribute(AttributeNames.SESSION_USER);
+
+        Collection<ArticleEntity> userArticles = currUser.getArticles();
+        if(userArticles.contains(articleEntity)) {
+            userArticles.remove(articleEntity);
+        } else {
+            userArticles.add(articleEntity);
+        }
+
+        return userService.update(currUser);
+    }
+
+    @ResponseStatus(value= HttpStatus.CONFLICT,
+            reason="Wrong data entered")  // 409
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void conflict() {
+        // Nothing to do
     }
 }

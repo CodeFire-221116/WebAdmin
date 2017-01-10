@@ -14,7 +14,6 @@
 </head>
 <body>
 <div class="container">
-
     <header class="page-header">
         <h1>Products</h1>
     </header>
@@ -28,7 +27,7 @@
             <h3>Products count
                 <sup class="badge">${count}</sup>
 
-                <a class="btn btn-success pull-right" href="/admin/products?action=new">
+                <a class="btn btn-success pull-right" href="./new">
                     <i class="fa fa-fw fa-plus"></i>
                 </a>
             </h3>
@@ -48,16 +47,16 @@
                 <c:forEach items="${productsList}" var="item">
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.type}</td>
-                        <td>${item.brand}</td>
-                        <td>${item.model}</td>
-                        <td>${item.price}</td>
+                        <td>${item.productType}</td>
+                        <td>${item.productBrand}</td>
+                        <td>${item.productModel}</td>
+                        <td>${item.productPrice}</td>
                         <td nowrap>
-                            <a href="/admin/products?id=${item.getId()}"
+                            <a href="./edit?id=${item.getId()}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/admin/products?id=${item.getId()}&action=delete"
+                            <a href="./delete?id=${item.getId()}"
                                onclick="return confirm('Are you sure want delete ${item.id} item?');"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>
