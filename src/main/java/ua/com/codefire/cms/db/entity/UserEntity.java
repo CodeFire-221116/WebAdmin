@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by human on 12/6/16.
@@ -44,15 +45,19 @@ public class UserEntity implements Serializable {
     @Column(name = "user_email_valid")
     private Long emailKey;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//{CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
-//    @MapsId("id")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="users_articles",
-            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="user_id")},
-            inverseJoinColumns = {@JoinColumn(name="article_id", referencedColumnName="article_id")})//},
-            //uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "article_id"})}
-    //)
-    private Collection<ArticleEntity> articles;
+            joinColumns = {
+                    @JoinColumn(name="user_id", referencedColumnName="user_id",
+                            foreignKey = @ForeignKey(name = "fk_link_users", value=ConstraintMode.CONSTRAINT))
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="article_id", referencedColumnName="article_id",
+                            foreignKey = @ForeignKey(name = "fk_link_article", value=ConstraintMode.CONSTRAINT))
+            }
+    )
+    private List<ArticleEntity> articles;
 
     public UserEntity() {
     }

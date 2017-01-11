@@ -6,12 +6,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by User on 10.12.2016.
  */
 @Entity
-@Table(name="articles")
+@Table(name = "articles")
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +30,19 @@ public class ArticleEntity {
     @Column(name = "article_authors")
     private String authors;
 
-    @ManyToMany(mappedBy="articles")
-    private Collection<UserEntity> users;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_articles",
+            joinColumns = {
+                    @JoinColumn(name = "article_id", referencedColumnName = "article_id",
+                            foreignKey = @ForeignKey(name = "fk_link_article", value=ConstraintMode.CONSTRAINT))
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "user_id",
+                            foreignKey = @ForeignKey(name = "fk_link_users", value=ConstraintMode.CONSTRAINT))
+            }
+    )
+    private List<UserEntity> users;
 
     public ArticleEntity() {
     }

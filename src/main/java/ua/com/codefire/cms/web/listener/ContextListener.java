@@ -15,10 +15,10 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("MainPersistenceUnit");
+//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("MainPersistenceUnit");
 
-        ServletContext servletContext = sce.getServletContext();
-        servletContext.setAttribute("factory", factory);
+//        ServletContext servletContext = sce.getServletContext();
+//        servletContext.setAttribute("factory", factory);
 
         System.out.println("CONTEXT LOADED");
     }
