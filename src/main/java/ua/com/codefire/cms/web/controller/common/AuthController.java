@@ -37,11 +37,29 @@ public class AuthController {
             session.setAttribute(AttributeNames.SESSION_USER, currUser);
             //Left userName, because it is used too many times in too many places, need time to change. Need to change to user
             session.setAttribute(AttributeNames.SESSION_USERNAME, username);
+            if (currUser.getAccessLvl() == UserEntity.AccessLevel.User) {
+                return "redirect:/index";
+            } else {
+                return "redirect:/admin/index";
+            }
         } else {
             session.setAttribute("flash_message", "Username or password is incorrect.");
+            return "/auth";
         }
+    }
 
-        return "redirect:/admin/index";
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String getLogout(Model model) {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession();
+
+        IUserService service = new UserService(attr.getRequest());
+
+        session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, false);
+        session.removeAttribute(AttributeNames.SESSION_USER);
+        //Left userName, because it is used too many times in too many places, need time to change. Need to change to user
+        session.removeAttribute(AttributeNames.SESSION_USERNAME);
+        return "redirect:/index";
     }
 
     @RequestMapping(path = "/register")
