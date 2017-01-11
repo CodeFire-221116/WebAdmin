@@ -50,12 +50,14 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-8">
                         <c:if test="${not empty id}">
-                            <input type="submit" class="btn btn-danger pull-left" value="Delete" name="btn_delete">
+                            <a href="./delete?id=${id}" class="btn btn-danger pull-left" name="btn_delete">
+                                Delete
+                            </a>
                         </c:if>
 
                         <div class="pull-right">
-                            <input type="submit" class="btn btn-info" value="Cancel" name="btn_cancel">
-                            <input type="submit" class="btn btn-success" value="OK" name="btn_ok">
+                            <a href="./" class="btn btn-info">Cancel</a>
+                            <input type="submit" class="btn btn-success" value="OK">
                         </div>
                     </div>
                 </form>

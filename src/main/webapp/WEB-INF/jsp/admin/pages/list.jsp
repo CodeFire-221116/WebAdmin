@@ -20,7 +20,7 @@
             <h3>Pages count
                 <sup class="badge">${page_count}</sup>
 
-                <a class="btn btn-success pull-right" href="/admin/pages?action=new">
+                <a class="btn btn-success pull-right" href="./new">
                     <i class="fa fa-fw fa-plus"></i>
                 </a>
             </h3>
@@ -41,11 +41,11 @@
                         <td>${page.title}</td>
                         <td>${page.content}</td>
                         <td nowrap>
-                            <a href="/admin/pages?id=${page.getId()}"
+                            <a href="./edit?id=${page.id}"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-fw fa-wrench"></i>
                             </a>
-                            <a href="/admin/pages?id=${page.getId()}&action=delete"
+                            <a href="./delete?id=${page.id}"
                                onclick="return confirm('Do you really want to delete page ${page.id}?')"
                                class="btn btn-sm btn-danger">
                                 <i class="fa fa-fw fa-trash"></i>

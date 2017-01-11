@@ -33,10 +33,10 @@
                         <tbody>
                         <c:forEach items="${productsList}" var="item">
                             <tr>
-                                <td>${item.type}</td>
-                                <td>${item.brand}</td>
-                                <td>${item.model}</td>
-                                <td>${item.price}</td>
+                                <td>${item.productType}</td>
+                                <td>${item.productBrand}</td>
+                                <td>${item.productModel}</td>
+                                <td>${item.productPrice}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
