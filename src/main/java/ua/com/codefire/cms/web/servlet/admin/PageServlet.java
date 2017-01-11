@@ -1,8 +1,9 @@
 package ua.com.codefire.cms.web.servlet.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.codefire.cms.db.entity.PageEntity;
+import ua.com.codefire.cms.db.service.Implementation.PageService;
 import ua.com.codefire.cms.db.service.abstraction.IPageService;
-import ua.com.codefire.cms.db.service.implemetation.PageService;
 import ua.com.codefire.cms.model.Fields;
 import ua.com.codefire.cms.utils.Utils;
 
@@ -27,13 +28,12 @@ public class PageServlet extends HttpServlet {
     private static final String DEFAULT_TITLE = "Title";
     private static final String DEFAULT_CONTENT = "Content";
 
+    @Autowired
     private PageService service;
+//    private PageService service;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        service = new PageService(req);
-
         if (service.getAmountOfEntities() <= 0) {
             prepareDefaultData(service);
         }
@@ -62,9 +62,6 @@ public class PageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        service = new PageService(req);
-
         String id = req.getParameter(Fields.ID);
         String title = req.getParameter(Fields.TITLE);
         String content = req.getParameter(Fields.CONTENT);

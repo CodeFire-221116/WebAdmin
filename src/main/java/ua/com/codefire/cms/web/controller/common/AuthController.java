@@ -1,5 +1,6 @@
 package ua.com.codefire.cms.web.controller.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import ua.com.codefire.cms.db.entity.UserEntity;
-import ua.com.codefire.cms.db.service.abstraction.IUserService;
-import ua.com.codefire.cms.db.service.implemetation.UserService;
+import ua.com.codefire.cms.db.service.Implementation.UserService;
 import ua.com.codefire.cms.model.AttributeNames;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class AuthController {
+    @Autowired
+    private UserService service;
     @RequestMapping(path = "/auth")
     public String getAuth() {
         return "auth";
@@ -29,7 +31,8 @@ public class AuthController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
 
-        IUserService service = new UserService(attr.getRequest());
+        service.create(new UserEntity("test", "12345"));
+
 
         if (service.ifUserRegistered(username, password)) {
             UserEntity currUser = service.getUserByName(username);
@@ -52,8 +55,6 @@ public class AuthController {
     public String getLogout(Model model) {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
-
-        IUserService service = new UserService(attr.getRequest());
 
         session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, false);
         session.removeAttribute(AttributeNames.SESSION_USER);

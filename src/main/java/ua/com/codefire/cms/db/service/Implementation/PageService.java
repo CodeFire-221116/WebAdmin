@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.service;
+package ua.com.codefire.cms.db.service.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
@@ -15,6 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IPageService variable in case of need in entity-specific
+ * methods and in the ICommonService(PageEntity) variable in case of need in CRUD operations.
+ * The creation has to be with the help of @Autowired annotation
  * @author ankys
  */
 @Service

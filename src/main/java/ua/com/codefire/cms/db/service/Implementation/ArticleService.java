@@ -1,9 +1,4 @@
-package ua.com.codefire.cms.db.service;
-
-/**
- * Created by User on 26.12.2016.
- */
-
+package ua.com.codefire.cms.db.service.Implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
 import org.springframework.stereotype.Service;
@@ -22,14 +17,17 @@ import java.util.logging.Logger;
  * An implementation of entity-specific Service Interface.
  * The object of this class needs to be put in the IArticleService variable in case of need in entity-specific
  * methods and in the ICommonService(ArticleEntity) variable in case of need in CRUD operations.
- *
+ * The creation has to be with the help of @Autowired annotation
  * @author ankys
  */
 @Service
 public class ArticleService implements IArticleService {
-
     private static final Logger LOGGER = Logger.getLogger(ArticleEntityRepository.class.getName());
 
+    /**
+     * ArticleEntityRepository variable, which is a Spring Data Interface, intended to work with DataBase
+     * with it`s help
+     */
     @Autowired
     private ArticleEntityRepository articleRepo;
 

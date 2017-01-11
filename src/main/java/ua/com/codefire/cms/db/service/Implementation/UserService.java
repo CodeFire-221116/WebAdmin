@@ -1,9 +1,12 @@
-package ua.com.codefire.cms.db.repo.implementation;
+package ua.com.codefire.cms.db.service.Implementation;
 
-import ua.com.codefire.cms.db.configs.EntityManagerHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.SQLWarningException;
+import org.springframework.stereotype.Service;
+import ua.com.codefire.cms.db.entity.ArticleEntity;
 import ua.com.codefire.cms.db.entity.UserEntity;
+import ua.com.codefire.cms.db.service.abstraction.IUserService;
 import ua.com.codefire.cms.db.repo.UserEntityRepository;
-import ua.com.codefire.cms.db.repo.abstraction.IUserRepo;
 import ua.com.codefire.cms.model.ExternalServicesAccounts;
 
 import javax.mail.*;
@@ -12,8 +15,6 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -21,147 +22,114 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by human on 12/6/16.
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IUserService variable in case of need in entity-specific
+ * methods and in the ICommonService(UserEntity) variable in case of need in CRUD operations.
+ * The creation has to be with the help of @Autowired annotation
+ * @author ankys
  */
-/**
- * An implementation of entity-specific Repository Interface.
- * The object of this class needs to be put in the IUserRepo variable in case of need in entity-specific
- * methods and in the ICommonRepo(UserEntity) variable in case of need in CRUD operations.
- * Used in UserService in order to communicate with DataBase
- * @deprecated  As of release 1.3, replaced by {@link UserEntityRepository}
- */
-public class UserRepo implements IUserRepo {
-    private static final Logger LOGGER = Logger.getLogger(UserRepo.class.getName());
-    private EntityManagerHelper entityManagerHelper;
+@Service
+public class UserService implements IUserService {
+    private UserEntityRepository userRepo;
+    private static final Logger LOGGER = Logger.getLogger(UserEntityRepository.class.getName());
 
-    public UserRepo(EntityManagerHelper entityManagerHelper) {
-        this.entityManagerHelper = entityManagerHelper;
+    @Autowired
+    public UserService(UserEntityRepository pageEntityRepository) {
+        this.userRepo = pageEntityRepository;
     }
+
     @Override
     public Long create(UserEntity objToCreate) {
         try {
-            entityManagerHelper.begin();
-            entityManagerHelper.persist(objToCreate);
-            entityManagerHelper.commit();
-            return  objToCreate.getId();
+            UserEntity savedPage = userRepo.saveAndFlush(objToCreate);
+            return savedPage.getId();
+        } catch (SQLWarningException ex) {
+            LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {
-            entityManagerHelper.rollback();
             LOGGER.log(Level.SEVERE, "Such user already exists.", ex);
         } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
             LOGGER.log(Level.SEVERE, "Problems with database, while creating new user.", ex);
         } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while creating new user.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
         }
         return null;
     }
 
     @Override
     public UserEntity read(Long idToFind) {
-        try {
-            return entityManagerHelper.find(UserEntity.class, idToFind);
-        } catch (EntityNotFoundException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No page found by such id.", ex);
-        } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while searching for page.", ex);
-        } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching for page.", ex);
-        }
-        return null;
+        return userRepo.findOne(idToFind);
     }
 
     @Override
-    public Boolean update(UserEntity objToUpdate) {
+    public Boolean delete(Long objToDelete) {
         try {
-            entityManagerHelper.begin();
-            entityManagerHelper.getEntityManager().merge(objToUpdate);
-            entityManagerHelper.commit();
+            userRepo.delete(objToDelete);
             return true;
-        }  catch (EntityNotFoundException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No such user found.", ex);
+        } catch (EntityNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, "No user found by such id.", ex);
         } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while updating the user.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while deleting user.", ex);
         } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while updating the user.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception, while deleting user.", ex);
         }
         return false;
     }
 
     @Override
-    public Boolean delete(Long objToDeleteId) {
+    public Boolean update(UserEntity objToCreate) {
         try {
-            UserEntity userToDelete = entityManagerHelper.find(UserEntity.class, objToDeleteId);
-            entityManagerHelper.begin();
-            entityManagerHelper.remove(userToDelete);
-            entityManagerHelper.commit();
+            userRepo.saveAndFlush(objToCreate);
             return true;
         } catch (EntityNotFoundException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "No user found by such id.", ex);
+            LOGGER.log(Level.SEVERE, "No such user found.", ex);
+        } catch (SQLWarningException ex) {
+            LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while searching and deleting user.", ex);
+            LOGGER.log(Level.SEVERE, "Problems with database, while updating user.", ex);
         } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while searching and deleting user.", ex);
+            LOGGER.log(Level.SEVERE, "Unexpected exception", ex);
         }
-        return null;
+        return false;
     }
 
     @Override
     public List<UserEntity> getAllEntities() {
-        List<UserEntity> users = new ArrayList<>();
-        try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user", UserEntity.class);
-            users = (List<UserEntity>) query.getResultList();
-        } catch (ClassCastException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving users from db.", ex);
-        } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while retrieving all users from db.", ex);
-        } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving users from db.", ex);
-        }
-        return users;
+        return userRepo.findAll();
+    }
+
+    @Override
+    public Long getAmountOfEntities() {
+        return userRepo.count();
     }
 
     @Override
     public UserEntity getUserByName(String name) {
-        try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT user FROM UserEntity user WHERE user.username = :userName", UserEntity.class);
-            query.setMaxResults(1);
-            query.setParameter("userName", name);
-            return (UserEntity) query.getSingleResult();
-        } catch (ClassCastException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving user by name from db.", ex);
-        } catch (PersistenceException ex){
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with database, while retrieving user by name.", ex);
-        } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving user by name from db.", ex);
+        return userRepo.findByUsername(name);
+    }
+
+    @Override
+    public Boolean ifUserRegistered(String name, String password) {
+        if (name == null) {
+            return null;
         }
-        return null;
+
+        UserEntity userByName = getUserByName(name);
+
+        if (userByName == null) {
+            return null;
+        }
+
+        if (password == null) {
+            return false;
+        }
+
+        return userByName.checkPassword(password);
     }
 
     @Override
     public Boolean sendValidationEmail(Long id) {
         UserEntity userEntity = read(id);
         if (userEntity.getEmail().isEmpty()) {
-            return false;
-        }
-
-        if (userEntity.getEmailKey() == 1) {
             return false;
         }
 
@@ -172,7 +140,7 @@ public class UserRepo implements IUserRepo {
         props.put("mail.smtp.port", "587");
 
         Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
+                new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(ExternalServicesAccounts.GOOGLE_ACCOUNT_NAME,
                                 ExternalServicesAccounts.GOOGLE_ACCOUNT_PASSWORD);
@@ -244,7 +212,6 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public Boolean validateEmail(String validationCode) {
-
         if (validationCode.isEmpty()) return false;
 
         String valCode = validationCode.trim();
@@ -288,23 +255,5 @@ public class UserRepo implements IUserRepo {
         update(user);
 
         return true;
-    }
-
-    @Override
-    public Long getAmountOfEntities() {
-        try {
-            Query query = entityManagerHelper.getEntityManager().createQuery("SELECT COUNT(users.id) FROM UserEntity users", Long.class);
-            return (Long) query.getSingleResult();
-        } catch (ClassCastException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Class casting problems, while retrieving amount of user from db.", ex);
-        } catch (PersistenceException ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Problems with db, while retrieving amount of user from db.", ex);
-        } catch (Exception ex) {
-            entityManagerHelper.rollback();
-            LOGGER.log(Level.SEVERE, "Unexpected exception, while retrieving amount of user from db.", ex);
-        }
-        return null;
     }
 }

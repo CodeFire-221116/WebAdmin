@@ -4,8 +4,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by User on 10.12.2016.
@@ -29,8 +31,14 @@ public class ArticleEntity {
     @Column(name = "article_authors")
     private String authors;
 
-    @ManyToMany(mappedBy="articles")
-    private Collection<UserEntity> users;
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @JoinTable(
+            name="users_articles",
+            joinColumns =
+                    {@JoinColumn(name="article_id", referencedColumnName="article_id", foreignKey = @ForeignKey(name = "article_id_fk"))},
+            inverseJoinColumns =
+                    {@JoinColumn(name="user_id", referencedColumnName="user_id", foreignKey = @ForeignKey(name = "user_id_fk") )})
+    private Set<UserEntity> users;
 
     public ArticleEntity() {
     }
@@ -82,11 +90,11 @@ public class ArticleEntity {
         this.authors = Authors;
     }
 
-    public Collection<UserEntity> getUsers() {
+    public Set<UserEntity> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserEntity> users) {
+    public void setUsers(Set<UserEntity> users) {
         this.users = users;
     }
 

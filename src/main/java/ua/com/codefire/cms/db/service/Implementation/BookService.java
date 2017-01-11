@@ -1,4 +1,4 @@
-package ua.com.codefire.cms.db.service;
+package ua.com.codefire.cms.db.service.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.SQLWarningException;
@@ -15,17 +15,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by User on 27.12.2016.
+ * An implementation of entity-specific Service Interface.
+ * The object of this class needs to be put in the IBookService variable in case of need in entity-specific
+ * methods and in the ICommonService(BookEntity) variable in case of need in CRUD operations.
+ * The creation has to be with the help of @Autowired annotation
+ * @author ankys
  */
 @Service
 public class BookService implements IBookService {
-    private BookEntityRepository bookRepo;
     private static final Logger LOGGER = Logger.getLogger(BookEntityRepository.class.getName());
 
+    /**
+     * BookEntityRepository variable, which is a Spring Data Interface, intended to work with DataBase
+     * with it`s help
+     */
     @Autowired
-    public BookService(BookEntityRepository bookEntityRepository) {
-        this.bookRepo = bookEntityRepository;
-    }
+    private BookEntityRepository bookRepo;
 
     @Override
     public Long create(BookEntity objToCreate) {

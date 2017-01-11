@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by human on 12/6/16.
@@ -24,11 +26,10 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    //    @NotEmpty
-//    @NotNull
+
     @NotBlank
-    @Size(min = 6, max = 16)
-    @Column(name = "user_name")
+    @Size(min = 4, max = 16)
+    @Column(name = "user_name", unique = true)
     private String username;
     // MD5 HASH
     @NotBlank
@@ -44,15 +45,14 @@ public class UserEntity implements Serializable {
     @Column(name = "user_email_valid")
     private Long emailKey;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//{CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
-//    @MapsId("id")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinTable(
             name="users_articles",
-            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="user_id")},
-            inverseJoinColumns = {@JoinColumn(name="article_id", referencedColumnName="article_id")})//},
-            //uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "article_id"})}
-    //)
-    private Collection<ArticleEntity> articles;
+            joinColumns =
+                    {@JoinColumn(name="user_id", referencedColumnName="user_id", foreignKey = @ForeignKey(name = "user_id_fk"))},
+            inverseJoinColumns =
+                    {@JoinColumn(name="article_id", referencedColumnName="article_id", foreignKey = @ForeignKey(name = "article_id_fk"))})//},
+    private Set<ArticleEntity> articles;
 
     public UserEntity() {
     }
@@ -110,11 +110,11 @@ public class UserEntity implements Serializable {
         this.accessLvl = accessLvl;
     }
 
-    public Collection<ArticleEntity> getArticles() {
+    public Set<ArticleEntity> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<ArticleEntity> articles) {
+    public void setArticles(Set<ArticleEntity> articles) {
         this.articles = articles;
     }
 
@@ -147,15 +147,23 @@ public class UserEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserEntity user = (UserEntity) o;
+        UserEntity that = (UserEntity) o;
 
-        return id.equals(user.id);
-
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (accessLvl != that.accessLvl) return false;
+        return emailKey != null ? emailKey.equals(that.emailKey) : that.emailKey == null;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (accessLvl != null ? accessLvl.hashCode() : 0);
+        result = 31 * result + (emailKey != null ? emailKey.hashCode() : 0);
+        return result;
     }
 
     @Override
