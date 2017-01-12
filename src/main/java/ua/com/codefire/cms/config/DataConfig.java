@@ -33,8 +33,8 @@ public class DataConfig {
     private static final String PROP_HIBERNATE_DIALECT = "dialect";
     private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
-    private static final String PROP_HIBERNATE_CONNECTION_ENCODING= "hibernate.connection.characterEncoding";
-    private static final String PROP_HIBERNATE_CONNECTION_USEENCODING = "hibernate.connection.useUnicode";
+    private static final String PROP_HIBERNATE_CONNECTION_ENCODING= "connection.characterEncoding";
+    private static final String PROP_HIBERNATE_CONNECTION_USEENCODING = "connection.useUnicode";
 
     @Autowired
     private Environment env;

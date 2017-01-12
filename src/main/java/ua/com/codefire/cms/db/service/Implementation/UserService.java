@@ -41,8 +41,8 @@ public class UserService implements IUserService {
     @Override
     public UserEntity create(UserEntity objToCreate) {
         try {
-            UserEntity savedPage = userRepo.saveAndFlush(objToCreate);
-            return savedPage;
+            UserEntity savedUser = userRepo.saveAndFlush(objToCreate);
+            return savedUser;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {

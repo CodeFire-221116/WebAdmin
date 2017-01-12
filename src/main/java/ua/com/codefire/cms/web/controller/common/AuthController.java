@@ -31,9 +31,11 @@ public class AuthController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
 
+//        service.create(new UserEntity("test", "12345"));
+
         if (service.ifUserRegistered(username, password)) {
             UserEntity currUser = service.getUserByName(username);
-            
+
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USER, currUser);
             //Left userName, because it is used too many times in too many places, need time to change. Need to change to user
