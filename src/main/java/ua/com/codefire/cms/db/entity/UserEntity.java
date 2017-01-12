@@ -45,7 +45,7 @@ public class UserEntity implements Serializable {
     @Column(name = "user_email_valid")
     private Long emailKey;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(
             name="users_articles",
             joinColumns =

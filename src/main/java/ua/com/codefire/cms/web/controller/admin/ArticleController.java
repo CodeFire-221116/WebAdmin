@@ -17,10 +17,11 @@ import ua.com.codefire.cms.model.AttributeNames;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by User on 25.12.2016.
@@ -56,7 +57,7 @@ public class ArticleController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String postCreateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
-        if(result.hasErrors())
+        if (result.hasErrors())
             throw new DataIntegrityViolationException("Wrong Data entered");
         articleEntity.setDate(new Timestamp(new Date().getTime()));
         articleService.create(articleEntity);
@@ -78,7 +79,7 @@ public class ArticleController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String postUpdateArticle(@Validated @ModelAttribute ArticleEntity articleEntity, BindingResult result) {
-        if(result.hasErrors())
+        if (result.hasErrors())
             throw new DataIntegrityViolationException("Wrong Data entered");
         articleEntity.setDate(new Timestamp(new Date().getTime()));
         articleService.update(articleEntity);
@@ -94,13 +95,12 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping(value = "/favourite", method = RequestMethod.PUT)
-    public Boolean changeFavourite(@RequestParam Long id, HttpServletRequest request)
-    {
+    public Boolean changeFavourite(@RequestParam Long id, HttpServletRequest request) {
         ArticleEntity articleEntity = articleService.read(id);
-        UserEntity currUser = (UserEntity)request.getSession().getAttribute(AttributeNames.SESSION_USER);
+        UserEntity currUser = (UserEntity) request.getSession().getAttribute(AttributeNames.SESSION_USER);
 
         Collection<ArticleEntity> userArticles = currUser.getArticles();
-        if(userArticles.contains(articleEntity)) {
+        if (userArticles.contains(articleEntity)) {
             userArticles.remove(articleEntity);
         } else {
             userArticles.add(articleEntity);
@@ -109,10 +109,11 @@ public class ArticleController {
         return userService.update(currUser);
     }
 
-    @ResponseStatus(value= HttpStatus.CONFLICT,
-            reason="Wrong data entered")  // 409
+    @ResponseStatus(value = HttpStatus.CONFLICT,
+            reason = "Wrong data entered")  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public void conflict() {
+    public void conflict(Exception thr) {
         // Nothing to do
+        Logger.getGlobal().log(Level.SEVERE, null, thr);
     }
 }

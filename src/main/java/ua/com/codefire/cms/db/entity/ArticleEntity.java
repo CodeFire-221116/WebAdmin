@@ -31,7 +31,7 @@ public class ArticleEntity {
     @Column(name = "article_authors")
     private String authors;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(
             name="users_articles",
             joinColumns =

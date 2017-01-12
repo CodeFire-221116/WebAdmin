@@ -82,24 +82,27 @@
                     <p><a class="btn btn-primary" href="/pages/" role="button">View all pages &raquo;</a></p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6 col-md-4 col-md-offset-4">
-                    <form action="/mail" method="POST">
-                        <input class="form-control" name="to" value="melnyk@codefire.com.ua"/>
-                        <input class="form-control" name="to" value="giologi@gmail.com"/>
+            <%--<div class="row">--%>
+                <%--<div class="col-sm-6 col-md-4 col-md-offset-4">--%>
+                    <%--<form action="/mail" method="POST">--%>
+                        <%--<input class="form-control" name="to" value="example@gmail.com"/>--%>
+                        <%--<input class="form-control" name="to" value="example_2@gmail.com"/>--%>
 
-                        <button class="btn btn-warning" type="submit">SEND</button>
-                    </form>
-                </div>
-            </div>
+                        <%--<button class="btn btn-warning" type="submit">SEND</button>--%>
+                    <%--</form>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </c:otherwise>
     </c:choose>
     ${page_content}
 
     <!-- FOOTER -->
-    <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2016 codefire-ee-221116</p>
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container" style="color: white;">
+
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>&copy; 2016 codefire-ee-221116</p>
+        </div>
     </footer>
 </div>
 <%@include file="/WEB-INF/jsp/common/javascript.jsp" %>
