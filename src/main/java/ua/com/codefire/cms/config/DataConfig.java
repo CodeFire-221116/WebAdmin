@@ -33,6 +33,8 @@ public class DataConfig {
     private static final String PROP_HIBERNATE_DIALECT = "dialect";
     private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+    private static final String PROP_HIBERNATE_CONNECTION_ENCODING= "hibernate.connection.characterEncoding";
+    private static final String PROP_HIBERNATE_CONNECTION_USEENCODING = "hibernate.connection.useUnicode";
 
     @Autowired
     private Environment env;
@@ -71,6 +73,8 @@ public class DataConfig {
         properties.put(PROP_HIBERNATE_DIALECT, env.getRequiredProperty(PROP_HIBERNATE_DIALECT));
         properties.put("show_sql", env.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
         properties.put(PROP_HIBERNATE_HBM2DDL_AUTO, env.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        properties.put(PROP_HIBERNATE_CONNECTION_ENCODING, env.getRequiredProperty(PROP_HIBERNATE_CONNECTION_ENCODING));
+        properties.put(PROP_HIBERNATE_CONNECTION_USEENCODING, env.getRequiredProperty(PROP_HIBERNATE_CONNECTION_USEENCODING));
 
         return properties;
     }

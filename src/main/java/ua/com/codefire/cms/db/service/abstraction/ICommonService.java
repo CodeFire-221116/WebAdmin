@@ -16,7 +16,7 @@ public interface ICommonService<T> {
      * @param objToCreate an instance of any Entity class, which will be added to DataBase
      * @return The id of object, added to DataBase or null in case of troubles, while trying to connect to DataBase
      */
-    Long create(T objToCreate);
+    T create(T objToCreate);
 
     /**
      * Method which uses a database in order to retrieve

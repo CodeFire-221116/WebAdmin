@@ -32,10 +32,10 @@ public class ArticleService implements IArticleService {
     private ArticleEntityRepository articleRepo;
 
     @Override
-    public Long create(ArticleEntity objToCreate) {
+    public ArticleEntity create(ArticleEntity objToCreate) {
         try {
             ArticleEntity savedArticle = articleRepo.saveAndFlush(objToCreate);
-            return savedArticle.getId();
+            return savedArticle;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {

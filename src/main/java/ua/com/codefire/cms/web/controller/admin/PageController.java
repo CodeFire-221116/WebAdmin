@@ -34,7 +34,7 @@ public class PageController {
     private IPageService pageService;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String getArticlesList(Model model, HttpServletRequest request) {
+    public String getPagesList(Model model, HttpServletRequest request) {
         List<PageEntity> pages = pageService.getAllEntities();
 
         model.addAttribute(Fields.PAGE_COUNT, pages.size());
@@ -44,12 +44,12 @@ public class PageController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String getCreateArticlePage() {
+    public String getCreatePagePage() {
         return "admin/pages/edit";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String postCreateArticle(@Validated @ModelAttribute PageEntity pageEntity, BindingResult result) {
+    public String postCreatePage(@Validated @ModelAttribute PageEntity pageEntity, BindingResult result) {
         if(result.hasErrors())
             throw new DataIntegrityViolationException("Wrong Data entered");
         pageService.create(pageEntity);
@@ -57,7 +57,7 @@ public class PageController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String getArticleEditPage(@RequestParam Long id, Model model) {
+    public String getPageEditPage(@RequestParam Long id, Model model) {
         PageEntity pageToEdit = pageService.read(id);
 
         model.addAttribute(Fields.ID, pageToEdit.getId());
@@ -68,7 +68,7 @@ public class PageController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String postUpdateArticle(@Validated @ModelAttribute PageEntity pageEntity, BindingResult result) {
+    public String postUpdatePage(@Validated @ModelAttribute PageEntity pageEntity, BindingResult result) {
         if(result.hasErrors())
             throw new DataIntegrityViolationException("Wrong Data entered");
         pageService.update(pageEntity);
@@ -78,7 +78,7 @@ public class PageController {
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String postDeleteArticle(@RequestParam Long id) {
+    public String postDeletePage(@RequestParam Long id) {
         pageService.delete(id);
         return "redirect:/admin/pages/";
     }

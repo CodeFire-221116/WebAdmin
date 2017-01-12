@@ -32,10 +32,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Long create(ProductEntity objToCreate) throws NullPointerException {
+    public ProductEntity create(ProductEntity objToCreate) throws NullPointerException {
         try {
             ProductEntity savedPage = productRepo.saveAndFlush(objToCreate);
-            return savedPage.getId();
+            return savedPage;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {

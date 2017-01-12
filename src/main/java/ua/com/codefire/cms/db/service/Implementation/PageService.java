@@ -32,10 +32,10 @@ public class PageService implements IPageService {
     }
 
     @Override
-    public Long create(PageEntity objToCreate) {
+    public PageEntity create(PageEntity objToCreate) {
         try {
             PageEntity savedPage = pageRepo.saveAndFlush(objToCreate);
-            return savedPage.getId();
+            return savedPage;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {

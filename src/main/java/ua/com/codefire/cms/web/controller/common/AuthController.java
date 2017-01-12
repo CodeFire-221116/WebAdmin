@@ -33,6 +33,7 @@ public class AuthController {
 
         if (service.ifUserRegistered(username, password)) {
             UserEntity currUser = service.getUserByName(username);
+            
             session.setAttribute(AttributeNames.SESSION_AUTHENTICATED, true);
             session.setAttribute(AttributeNames.SESSION_USER, currUser);
             //Left userName, because it is used too many times in too many places, need time to change. Need to change to user

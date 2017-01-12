@@ -33,10 +33,10 @@ public class BookService implements IBookService {
     private BookEntityRepository bookRepo;
 
     @Override
-    public Long create(BookEntity objToCreate) {
+    public BookEntity create(BookEntity objToCreate) {
         try {
             BookEntity savedBook = bookRepo.saveAndFlush(objToCreate);
-            return savedBook.getId();
+            return savedBook;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {

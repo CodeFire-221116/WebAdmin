@@ -39,10 +39,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Long create(UserEntity objToCreate) {
+    public UserEntity create(UserEntity objToCreate) {
         try {
             UserEntity savedPage = userRepo.saveAndFlush(objToCreate);
-            return savedPage.getId();
+            return savedPage;
         } catch (SQLWarningException ex) {
             LOGGER.log(Level.SEVERE, "Spring-specific exception", ex);
         } catch (EntityExistsException ex) {
